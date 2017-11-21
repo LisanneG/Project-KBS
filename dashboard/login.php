@@ -1,3 +1,8 @@
+<?php
+// Start the session
+session_start();
+include 'framework.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +21,24 @@
 				<img src="https://www.sitebuilderreport.com/assets/facebook-stock-up-446fff24fb11820517c520c4a5a4c032.jpg" class="img-fluid logo" alt="Responsive image">
 			</div>
 		</div>
+
+		<?php 						
+			if (isset($_POST["submit"])) {
+				//Collecting the email and password inputs
+				$email = $_POST["email"];
+				$password = $_POST["password"];	
+
+				if(CheckIfUserExists($email, $password)){
+					// Set session variables
+					$_SESSION["email"] = "lisannegerrits@gmail.com";					
+
+					header("Location: index.php"); //Redirecting to index.php
+					exit();
+				} else {
+					echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
+				}
+			}			
+		?>		
 
 		<form method="POST">			
 			<div class="form-group row">
@@ -36,19 +59,6 @@
 				</div>
 			</div>
 		</form>
-	</div>
-
-	<?php 
-		if (isset($_POST["submit"])) {
-			//Collecting the email and password inputs
-			$email = $_POST["email"];
-			$password = $_POST["password"];
-
-			//TODO: when there's a database add a check if the person is logged in + session or cookie
-
-			header("Location: index.php"); //Redirecting to index.php
-			exit();
-		}
-	?>
+	</div>	
 </body>
 </html>
