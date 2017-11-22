@@ -20,7 +20,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroup">
             <a class="dropdown-item" href="/index.php">Dia</a>
-            <a class="dropdown-item" href="#">Dia2</a>
+            <a class="dropdown-item" href="/alt-index.php">Dia2</a>
             </div>
 
             <a class="btn btn-primary" href="/dashboard/login.php">Login</a>
