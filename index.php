@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Berichten</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/dia1.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     </head>
@@ -25,16 +26,39 @@
             <a class="btn btn-primary" href="/dashboard/login.php">Login</a>
             </div>
         </nav>
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+        <div id="dia1" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#dia1" data-slide-to="0" class="active"></li>
+                <li data-target="#dia1" data-slide-to="1" class="active"></li>
+                <li data-target="#dia1" data-slide-to="2" class="active"></li>
+            </ol>
             <div class="carousel-inner" role="listbox">
                 <div class="carousel-item active">
-                    <img class="d-block img-fluid" src="https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="First slide">
+                    <div class="media">
+                        <img class="align-self-center img-fluid mr-3" src="https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="First slide">
+                        <div class="media-body">
+                            <h2 class="mt-0">Test Titel</h2>
+                            <p>Paragraaf test</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block img-fluid" src="https://images.pexels.com/photos/263189/pexels-photo-263189.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="Second slide">
+                    <div class="media">
+                        <img class="align-self-center img-fluid mr-3" src="https://images.pexels.com/photos/263189/pexels-photo-263189.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="Second slide">
+                        <div class="media-body">
+                            <h2 class="mt-0">Test Titel</h2>
+                            <p>Paragraaf test</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block img-fluid" src="https://images.pexels.com/photos/210552/pexels-photo-210552.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="Third slide">
+                    <div class="media">
+                        <img class="align-self-center img-fluid mr-3" src="https://images.pexels.com/photos/210552/pexels-photo-210552.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="Third slide">
+                        <div class="media-body">
+                            <h2 class="mt-0">Test Titel</h2>
+                            <p>Paragraaf test</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
