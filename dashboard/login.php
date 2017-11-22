@@ -30,7 +30,7 @@ include 'framework.php';
 
 				if(CheckIfUserExists($email, $password)){
 					// Set session variables
-					$_SESSION["email"] = "lisannegerrits@gmail.com";					
+					$_SESSION["email"] = $email;
 
 					header("Location: index.php"); //Redirecting to index.php
 					exit();
