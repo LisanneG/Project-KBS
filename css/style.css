@@ -1,6 +1,6 @@
 /*General*/
 .btn {cursor: pointer;}
-.dotsolutions_logo{position: absolute; bottom: 0; left: 10px;}
+.dotsolutions_logo{position: fixed; bottom: 0; left: 10px;}
 
 /*Icons*/
 .icon-question{margin-top: 7px; cursor: pointer;}
@@ -19,5 +19,5 @@
 	#dashboard-content{padding-left: 15%;padding-right: 15%;}
 }
 .news-image{max-height: 300px;}
-.news-section{border: 1px solid black; padding-top: 8px;}
+.news-section{border: 1px solid black; padding-top: 8px; margin-bottom: 20px;}
 .news-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}

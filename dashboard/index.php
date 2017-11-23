@@ -99,6 +99,38 @@ if (isset($_POST["logout"])) {
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-12 news-section">
+						<p class='title'>Title</p>
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<img src="../img/icons/dots.png">
+							</div>
+							<div class="col-md-6">
+								<p>Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.</p>
+							</div>
+							<div class="col-md-6 text-right">								
+								<img src="http://image.shutterstock.com/z/stock-photo-this-mutated-and-mutilated-human-has-his-feet-on-his-hands-64680841.jpg" class="img-thumbnail news-image" alt="Nieuwsbrief foto">
+							</div>						
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 news-section">
+						<p class='title'>Title</p>
+						<div class="row">
+							<div class="col-md-12 text-right">
+								<img src="../img/icons/dots.png">
+							</div>
+							<div class="col-md-6">
+								<p>Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.</p>
+							</div>
+							<div class="col-md-6 text-right">								
+								<img src="http://image.shutterstock.com/z/stock-photo-this-mutated-and-mutilated-human-has-his-feet-on-his-hands-64680841.jpg" class="img-thumbnail news-image" alt="Nieuwsbrief foto">
+							</div>						
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-6">
 				
