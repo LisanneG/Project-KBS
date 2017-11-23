@@ -1,18 +1,8 @@
 function updateClock(){
-    var currentTime = new Date();
-
-    var currentHours = currentTime.getHours();
-    var currentMinutes = currentTime.getMinutes();
-    var currentDay = currentTime.getDate();
-    var currentMonth = currentTime.getMonth();
-    var currentYear = currentTime.getFullYear();
-
-    var date = currentDay + "-" + currentMonth + "-" + currentYear;
-    var time = currentHours + ":" + currentMinutes;
 
 
-    $("#date").html(date);
-    $("#time").html(time);
+    $("#date").html($.format.date(new Date().getTime(), "dd-MM-yyyy"));
+    $("#time").html($.format.date(new Date().getTime(), "HH:mm"));
 
 
 }
@@ -20,4 +10,13 @@ function updateClock(){
 
 $(document).ready(function(){
     setInterval('updateClock()', 1000);
+    scroll($('html, #container'), 30000);
 });
+
+
+
+function scroll(element, speed) {
+    element.animate({ scrollTop: $("html, #container").height() }, speed, function() {
+        $(this).animate({ scrollTop: 0 }, speed, scroll(element, speed));
+    });
+}
