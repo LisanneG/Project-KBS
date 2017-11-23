@@ -4,9 +4,20 @@
 
 /*Icons*/
 .icon-question{margin-top: 7px; cursor: pointer;}
+.icon-settings{margin: -3px 15px 0px 10px;}
 
 /*Login screen*/
 #login{margin-top: 50px;}
 #login .logo{margin-bottom: 10px;}
 #login .login-btn-section, #login .password-btn-section{padding-left: 10px;}
 #login .question-mark-btn-section{padding-left: 0px;}
+
+/*Dashboard*/
+#search-section{margin-left: 20px;}
+#dashboard-content{margin-top: 50px;}
+@media screen and (min-width: 1200px) {
+	#dashboard-content{padding-left: 15%;padding-right: 15%;}
+}
+.news-image{max-height: 300px;}
+.news-section{border: 1px solid black; padding-top: 8px;}
+.news-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}

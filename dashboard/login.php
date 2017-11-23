@@ -25,9 +25,12 @@ include 'framework.php';
 				$email = $_POST["email"];
 				$password = $_POST["password"];	
 
-				if(CheckIfUserExists($email, $password)){
+				$admin = CheckIfUserExists($email, $password);
+
+				if($admin != false){					
 					// Set session variables
 					$_SESSION["email"] = $email;
+					$_SESSION["admin"] = $admin[0];
 
 					header("Location: index.php"); //Redirecting to index.php
 					exit();
