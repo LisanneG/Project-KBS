@@ -2,6 +2,11 @@
 .btn {cursor: pointer;}
 .dotsolutions_logo{position: absolute; bottom: 0; left: 10px;}
 
+/*Icons*/
+.icon-question{margin-top: 7px; cursor: pointer;}
+
 /*Login screen*/
 #login{margin-top: 50px;}
 #login .logo{margin-bottom: 10px;}
+#login .login-btn-section, #login .password-btn-section{padding-left: 10px;}
+#login .question-mark-btn-section{padding-left: 0px;}
