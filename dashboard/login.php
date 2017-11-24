@@ -54,11 +54,11 @@ include 'framework.php';
 				</div>
 			</div>
 			<div class="form-group row">
-				<div class="col-sm-2 offset-sm-6 password-btn-section">
-					<button class="btn btn-secondary">Wachtwoord vergeten</button>
-				</div>
-				<div class="col-sm-1 login-btn-section">
+				<div class="col-sm-1 offset-sm-5 login-btn-section">
 					<input type="submit" name="submit" value="Log in" class="btn btn-secondary">
+				</div>
+				<div class="col-sm-2 password-btn-section">
+					<button class="btn btn-secondary">Wachtwoord vergeten</button>
 				</div>
 				<div class="col-sm-1 question-mark-btn-section">
 					<img class='icon-question' src="../img/icons/question-mark.png">
