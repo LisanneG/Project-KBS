@@ -164,7 +164,7 @@ if (isset($_POST["logout"])) {
 	  </div>
 	</div>	
 
-	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="../js/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 </body>
