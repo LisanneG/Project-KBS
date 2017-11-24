@@ -1,0 +1,10 @@
+#logo{
+    height: 60px;
+    width: 200px;
+}
+
+#top-bar{
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
