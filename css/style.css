@@ -9,9 +9,12 @@
 /*Login screen*/
 #login{margin-top: 50px;}
 #login .logo{margin-bottom: 10px;}
-/*#login .login-btn-section, */
 #login .password-btn-section{padding-left: 0px;}
-/*#login .question-mark-btn-section{padding-left: 0px;}*/
+
+@media screen and (max-width: 1200px) {
+	#login .question-mark-btn-section{margin-left: 15px;}	
+	#login .login-btn-section {margin-right: 15px;}
+}
 
 /*Dashboard*/
 #search-section{margin-left: 20px;}
