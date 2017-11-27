@@ -20,7 +20,7 @@ if (isset($_POST["logout"])) {
 	<meta charset="UTF-8">
 	<title>Beheer | Weerbericht</title>
 	<link rel="stylesheet" type="text/css" href="../css/style.css">
-	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">	
+	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 </head>
 <body>
 	<?php include 'navbar.php'; ?>
@@ -30,37 +30,25 @@ if (isset($_POST["logout"])) {
 				<div class="container">
 				  <h2>Dynamic Tabs</h2>
 				  <ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
-					<li><a data-toggle="tab" href="#menu1">Toevoegen</a></li>
-					<li><a data-toggle="tab" href="#menu2">Wijzigen</a></li>
-					<li><a data-toggle="tab" href="#menu3">Verwijderen</a></li>
+					<li class="active"><a data-toggle="tab" href="#toevoegen">Toevoegen</a></li>
+					<li><a data-toggle="tab" href="#wijzigen">Wijzigen</a></li>
+					<li><a data-toggle="tab" href="#verwijderen">Verwijderen</a></li>
 				  </ul>
 
 				  <div class="tab-content">
-					<div id="menu1" class="tab-pane fade in active">
+					<div id="toevoegen" class="tab-pane fade in active">
 					  <h3>Toevoegen</h3>
 					  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 					</div>
-					<div id="menu2" class="tab-pane fade">
+					<div id="wijzigen" class="tab-pane fade">
 					  <h3>Wijzigen</h3>
 					  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
 					</div>
-					<div id="menu3" class="tab-pane fade">
+					<div id="verwijderen" class="tab-pane fade">
 					  <h3>Verwijderen</h3>
 					  <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
 					</div>
 				  </div>
-				</div>
-				
-				<!-- Locatie select -->
-				<div class="row justify-content-end">
-					<div class="form-group col-md-4">
-						<select class="form-control" id="locations">
-							<option value="1">locatie 1</option>
-							<option value="2">locatie 2</option>
-							<option value="3">locatie 3</option>
-						</select>
-					</div>
 				</div>
 				<!-- Toevoegen bericht -->
 				<div class="container-fluid">
