@@ -8,11 +8,9 @@ function CheckIfUserExists($input_email, $input_password)
 	include "../database.php";
 
 	// Preparing query
-	$query = $conn->prepare("SELECT admin FROM persoon WHERE email = ? AND wachtwoord = ?");
+	$query = $conn->prepare("SELECT admin FROM user WHERE email = ? AND password = ?");
 	$query->execute(array($input_email, $input_password)); //Putting in the parameters
 	$result = $query->fetch(); //Fetching it
-
-	print_r($result);
 
 	if($query->rowCount() > 0){		
 		return $result;

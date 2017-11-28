@@ -38,7 +38,7 @@ include 'framework.php';
 					echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
 				}
 			}			
-		?>		
+		?>
 
 		<form method="POST">			
 			<div class="form-group row justify-content-center">
