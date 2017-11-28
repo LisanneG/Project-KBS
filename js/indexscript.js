@@ -11,14 +11,13 @@ function updateClock(){
 $(document).ready(function(){
 
     setInterval('updateClock()', 1000);
-    scroll($('html, #container'), 30000);
-
+    scroll($('html, #container'), 5000);
 });
 
 
 
 function scroll(element, speed) {
     element.animate({ scrollTop: $("html, #container").height() }, speed, function() {
-        $(this).animate({ scrollTop: 0 }, speed, , windows.setTimeout(scroll(element, speed), 30000));
+        $(this).animate({ scrollTop: 0 }, speed, scroll(element, speed), 5000);
     });
 }
