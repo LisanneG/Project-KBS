@@ -12,6 +12,7 @@ $(document).ready(function(){
 
     setInterval('updateClock()', 1000);
     scroll($('html, #container'), 30000);
+
 });
 
 
