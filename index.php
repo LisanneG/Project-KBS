@@ -3,9 +3,9 @@
     <head>
     <meta charset="UTF-8">
     <title>Berichten</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet"  href="/css/fpstyle.css">
+    <link rel="stylesheet"  href="css/fpstyle.css">
 
     </head>
     
@@ -20,14 +20,27 @@
         <ul class="list-unstyle mw-50" >
             <?php
             //borrowing DB connection code
-            //location needs to be set. Will be set to NULL for now.
+            
+            
+            function getLocation(){
+                //TODO: work on it
+
+                return NULL;
+            }
+            
+            
+            
+            
+            
+            
+            
             function readDB($locationid)
             {
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
-                $mainquery = $conn->prepare("SELECT nieuwsbericht_id, titel, catagorie_id, bestand_id, datum, prioriteit, beschrijving FROM niewsbericht 
-                WHERE weergave_van => ? AND weergave_tot <= ? AND locatie_id = ?"); 
+                $mainquery = $conn->prepare("SELECT news_article_id, title, color, n.file_id, `date`, `description`, `location`, `type` FROM news_article n LEFT JOIN `file` f ON n.file_id = f.file_id LEFT JOIN catagory c ON n.catagory_id = c.catagory_id
+                WHERE display_from => ? AND display_till <= ? AND location_id = ? ORDER BY priority"); 
                 $mainquery->execute(array($currentdbtime, $currentdbtime, $locationid));
                 $result = $mainquery->fetch(); // getting information
                 
@@ -35,7 +48,7 @@
                 if(!($mainquery->rowCount() > 0)){
                     print("<li class='media mb-5 mt-5 border border-dark'>");
                     print("<div class='media-body'>");
-                    print("<h5 class='mt-0'>Geen Titel</h5>");
+                    print("<h5 class='mt-0'>Geen title</h5>");
                     print("<p>Deze Database is leeg</p>");
                     print("</div>");
                     print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Geen Foto'>");                                        
@@ -46,57 +59,91 @@
                     
                 }
                 
-                $messages = array(array());
-                $count = 0;
                 
 
                 while($row = $result) {
                     
+
                     
 
-                    $querymedia = $conn->prepare("SELECT locatie FROM bestand 
-                    WHERE bestand_id = (SELECT bestand_id FROM nieuwsbericht WHERE bestand_id = ?)"); 
-                    $querymedia->execute(array($row['bestand_id']));
-                    $medialocation = $querymedia->fetch(); // getting information for images
-
                     //just some example stuff I wrote, probably want to store them inside a array and sort them based on priority.
-                    //TODO: figure out a way to handle ID'screens. Maybe with the nieuwsbericht_id row? (update: so far using a combo)
+                    //TODO: figure out a way to handle ID'screens. Maybe with the news_article_id row? (update: so far using a combo)
                     //https://stackoverflow.com/questions/8934025/php-initiate-variable-with-multiple-lines
                     //TODO: finish catagories and manage the contents of this loop
-                    if($row['catagorie_id'] = 2 ){
+                    if($row['type'] == "afbeelding"){
                         //nieuwbericht gewoon
-                        $messages = "
-                        <li class='media mb-5 mt-5 border border-dark'> id='" . $row['nieusbericht_id']. "-" . $row['catagorie_id'] . "'>
+                        
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['color']."' id='" . $row['news_article_id']. "-messageimg'>
                         <div class='media-body'>
-                        <h5 class='mt-0'> " . $row['titel'] . "</h5>
-                        " . $row['beschrijving']. "
-                        <p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>
+                        <h5 class='mt-0'> " . $row['title'] . "</h5>
+                        " . $row['description']. "
+                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $medialocation['locatie'] ."' alt='Geen Foto'>                                    
-                        </li>"
+                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>                                    
+                        </li>");
                         
                     }
-                    elseif($row['catagorie_id'] = 3 ){
-                        //video (can it be mp4 only? the standard now is mp4 until further notice. I am also using 16:9)
-                        $messages = 
-                        "<li class='media mb-5 mt-5 border border-dark' id='" .$row['nieusbericht_id'] ."-" . $row['catagorie_id'] . "'>
+                    elseif($row['n.file_id'] == NULL){
+                    
+                        print("<li class='media mb-5 mt-5 border border-dark' id='" . $row['news_article_id']. "-message'>
                         <div class='media-body'>
-                        <h5 class='mt-0'>". $row['titel'] ."</h5>
-                        <video class='embed-responsive-item embed-responsive-item-16by9' muted>
-                        <source src='". $medialocation['locatie'] ."'>Your browser does not support video</video>
-                        <p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>
+                        <h5 class='mt-0'> " . $row['title'] . "</h5>
+                        " . $row['description']. "
+                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        </li>"
+                        </li>");
                     }
-                $count++;
+                    elseif($row['type'] == "video"){
+                        $videotype = explode(".", $row['location']);
+
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['color']."' id='" .$row['news_article_id'] ."-messagevideo'>
+                        <div class='media-body'>
+                        <h5 class='mt-0'>". $row['title'] ."</h5>
+                        <video class='embed-responsive-item embed-responsive-item-16by9' muted>
+                        <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
+                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        </div>
+                        </li>");
+                    }
+                    
                 }
+
+                $birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.catagory_id, first_name, color FROM birthday b LEFT JOIN user u ON b.user_id = u.user_id LEFT JOIN catagory c ON b.catagory_id = c.catagory_id LEFT JOIN `file f` ON b.file_id = f.file_id
+                WHERE birthday = ? AND u.location = ? ORDER BY first_name"); 
+                $birthdayquery->execute(array($currentdbtime, $locationid));
+                $result = $mainquery->fetch();
+                // getting birthday information
+                
+                while($bdrow = $result){
+                    //hou hier geen rekening met catagorie, ik ga er van uit dat dat er sowieso anders uit ziet.
+                    if($bdrow['b.file_id'] == NULL){
+                        //verjaardag zonder foto
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
+                        <div class='media-body'>
+                        <h5 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h5>
+                        </div>
+                        </li>");
+                    }
+                    else{
+                        //verjaardag met foto
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
+                        <div class='media-body'>
+                        <h5 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h5>
+                        </div>
+                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
+                        </li>");
+                    }
+                }
+
+
+
             } 
 
             function testspam($run){
                 for($i = 0; $i < $run; $i++){
                     print("<li class='media mb-5 mt-5 border border-dark'>");
                     print("<div class='media-body'>");
-                    print("<h5 class='mt-0'>Test titel</h5>");
+                    print("<h5 class='mt-0'>Test title</h5>");
                     print("<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>");
                     print("</div>");
                     print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Generic placeholder image'>");                                        
@@ -104,7 +151,7 @@
                 }
             }
             
-            readDB(NULL);
+            readDB(getLocation());
             testspam(20);
             
             
@@ -113,11 +160,11 @@
         </div>
 
         
-        <script src="/js/jquery-3.2.1.min.js"></script>
+        <script src="js/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/jquery-dateFormat.min.js"></script>
-        <script src="/js/indexscript.js"></script>
-        <script src="/js/script.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery-dateFormat.min.js"></script>
+        <script src="js/indexscript.js"></script>
+        <script src="js/script.js"></script>
     </body>
 </html>
