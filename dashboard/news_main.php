@@ -40,28 +40,7 @@ if (isset($_POST["filelocation"])) {
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
 			<div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
-				<h3 class="navtabs">Nieuw bericht</h3>
-				<form action="news_manage.php" method="POST" enctype="multipart/form-data">
-					<table>
-						<tr>
-							<td>Titel:</td>
-							<td><input type="text" name="title"></td>
-						</tr>
-						<tr>
-							<td>Bestand:</td>
-							<td><input type="file" name="fileToUpload" id="fileToUpload"></td>
-							<td><input type="submit" value="Upload Image" name="submit"></td>
-						</tr>
-						<tr>
-							<td>Bestandstype:</td>
-							<td><select name="filetype">
-								<option value="image" selected>Afbeelding</option>
-								<option value="PDF">PDF</option>
-								<option value="video">Video</option>
-						</select></td> 
-						</tr>
-					</table>
-				</form>
+				<?php include 'news_add.php' ?>
 			</div>
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">Wijzig shizzle</div>
 			<div class="tab-pane fade" id="nav-verwijderen" role="tabpanel" aria-labelledby="nav-verwijderen-tab">Verwijder shizzle</div>
