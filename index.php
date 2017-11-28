@@ -21,14 +21,14 @@
             <?php
             //borrowing DB connection code
             //location needs to be set. Will be set to NULL for now.
-            function readDB($location)
+            function readDB($locationid)
             {
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
                 $mainquery = $conn->prepare("SELECT nieuwsbericht_id, titel, catagorie_id, bestand_id, datum, prioriteit, beschrijving FROM niewsbericht 
-                WHERE weergave_van => ? AND weergave_tot <= ? AND locatie = ?"); 
-                $mainquery->execute(array($currentdbtime, $currentdbtime, $location));
+                WHERE weergave_van => ? AND weergave_tot <= ? AND locatie_id = ?"); 
+                $mainquery->execute(array($currentdbtime, $currentdbtime, $locationid));
                 $result = $mainquery->fetch(); // getting information
                 
 
@@ -46,6 +46,10 @@
                     
                 }
                 
+                $messages = array(array());
+                $count = 0;
+                
+
                 while($row = $result) {
                     
                     
@@ -56,31 +60,35 @@
                     $medialocation = $querymedia->fetch(); // getting information for images
 
                     //just some example stuff I wrote, probably want to store them inside a array and sort them based on priority.
-                    //TODO: figure out a way to handle ID's. Maybe with the nieuwsbericht_id row? (update: so far using a combo)
+                    //TODO: figure out a way to handle ID'screens. Maybe with the nieuwsbericht_id row? (update: so far using a combo)
                     //https://stackoverflow.com/questions/8934025/php-initiate-variable-with-multiple-lines
                     //TODO: finish catagories and manage the contents of this loop
                     if($row['catagorie_id'] = 2 ){
                         //nieuwbericht gewoon
-                        print("<li class='media mb-5 mt-5 border border-dark'> id='" .$row['nieusbericht_id'] ."-" . $row['catagorie_id'] . "'>");
-                        print("<div class='media-body'>");
-                        print("<h5 class='mt-0'>". $row['titel'] ."</h5>");
-                        print("<p>". $row['beschrijving'] ."</p>");
-                        print("<p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>");
-                        print("</div>");
-                        print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $medialocation['locatie'] ."' alt='Geen Foto'>");                                        
-                        print("</li>");
+                        $messages = "
+                        <li class='media mb-5 mt-5 border border-dark'> id='" . $row['nieusbericht_id']. "-" . $row['catagorie_id'] . "'>
+                        <div class='media-body'>
+                        <h5 class='mt-0'> " . $row['titel'] . "</h5>
+                        " . $row['beschrijving']. "
+                        <p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>
+                        </div>
+                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $medialocation['locatie'] ."' alt='Geen Foto'>                                    
+                        </li>"
+                        
                     }
                     elseif($row['catagorie_id'] = 3 ){
                         //video (can it be mp4 only? the standard now is mp4 until further notice. I am also using 16:9)
-                        print("<li class='media mb-5 mt-5 border border-dark' id='" .$row['nieusbericht_id'] ."-" . $row['catagorie_id'] . "'>");
-                        print("<div class='media-body'>");
-                        print("<h5 class='mt-0'>". $row['titel'] ."</h5>");
-                        print("<video class='embed-responsive-item embed-responsive-item-16by9' muted>
-                        <source src='". $medialocation['locatie'] ."'>Your browser does not support video</video>");
-                        print("<p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>");
-                        print("</div>");
-                        print("</li>");
+                        $messages = 
+                        "<li class='media mb-5 mt-5 border border-dark' id='" .$row['nieusbericht_id'] ."-" . $row['catagorie_id'] . "'>
+                        <div class='media-body'>
+                        <h5 class='mt-0'>". $row['titel'] ."</h5>
+                        <video class='embed-responsive-item embed-responsive-item-16by9' muted>
+                        <source src='". $medialocation['locatie'] ."'>Your browser does not support video</video>
+                        <p>Datum: ". date( "d-m-Y", $row['datum']) ."</p>
+                        </div>
+                        </li>"
                     }
+                $count++;
                 }
             } 
 
