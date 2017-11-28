@@ -9,7 +9,7 @@
 
     </head>
     
-    <body>
+    <body>        
 
         <nav class="navbar" id="top-bar">
             <a id="date" class="navbar-brand"></a>
@@ -156,6 +156,8 @@
             
             
             ?>
+
+            <div id="weather"></div>
         </ul>
         </div>
 
