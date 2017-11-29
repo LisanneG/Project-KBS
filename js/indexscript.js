@@ -11,62 +11,62 @@ function updateClock(){
 $(document).ready(function(){
 
     setInterval('updateClock()', 1000);
-    scroll($('html, .container'), 10000);
-    //MessageScroll();
+    //scroll($('html, .container'), 10000);
+    setTimeout(MessageScroll(), 5000);
     //LoadWeather("Zwolle");
 });
 
 
 
-function scroll(element, speed) {
-    element.animate({ scrollTop: $("html, .container").height() }, speed, function() {
+function scroll(element, speed) { //needs to be removed
+    element.animate({ scrollTop: $("html, .container").offset().top }, speed, function() {
         $(this).animate({ scrollTop: 0 }, speed, scroll(element, speed), 5000);
     });
 }
 
 
 function MessageScroll(){
+    $("html, body").animate({scrollTop: 0});
+
     var Listlength = $("ul.list-unstyle.mw-50 > li").length;
     for(i = 0; i < Listlength; i++){
         ListScroll(i);
     }
+    $("html, body").animate({ scrollTop: $("#weather").offset().top}, 1000).delay(2000);                
     for(i = Listlength; i != 0; i--){
         ListScroll(i);
-    }
-    $("html, body").animate({ scrollTop: $("#weather").height()}, 1000);
-    setTimeout(function(){ $("html, body").animate({ scrollTop: 0}, 1000)}, 10000);
-
+    }    
     
-    MessageScroll();
+
+    setTimeout(MessageScroll, 5000);
 }
 
-function ListScroll(i){
+
+function ListScroll(i, length){
+
     var listitem = $("li.media.mb-5.mt-5.border.border-dark").eq(i);
         if($(listitem).attr("[id$='-video']")){
-            $("html, body").animate({ scrollTop: $(listitem).height()});
             var video = $(listitem).find("video");            
             video.autoplay = false;
             video.muted = true;
             var vidlength = (video.duration) * 1000;
-            video.play();
-            setTimeout(function(){}, (vidlength + 10000));
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)},1000).queue(function(){video.play();}).delay(vidlength + 5000).dequeue();
         }
-        else if($(listitem).attr("[id$='-message']")){
-            $("html, body").animate({ scrollTop: $(listitem).height()});
-            setTimeout(function(){}, 10000);
+        else if($(listitem).is("[id$='-message']")){
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}, 1000).delay(2000);
+            
         }
-        else if($(listitem).attr("[id$='-birthdayimg']")){
-            $("html, body").animate({ scrollTop: $(listitem).height()});
-            setTimeout(function(){}, 10000);
+        else if($(listitem).is("li[id$='-birthdayimg']")){
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);
         }
-        else if($(listitem).attr("[id$='-birthdaynoimg']")){
-            $("html, body").animate({ scrollTop: $(listitem).height()});
-            setTimeout(function(){}, 10000);
+        else if($(listitem).is("li[id$='-birthdaynoimg']")){
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);;
         }
-        else if($(listitem).attr("[id$='-messageimg']")){
-            $("html, body").animate({ scrollTop: $(listitem).height()});
-            setTimeout(function(){}, 10000);
+        else if($(listitem).is("li[id$='-messageimg']")){
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);;
         }
+
+
 }
 
 

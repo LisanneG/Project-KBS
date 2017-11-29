@@ -5,6 +5,7 @@
     <title>Berichten</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="refresh" content="3600">
     <link rel="stylesheet"  href="css/fpstyle.css">
 
     </head>
@@ -63,13 +64,6 @@
 
                 while($row = $result) {
                     
-
-                    
-
-                    //just some example stuff I wrote, probably want to store them inside a array and sort them based on priority.
-                    //TODO: figure out a way to handle ID'screens. Maybe with the news_article_id row? (update: so far using a combo)
-                    //https://stackoverflow.com/questions/8934025/php-initiate-variable-with-multiple-lines
-                    //TODO: finish catagories and manage the contents of this loop
                     if($row['type'] == "afbeelding"){
                         //nieuwbericht gewoon
                         
@@ -141,8 +135,8 @@
 
             function testspam($run){
                 for($i = 0; $i < $run; $i++){
-                    print("<li class='media mb-5 mt-5 border border-dark'>");
-                    print("<div class='media-body'>");
+                    print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
+                    print("<div class='media-body'>");      //from top to bottom really fast.
                     print("<h5 class='mt-0'>Test title</h5>");
                     print("<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>");
                     print("</div>");
