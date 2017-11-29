@@ -2,7 +2,8 @@
 session_start();
 include 'framework.php';
 include 'upload.php';
-
+include '../database.php';
+//include 'news/news_send.php';
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
@@ -40,9 +41,8 @@ if (isset($_POST["filelocation"])) {
 		</nav>
 		<div class="tab-content" id="nav-tabContent">
 			<div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
-				<?php include 'news/news_add.php' ?>
 				<h3 class="navtabs">Nieuw bericht</h3>
-				<form action="news_manage.php" method="POST" id="newsAddForm" enctype="multipart/form-data">
+				<form action="news_main.php" method="POST" id="newsAddForm" enctype="multipart/form-data">
 					<table>
 						<tr>
 							<td>Titel:</td>
@@ -68,36 +68,16 @@ if (isset($_POST["filelocation"])) {
 							<td><input type="checkbox" value="priority" name="priority"></td>
 						</tr>
 					</table>
-					<input type="radio" value="none" name="category" selected>Geen categorie</br>
-					<input type="radio" value="administration" name="category">Administratie</br>
-					<input type="radio" value="event" name="category">Evenement</br>
-					<input type="radio" value="worldnews" name="category">Wereldnieuws</br>
-					<input type="radio" value="financial" name="category">Financieel</br>
+					<h6>Weergave</h6>
+					Datum van:</br>
+					<input type="date" name="dateFrom"></br>
+					Datum tot:</br>
+					<input type="date" name="dateTo"></br>
 					<img src="<?= $target_file; ?>" alt="no uploaded file"></br>
-					Weergeven op locatie (één of meer):</br>
-					<select name="location" multiple>
-						<option value="nieuwleusen" selected>Nieuwleusen</option>
-						<option value="dalen">Dalen</option>
-						<option value="hoogeveen">Hoogeveen</option>
-						<option value="nunspeet">Nunspeet</option>
-						<option value="zwolle">Zwolle</option>
-						<option value="amsterdam">Amsterdam</option>
-						<option value="denhaag">Den Haag</option>
-					</select></br>
-								
-					Weergeven op locatie (één of meer):</br>			
-					<input type="checkbox" value="nieuwleusen" name="location">Nieuwleusen</br>
-					<input type="checkbox" value="dalen" name="location">Dalen</br>
-					<input type="checkbox" value="hoogeveen" name="location">Hoogeveen</br>
-					<input type="checkbox" value="nunspeet" name="location">Nunspeet</br>
-					<input type="checkbox" value="amsterdam" name="location">Amsterdam</br>
-					<input type="checkbox" value="zwolle" name="location">Zwolle</br>
-					<input type="checkbox" value="denhaag" name="location">Den Haag</br>
+					<?php include 'news/news_add.php' ?>
 					Beschrijving:</br>
-					<textarea name="description" rows="5" cols="100" form="newsAddForm">ggwpman</textarea>
+					<textarea name="description" rows="5" cols="100" form="newsAddForm"></textarea></br>
 					<input type="submit" value="Klaar" name="submit"></br>
-					<?= $_POST["description"]; ?>
-					<?= $_POST["location"]; ?>
 				</form>
 			</div>
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">
@@ -110,7 +90,7 @@ if (isset($_POST["filelocation"])) {
 	</section>
 	
 	
-	<img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo">
+	<!-- <img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo"> -->
 
 	<!-- Modal for logging out -->
 	<div class="modal fade" id="modal-logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
