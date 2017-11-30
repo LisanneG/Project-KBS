@@ -133,7 +133,7 @@ if (isset($_POST["logout"])) {
 				</div>
 			</div>
 			<div class="col-md-6">
-				
+				<div id="weather"></div>
 			</div>
 		</div>		
 

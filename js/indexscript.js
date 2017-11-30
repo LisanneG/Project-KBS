@@ -9,11 +9,11 @@ function updateClock(){
 
 
 $(document).ready(function(){
+	LoadWeather("Zwolle");
 
     setInterval('updateClock()', 1000);
     //scroll($('html, .container'), 10000);
-    setTimeout(MessageScroll(), 5000);
-    //LoadWeather("Zwolle");
+    setTimeout(MessageScroll(), 5000);    
 });
 
 
@@ -68,9 +68,8 @@ function ListScroll(i, length){
 
 }
 
-
-function LoadWeather(locatie_naam){
-	$.get("getWeather.php?location_name="+locatie_naam, function(data) {
-		$("#weather").text(data);
+function LoadWeather(location_name){
+	$.get("getWeather.php?location_name="+location_name, function(data) {
+		$("#weather").html(data);		
 	});
 }

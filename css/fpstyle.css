@@ -8,3 +8,9 @@
     top: 0;
     background-color: white;
 }
+
+/*weather section*/
+.weather-section{border: 1px solid black; padding: 45px; margin-bottom: 20px;}
+.weather-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}
+.weather-section .day{margin:0px; text-align: center;}
+.weather-section .temp{border: 1px solid black; padding: 30px 0px 30px 0px; text-align: center;}

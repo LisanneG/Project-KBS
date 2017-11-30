@@ -21,7 +21,7 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 
 	foreach ($obj->list as $value) { //Going through the info we need
 		$temp = ($value->main->temp) - 273.15; //converting kelvin to celcius for the right temp
-		$date = new DateTime($value->dt_txt); //Formating the given date to a datetime		
+		$date = new DateTime($value->dt_txt); //Formating the given date to a datetime				
 		$week_day = $week_days[$date->format('w')]; //Getting the info of which week day it is
 
 		if (isset($value->weather[0])) { //A check to be sure the weather has at least something in the array to avoid error messages
@@ -39,27 +39,32 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 	}
 
 	echo "<div class=\"row\">";
+	echo "	<div class=\"col-md-12 weather-section\">";
+	echo "		<p class=\"title\">Weer</p>";
+	echo "		<div class=\"row justify-content-center\">";
 
-	foreach ($week_days as $key => $day) { //Going through every week day
+	foreach ($output_icon as $day => $icon) { //Going through the icons and getting the key as the day and value as the icon
 
-		if (isset($output_icon[$day]) && isset($output_temp[$day])) { //Checking if the weekday exists inside the arrays
-			$icon = $output_icon[$day];
-			$temps = explode(";", $output_temp[$day]);
+		if (isset($output_temp[$day])) { //Checking if the weekday exists inside the temp array
+			$temps = explode(";", $output_temp[$day]); //Splitting the temps by ;
 			$avg_temp = 0;
 
-			foreach ($temps as $temp) {
+			foreach ($temps as $temp) { //Adding all the temps together
 				$avg_temp += $temp;
 			}
 
 			$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)
 
 			echo "<div class=\"col-md-2\">";
-			echo "	$icon<br>$avg_temp &deg; ($day)<br>";
+			echo "	<p class=\"day\">$day</p>";
+			echo "	<div class=\"temp\">$icon<br>$avg_temp &deg;</div>";
 			echo "</div>";
 		}
 
 	}
 
+	echo "		</div>";
+	echo "	</div>";
 	echo "</div>";
 }
 ?>
