@@ -32,12 +32,7 @@ CREATE TABLE IF NOT EXISTS `birthday` (
   CONSTRAINT `FK_verjaardag_persoon` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.birthday: ~0 rows (approximately)
-/*!40000 ALTER TABLE `birthday` DISABLE KEYS */;
-INSERT INTO `birthday` (`birthday_id`, `user_id`, `date`, `category_id`, `file_id`) VALUES
-	(1, 3, '2017-11-27', 1, NULL);
-/*!40000 ALTER TABLE `birthday` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.category
 CREATE TABLE IF NOT EXISTS `category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -46,16 +41,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   PRIMARY KEY (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.category: ~5 rows (approximately)
-/*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` (`category_id`, `name`, `color`) VALUES
-	(1, 'Test', '#AD1919'),
-	(2, 'Financieel', 'grey'),
-	(3, 'Administratie', 'green'),
-	(4, 'Wereldnieuws', 'blue'),
-	(5, 'Evenement', 'orange');
-/*!40000 ALTER TABLE `category` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.file
 CREATE TABLE IF NOT EXISTS `file` (
   `file_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -64,12 +50,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   PRIMARY KEY (`file_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~0 rows (approximately)
-/*!40000 ALTER TABLE `file` DISABLE KEYS */;
-INSERT INTO `file` (`file_id`, `location`, `type`) VALUES
-	(1, '\\img\\kerst.png', 'afbeelding');
-/*!40000 ALTER TABLE `file` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.layout
 CREATE TABLE IF NOT EXISTS `layout` (
   `layout_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -82,12 +63,7 @@ CREATE TABLE IF NOT EXISTS `layout` (
   CONSTRAINT `FK_layout_file` FOREIGN KEY (`default_background`) REFERENCES `file` (`file_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.layout: ~0 rows (approximately)
-/*!40000 ALTER TABLE `layout` DISABLE KEYS */;
-INSERT INTO `layout` (`layout_id`, `font`, `color`, `font_size`, `default_background`) VALUES
-	(3, 'arial', '#00000', '12', 1);
-/*!40000 ALTER TABLE `layout` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.location
 CREATE TABLE IF NOT EXISTS `location` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -99,17 +75,7 @@ CREATE TABLE IF NOT EXISTS `location` (
   PRIMARY KEY (`location_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.location: ~6 rows (approximately)
-/*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` (`location_id`, `name`, `address`, `postal_code`, `main_number`, `intern_number`) VALUES
-	(1, 'Zwolle', '', '', '', 0),
-	(2, 'Nunspeet', '', '', '', 0),
-	(3, 'Nieuwleusen', '', '', '', 0),
-	(4, 'Den Haag', '', '', '', 0),
-	(5, 'Amsterdam', '', '', '', 0),
-	(6, 'Hoogeveen', '', '', '', 0);
-/*!40000 ALTER TABLE `location` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.news_article
 CREATE TABLE IF NOT EXISTS `news_article` (
   `news_article_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -131,10 +97,7 @@ CREATE TABLE IF NOT EXISTS `news_article` (
   CONSTRAINT `FK_nieuwsbericht_locaties` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article: ~0 rows (approximately)
-/*!40000 ALTER TABLE `news_article` DISABLE KEYS */;
-/*!40000 ALTER TABLE `news_article` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.news_article_has_location
 CREATE TABLE IF NOT EXISTS `news_article_has_location` (
   `news_article_id` int(11) NOT NULL,
@@ -145,10 +108,7 @@ CREATE TABLE IF NOT EXISTS `news_article_has_location` (
   CONSTRAINT `news_article_has_location_ibfk_2` FOREIGN KEY (`news_article_id`) REFERENCES `news_article` (`news_article_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article_has_location: ~0 rows (approximately)
-/*!40000 ALTER TABLE `news_article_has_location` DISABLE KEYS */;
-/*!40000 ALTER TABLE `news_article_has_location` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.right
 CREATE TABLE IF NOT EXISTS `right` (
   `right_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -157,12 +117,7 @@ CREATE TABLE IF NOT EXISTS `right` (
   PRIMARY KEY (`right_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.right: ~0 rows (approximately)
-/*!40000 ALTER TABLE `right` DISABLE KEYS */;
-INSERT INTO `right` (`right_id`, `name`, `description`) VALUES
-	(1, 'Aanmaken nieuwsbericht', 'Aanmaken van een nieuwsbericht');
-/*!40000 ALTER TABLE `right` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.screen
 CREATE TABLE IF NOT EXISTS `screen` (
   `screen_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -176,10 +131,7 @@ CREATE TABLE IF NOT EXISTS `screen` (
   CONSTRAINT `FK__thema` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.screen: ~0 rows (approximately)
-/*!40000 ALTER TABLE `screen` DISABLE KEYS */;
-/*!40000 ALTER TABLE `screen` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.theme
 CREATE TABLE IF NOT EXISTS `theme` (
   `theme_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -193,10 +145,7 @@ CREATE TABLE IF NOT EXISTS `theme` (
   CONSTRAINT `FK_thema_layout` FOREIGN KEY (`layout_id`) REFERENCES `layout` (`layout_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.theme: ~0 rows (approximately)
-/*!40000 ALTER TABLE `theme` DISABLE KEYS */;
-/*!40000 ALTER TABLE `theme` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.user
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -213,13 +162,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   CONSTRAINT `FK_persoon_locaties` FOREIGN KEY (`location`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 COMMENT='Alle informatie van de medewerkers maar ook admins';
 
--- Dumping data for table dotcasting.user: ~2 rows (approximately)
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_id`, `first_name`, `insertion`, `last_name`, `birthday`, `email`, `password`, `admin`, `location`) VALUES
-	(3, 'Admin', NULL, 'admin', '1998-05-14', 'admin@dotcasting.nl', 'test', 1, 1),
-	(6, 'Medewerker', NULL, 'medewerker', '1978-10-10', 'medewerker@dotcasting.nl', 'test', 0, 1);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 -- Dumping structure for table dotcasting.user_has_right
 CREATE TABLE IF NOT EXISTS `user_has_right` (
   `user_id` int(11) NOT NULL,
@@ -230,12 +173,7 @@ CREATE TABLE IF NOT EXISTS `user_has_right` (
   CONSTRAINT `FK_persoon_has_recht_recht` FOREIGN KEY (`right_id`) REFERENCES `right` (`right_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tussentabel voor rechten en personen';
 
--- Dumping data for table dotcasting.user_has_right: ~0 rows (approximately)
-/*!40000 ALTER TABLE `user_has_right` DISABLE KEYS */;
-INSERT INTO `user_has_right` (`user_id`, `right_id`) VALUES
-	(6, 1);
-/*!40000 ALTER TABLE `user_has_right` ENABLE KEYS */;
-
+-- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
