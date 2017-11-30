@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="3600">
     <link rel="stylesheet"  href="css/fpstyle.css">
-
+    <?php session_start(); ?>
     </head>
     
     <body>        
@@ -25,24 +25,46 @@
             
             function getLocation(){
                 //TODO: work on it
+                include 'database.php';
+                if(!(isset($_GET["location"]))){
+                    print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen locatie ingesteld.</div>");
+                    return NULL;
+                }
+                else{
+                    $locationquery = $conn->prepare("SELECT location_id FROM `location` WHERE `name` = ? ");
+                    $locationquery->execute(array($_GET["location"]));
+                    $locationresult = $locationquery->fetch();
 
-                return NULL;
+                    if($locationquery->rowCount() > 0){
+                        return $locationresult();
+                    }
+                    else{
+                        print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen geldige locatie.</div>");
+                        return NULL;
+                    }
+                }
+
+            }
+            
+            function getTheme($location_id){
+
             }
             
             
             
             
             
-            
-            
-            function readDB($locationid)
+            function readDB($location_id)
             {
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
-                $mainquery = $conn->prepare("SELECT news_article_id, title, color, n.file_id, `date`, `description`, `location`, `type` FROM news_article n LEFT JOIN `file` f ON n.file_id = f.file_id LEFT JOIN catagory c ON n.catagory_id = c.catagory_id
-                WHERE display_from => ? AND display_till <= ? AND location_id = ? ORDER BY priority"); 
-                $mainquery->execute(array($currentdbtime, $currentdbtime, $locationid));
+                $mainquery = $conn->prepare("SELECT n.news_article_id, title, color, n.file_id, `date`, `description`, nahl.location_id , `type` FROM news_article n 
+                LEFT JOIN `file` f ON n.file_id = f.file_id 
+                LEFT JOIN catagory c ON n.catagory_id = c.catagory_id 
+                LEFT JOIN news_article_has_location nahl ON n.newsarticle_id = nahl.newsarticle_id
+                WHERE display_from => ? AND display_till <= ? AND nahl.location_id = ? ORDER BY priority"); 
+                $mainquery->execute(array($currentdbtime, $currentdbtime, $location_id));
                 $result = $mainquery->fetch(); // getting information
                 
 
