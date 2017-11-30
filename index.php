@@ -46,7 +46,7 @@
                         return $locationresult;
                     }
                     else{
-                        print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen geldige locatie.</div>");
+                        print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen geldige locatie.</div>");
                         return NULL;
                     }
                 }
@@ -54,6 +54,11 @@
             }
             
             function getTheme($location_id){
+                if($location_id == NULL){
+                    return;
+                }
+                
+                
                 //TODO: make query, add relevant info to style
                 $themequery = $conn->prepare("SELECT l.font, l.color, l.font_size, f.location FROM theme t 
                 LEFT JOIN theme_has_location thl ON t.theme_id = thl.theme_id
@@ -78,7 +83,7 @@
                             }");
 
                             //li bgcolor needed?
-
+                            return;
                     print("</style>");
 
 
@@ -103,7 +108,7 @@
             
             function readDB($location_id)
             {
-                //getTheme($location_id); //not working right
+                getTheme($location_id); //not working right
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
