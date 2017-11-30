@@ -5,7 +5,7 @@ $(document).ready(function() {
 });
 
 function LoadWeather(location_name){
-	$.get("getWeather.php?location_name="+location_name, function(data) {
+	$.get("../getWeather.php?location_name="+location_name, function(data) {
 		$("#weather").html(data);		
 	});
 }
