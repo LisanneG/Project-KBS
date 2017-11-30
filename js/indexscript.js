@@ -13,7 +13,7 @@ $(document).ready(function(){
 
     setInterval('updateClock()', 1000);
     //scroll($('html, .container'), 10000);
-    setTimeout(MessageScroll(), 5000);    
+    MessageScroll();   
 });
 
 
@@ -43,7 +43,11 @@ function MessageScroll(){
 
 
 function ListScroll(i, length){
-
+    //speed is avg 250 words-per-minute
+    //1 word is 5 characters
+    //250 / 60 = 4.17 words-per-second
+    //20.83 character per second
+    //txtlength / 20.83 + 2 * 1000 = seconds of display
     var listitem = $("li.media.mb-5.mt-5.border.border-dark").eq(i);
         if($(listitem).attr("[id$='-video']")){
             var video = $(listitem).find("video");            
@@ -53,7 +57,8 @@ function ListScroll(i, length){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)},1000).queue(function(){video.play();}).delay(vidlength + 5000).dequeue();
         }
         else if($(listitem).is("[id$='-message']")){
-            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}, 1000).delay(2000);
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}, 1000).delay((($(".messagecontent01").children().text().length) / 20.83 + 2 )*50);
+            console.log(($(".messagecontent01").children().text().length) / 20.83 + 2);
         }
         else if($(listitem).is("li[id$='-birthdayimg']")){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);
@@ -62,7 +67,7 @@ function ListScroll(i, length){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);;
         }
         else if($(listitem).is("li[id$='-messageimg']")){
-            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);;
+            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay((($(".messagecontent01").children().text().length) / 20.83 + 2 )*50;;
         }
 
 

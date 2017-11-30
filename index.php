@@ -96,7 +96,7 @@
             
             function getPriority($priority){
                 if($priority == 1){
-                    $string = "<p class='align-self-right'><span class='glyphicon glyphicon-alert priority-alert' ></span></p>";
+                    $string = "<p class='align-self-right'><span class='glyphicon glyphicon-alert priority-alert' ></span></p>"; //will not work. need new icons.
                     return $string;
                 }
                 else{
@@ -145,7 +145,7 @@
                         print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['color']."' id='" . $row['news_article_id']. "-messageimg'>
                         <div class='media-body'>
                         <h5 class='mt-0'> " . $row['title'] . "</h5>
-                        " . $row['description']. "
+                        <div class'messagecontent01'>" . $row['description']. "</div>
                         <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
                         <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
@@ -158,7 +158,7 @@
                         print("<li class='media mb-5 mt-5 border border-dark' id='" . $row['news_article_id']. "-message'>
                         <div class='media-body'>
                         <h5 class='mt-0'> " . $row['title'] . "</h5>
-                        " . $row['description']. "
+                        <div class'messagecontent01'>" . $row['description']. "</div>
                         <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>");
                         print(getPriority($row['priority']));
@@ -216,7 +216,7 @@
                     print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
                     print("<div class='media-body'>");      //from top to bottom really fast.
                     print("<h5 class='mt-0'>Test title</h5>");
-                    print("<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>");
+                    print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
                     print("</div>");
                     print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Generic placeholder image'>");                                        
                     print("</li>");
