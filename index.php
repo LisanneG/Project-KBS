@@ -28,7 +28,7 @@
                 //TODO: work on it
                 include 'database.php';
                 if(!(isset($_GET["location"]))){
-                    print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen locatie ingesteld.</div>");
+                    print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
                     return NULL;
                 }
                 elseif(isset($_SESSION["locatie"])){
@@ -55,13 +55,30 @@
             
             function getTheme($location_id){
                 //TODO: make query, add relevant info to style
-                $themequery = $conn->prepare("");
+                $themequery = $conn->prepare("SELECT l.font, l.color, l.font_size, f.location FROM theme t 
+                LEFT JOIN theme_has_location thl ON t.theme_id = thl.theme_id
+                LEFT JOIN layout l ON t.layout_id = l.layout_id
+                LEFT JOIN `file` f ON l.default_background = f.file_id
+                WHERE thl.location_id = ? ");
                 $themequery->execute($location_id);
                 $themeresult = $themequery->fetch();
 
-                if($resultquery->rowCount() > 0){
+                if(($resultquery->rowCount() > 0) && ($resultquery->rowCount() < 2)){
                     print("<style>");
-                    
+                    print("body{
+                            background-image: ". $themeresult["f.location"] .";
+                            font: ;
+                            font-size: ". $themeresult["l.font_size"] .";
+                            }
+                            li{
+                            background-color: ". $themeresult["l.color"] .";
+                            }
+                            navbar{
+                            background-color: ". $themeresult["l.color"] ."; 
+                            }");
+
+                            //li bgcolor needed?
+
                     print("</style>");
 
 
@@ -72,16 +89,25 @@
 
             }
             
-            
+            function getPriority($priority){
+                if($priority == 1){
+                    $string = "<p class='align-self-right'><span class='glyphicon glyphicon-alert priority-alert' ></span></p>";
+                    return $string;
+                }
+                else{
+                    return;
+                }
+            }
             
             
             
             function readDB($location_id)
             {
+                //getTheme($location_id); //not working right
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
-                $mainquery = $conn->prepare("SELECT n.news_article_id, title, color, n.file_id, `date`, `description`, nahl.location_id , `type` FROM news_article n 
+                $mainquery = $conn->prepare("SELECT n.news_article_id, title, color, n.file_id, `date`, `description`, nahl.location_id , `type`, `priority` FROM news_article n 
                 LEFT JOIN `file` f ON n.file_id = f.file_id 
                 LEFT JOIN catagory c ON n.catagory_id = c.catagory_id 
                 LEFT JOIN news_article_has_location nahl ON n.newsarticle_id = nahl.newsarticle_id
@@ -117,8 +143,9 @@
                         " . $row['description']. "
                         <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>                                    
-                        </li>");
+                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
+                        print(getPriority($row['priority']));                                   
+                        print("</li>");
                         
                     }
                     elseif($row['n.file_id'] == NULL){
@@ -128,8 +155,9 @@
                         <h5 class='mt-0'> " . $row['title'] . "</h5>
                         " . $row['description']. "
                         <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
-                        </div>
-                        </li>");
+                        </div>");
+                        print(getPriority($row['priority']));
+                        print("</li>");
                     }
                     elseif($row['type'] == "video"){
                         $videotype = explode(".", $row['location']);
@@ -140,8 +168,9 @@
                         <video class='embed-responsive-item embed-responsive-item-16by9' muted>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
                         <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
-                        </div>
-                        </li>");
+                        </div>");
+                        print(getPriority($row['priority']));
+                        print("</li>");
                     }
                     
                 }
@@ -149,10 +178,10 @@
                 $birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.catagory_id, first_name, color FROM birthday b LEFT JOIN user u ON b.user_id = u.user_id LEFT JOIN catagory c ON b.catagory_id = c.catagory_id LEFT JOIN `file f` ON b.file_id = f.file_id
                 WHERE birthday = ? AND u.location = ? ORDER BY first_name"); 
                 $birthdayquery->execute(array($currentdbtime, $locationid));
-                $result = $mainquery->fetch();
+                $birthdayresult = $birthdayquery->fetch();
                 // getting birthday information
                 
-                while($bdrow = $result){
+                while($bdrow = $birthdayresult){
                     //hou hier geen rekening met catagorie, ik ga er van uit dat dat er sowieso anders uit ziet.
                     if($bdrow['b.file_id'] == NULL){
                         //verjaardag zonder foto
