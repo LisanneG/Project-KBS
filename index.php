@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE HTML>
 <html lang="en">
     <head>
@@ -7,7 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="3600">
     <link rel="stylesheet"  href="css/fpstyle.css">
-    <?php session_start(); ?>
     </head>
     
     <body>      
@@ -31,13 +31,19 @@
                     print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen locatie ingesteld.</div>");
                     return NULL;
                 }
+                elseif(isset($_SESSION["locatie"])){
+                    $_GET["locatie"] = $_SESSION["locatie"];
+                    return $_SESSION["locatie"];
+                }
+
                 else{
                     $locationquery = $conn->prepare("SELECT location_id FROM `location` WHERE `name` = ? ");
                     $locationquery->execute(array($_GET["location"]));
                     $locationresult = $locationquery->fetch();
 
                     if($locationquery->rowCount() > 0){
-                        return $locationresult();
+                        $_SESSION["locatie"] = $locationresult;
+                        return $locationresult;
                     }
                     else{
                         print("<div class='alert alert-danger' role='alert'><strong>Error:</strong>Geen geldige locatie.</div>");
@@ -48,6 +54,21 @@
             }
             
             function getTheme($location_id){
+                //TODO: make query, add relevant info to style
+                $themequery = $conn->prepare("");
+                $themequery->execute($location_id);
+                $themeresult = $themequery->fetch();
+
+                if($resultquery->rowCount() > 0){
+                    print("<style>");
+                    
+                    print("</style>");
+
+
+                }
+                else{
+                    return;
+                }
 
             }
             
