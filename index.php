@@ -10,7 +10,7 @@
 
     </head>
     
-    <body>        
+    <body>      
 
         <nav class="navbar" id="top-bar">
             <a id="date" class="navbar-brand"></a>
@@ -18,6 +18,7 @@
             <img id="logo" src="https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="">
         </nav>
         <div class="container">
+            
         <ul class="list-unstyle mw-50" >
             <?php
             //borrowing DB connection code
@@ -149,10 +150,10 @@
             testspam(20);
             
             
-            ?>
+            ?>            
+        </ul>
 
             <div id="weather"></div>
-        </ul>
         </div>
 
         
@@ -160,7 +161,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery-dateFormat.min.js"></script>
-        <script src="js/indexscript.js"></script>
-        <script src="js/script.js"></script>
+        <script src="js/indexscript.js"></script>        
     </body>
 </html>
