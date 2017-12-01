@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Berichten</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="3600">
     <link rel="stylesheet"  href="css/fpstyle.css">
@@ -96,7 +97,7 @@
             
             function getPriority($priority){
                 if($priority == 1){
-                    $string = "<p class='align-self-right'><span class='glyphicon glyphicon-alert priority-alert' ></span></p>"; //will not work. need new icons.
+                    $string = "<i class='fa fa-exclamation-triangle fa-4x priority-alert' aria-hidden='true' ></i>";
                     return $string;
                 }
                 else{
@@ -218,7 +219,8 @@
                     print("<h5 class='mt-0'>Test title</h5>");
                     print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
                     print("</div>");
-                    print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Generic placeholder image'>");                                        
+                    print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Generic placeholder image'>");
+                    print(getPriority(1));                                   
                     print("</li>");
                 }
             }
