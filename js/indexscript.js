@@ -58,7 +58,6 @@ function ListScroll(i, length){
         }
         else if($(listitem).is("[id$='-message']")){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}, 1000).delay((($(".messagecontent01").children().text().length) / 20.83 + 2 )*50);
-            console.log(($(".messagecontent01").children().text().length) / 20.83 + 2);
         }
         else if($(listitem).is("li[id$='-birthdayimg']")){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay(2000);
