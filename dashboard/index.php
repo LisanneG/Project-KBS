@@ -76,9 +76,17 @@ if (isset($_POST["logout"])) {
 				<div class="row justify-content-end">
 					<div class="form-group col-md-4">
 						<select class="form-control" id="locations">
-							<option value="1">locatie 1</option>
-							<option value="2">locatie 2</option>
-							<option value="3">locatie 3</option>
+							<option value="">Kies een locatie</option>
+							<?php
+
+								foreach (GetLocations() as $row) {
+									$location_id = $row["location_id"];
+									$name = $row["name"];
+
+									echo "<option value=\"$location_id\">$name</option>";
+								}
+								
+							?>
 						</select>
 					</div>
 				</div>

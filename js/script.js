@@ -1,5 +1,9 @@
 $(document).ready(function() {
-    LoadWeather("Zwolle");
+    //When another location is selected
+    $('#locations').on('change', function() {
+		var location_name = $("#locations option:selected").text();
+		LoadWeather(location_name);
+	})
 
 	$('[data-toggle="popover"]').popover();
 });

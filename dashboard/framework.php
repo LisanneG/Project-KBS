@@ -19,5 +19,17 @@ function CheckIfUserExists($input_email, $input_password)
 	}
 }
 
+function GetLocations(){
+	// DB connection
+	include "../database.php";
+
+	// Preparing query
+	$query = $conn->prepare("SELECT location_id, name FROM location");
+	$query->execute();
+	$result = $query->fetchAll(); //Fetching it
+
+	return $result;
+}
+
 
 ?>
