@@ -36,3 +36,11 @@
 
 /* Navigation tabs (news_manage) */
 h3.navtabs{padding-top: 15px; margin-bottom: 25px;}
+
+/* Alerts managing news */
+#newsAddForm .has-error .help-block {
+  display: block;
+  border: none;
+  color: #737373;
+  padding-top: 5px;
+}
