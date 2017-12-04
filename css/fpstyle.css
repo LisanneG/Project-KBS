@@ -4,8 +4,6 @@
 }
 
 #top-bar{
-    position: sticky;
-    top: 0;
     background-color: white;
 }
 
@@ -13,6 +11,12 @@
     color: red;
     vertical-align: bottom;
 }
+
+.imagecontent{
+    max-width: 500px;
+    max-height: 500px;
+}
+
 
 /*weather section*/
 .weather-section{border: 1px solid black; padding: 45px; margin-bottom: 20px;}
