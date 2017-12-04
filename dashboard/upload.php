@@ -1,20 +1,43 @@
 <?php
-if (isset($_POST["upload"])){
-$target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-// Check if image file is a actual image or fake image
-if(isset($_POST["upload"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
+$imageList = array("png", "jpeg", "jpg", "gif");
+$videoList = array("mp4", "avi");
+$pdfList = array("pdf");
+if (isset($_POST["submit"])) {
+	$counter = 0;
+	$lastInsertedFileId = array();
+	foreach ($_FILES["medium"]["name"] as $k => $v) {
+        $medium = str_replace(" ", "_", $_FILES["medium"]["name"][$k]);
+        $ext = pathinfo($medium, PATHINFO_EXTENSION);
+
+        if (in_array($ext, $imageList)) {
+            $type = "foto";
+        }
+        if (in_array($ext, $videoList)) {
+            $type = "video";
+        }
+		if (in_array($ext, $pdfList)) {
+			$type = "pdf";
+		}
+
+        $url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $medium;
+
+        if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
+			$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES ('".$url."','".$type."')");
+			$stmt->execute();
+			$lastInsertedFileId[$counter] = $conn->lastInsertId();
+		}
+		$counter ++;
     }
 }
+/*
+    print ("<h2><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>");
+    foreach ($_FILES["medium"]["name"] as $k => $v) {
+        print $_FILES["medium"]["name"][$k];
+        print (" ");
+    }
+    print ("toegevoegd</h2>");
+}
+
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
@@ -43,5 +66,5 @@ if ($uploadOk == 0) {
     }
 }
 return $target_file;
-}
+} */
 ?>

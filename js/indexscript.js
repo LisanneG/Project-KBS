@@ -73,7 +73,7 @@ function ListScroll(i, length){
 }
 
 function LoadWeather(location_name){
-	$.get("getWeather.php?location_name="+location_name, function(data) {
+	$.get("dashboard/get/getWeather.php?location_name="+location_name, function(data) {
 		$("#weather").html(data);		
 	});
 }

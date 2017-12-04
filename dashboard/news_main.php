@@ -1,9 +1,10 @@
 <?php
 session_start();
+$success = 0;
 include 'framework.php';
-include 'upload.php';
 include '../database.php';
-//include 'news/news_send.php';
+include 'upload.php';
+include 'news/news_send.php';
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
@@ -31,6 +32,17 @@ if (isset($_POST["filelocation"])) {
 <body>
 	<?php include 'navbar.php'; ?>
 	
+	<!-- Alerts for success & failure -->
+	<?php 
+	if (isset($_POST["submit"])) {
+		if ($success == 1) {
+			print("<div class='alert alert-success' role='alert'>Nieuwsbericht succesvol toegevoegd</div>");
+		} elseif ($success == 0) {
+			print("<div class='alert alert-danger' role='alert'>Er is iets fout gegaan, nieuwsbericht is niet toegevoegd</div>");
+		}
+	}
+	?>
+	
 	<!-- Navigational tabs -->
 	<section id="dashboard-content" class="container-fluid">
 		<h1>Nieuwsberichten</h1>
@@ -39,55 +51,74 @@ if (isset($_POST["filelocation"])) {
 			<a class="nav-item nav-link" id="nav-wijzigen-tab" data-toggle="tab" href="#nav-wijzigen" role="tab" aria-controls="nav-wijzigen" aria-selected="false">Wijzigen</a>
 			<a class="nav-item nav-link" id="nav-verwijderen-tab" data-toggle="tab" href="#nav-verwijderen" role="tab" aria-controls="nav-verwijderen" aria-selected="false">Verwijderen</a>
 		</nav>
+		
+		<!-- content of the tabs -->
 		<div class="tab-content" id="nav-tabContent">
+			
+			<!-- content of "toevoegen" -->
 			<div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
 				<h3 class="navtabs">Nieuw bericht</h3>
 				<form action="news_main.php" method="POST" id="newsAddForm" enctype="multipart/form-data">
-					<table>
-						<tr>
-							<td>Titel:</td>
-							<td><input type="text" name="title"></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Bestand:</td>
-							<td><input type="file" name="fileToUpload" id="fileToUpload"></td>
-							<td><input type="submit" value="Upload Image" name="upload"></td>
-						</tr>
-						<tr>
-							<td>Bestandstype:</td>
-							<td><select name="filetype">
-								<option value="image" selected>Afbeelding</option>
-								<option value="PDF">PDF</option>
-								<option value="video">Video</option>
-							</select></td> 
-						</tr>
-						<tr>
-							<td>Prioriteit</td>
-							<td><input type="checkbox" value="priority" name="priority"></td>
-						</tr>
-					</table>
-					<h6>Weergave</h6>
-					Datum van:</br>
-					<input type="date" name="dateFrom"></br>
-					Datum tot:</br>
-					<input type="date" name="dateTo"></br>
-					<img src="<?= $target_file; ?>" alt="no uploaded file"></br>
+					<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="title">Title:</label>
+						<div class="col-10">
+							<input type="text" class="form-control" id="title" placeholder="Enter title" name="title" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
+						<div class="col-10">
+							<input class="btn btn-default" id="file" type="file" name="medium[]" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="priority">Prioriteit:</label>
+						<div class="col-10">
+							<input class="mr-1" type="checkbox" id="priority" name="priority">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="dateFrom">Datum van:</label>
+						<div class="col-10">
+							<input type="date" id="dateFrom" name="dateFrom" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="dateTill">Datum tot:</label>
+						<div class="col-10">
+							<input type="date" id="dateTill" name="dateTill" required="required">
+						</div>
+					</div>
+					
 					<?php include 'news/news_add.php' ?>
-					Beschrijving:</br>
-					<textarea name="description" rows="5" cols="100" form="newsAddForm"></textarea></br>
-					<input type="submit" value="Klaar" name="submit"></br>
+					
+					<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="description">Beschrijving:</label>
+						<div class="col-10">
+							<textarea name="description" class="form-control" id="description" form="newsAddForm"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="mr-auto col-10">
+							<button type="submit" class="btn btn-default" name="submit" >Submit</button>
+						</div>
+					</div>
 				</form>
 			</div>
+			
+			<!-- content of "wijzigen" -->
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">
 				<?php include 'news/news_edit.php' ?>
 			</div>
+			
+			<!-- content of "verwijderen" -->
 			<div class="tab-pane fade" id="nav-verwijderen" role="tabpanel" aria-labelledby="nav-verwijderen-tab">
 				<?php include 'news/news_remove.php' ?>
 			</div>
 		</div>
 	</section>
+	
+	
 	
 	
 	<!-- <img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo"> -->
@@ -113,7 +144,7 @@ if (isset($_POST["filelocation"])) {
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	<script src="../js/jquery-3.2.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

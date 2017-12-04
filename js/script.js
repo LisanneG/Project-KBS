@@ -1,11 +1,32 @@
 $(document).ready(function() {
-    LoadWeather("Zwolle");
+    //When another location is selected
+    $('#locations').on('change', function() {
+		var location_name = $("#locations option:selected").text();
+		var location_id = $("#locations option:selected").val();
+
+		LoadWeather(location_name);
+		LoadNewsArticle(location_id);
+		LoadBirthdays(location_id);
+	})
 
 	$('[data-toggle="popover"]').popover();
 });
 
 function LoadWeather(location_name){
-	$.get("../getWeather.php?location_name="+location_name, function(data) {
-		$("#weather").html(data);		
+	//Starting an ajax GET call to get the weather
+	$.get("get/getWeather.php?location_name="+location_name, function(data) {
+		$("#weather").html(data); //Putting the weather information inside a div tag
+	});
+}
+
+function LoadNewsArticle(location_id){	
+	$.get("get/getNewsArticle.php?location_id="+location_id, function(data) {
+		$("#news-articles").html(data); //Putting the article information inside a div tag
+	});
+}
+
+function LoadBirthdays(location_id){	
+	$.get("get/getBirthday.php?location_id="+location_id, function(data) {
+		$("#birthdays").html(data); //Putting the birthday information inside a div tag
 	});
 }

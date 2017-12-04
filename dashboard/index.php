@@ -76,64 +76,26 @@ if (isset($_POST["logout"])) {
 				<div class="row justify-content-end">
 					<div class="form-group col-md-4">
 						<select class="form-control" id="locations">
-							<option value="1">locatie 1</option>
-							<option value="2">locatie 2</option>
-							<option value="3">locatie 3</option>
+							<option value="">Kies een locatie</option>
+							<?php
+
+								foreach (GetLocations() as $row) {
+									$location_id = $row["location_id"];
+									$name = $row["name"];
+
+									echo "<option value=\"$location_id\">$name</option>";
+								}
+								
+							?>
 						</select>
 					</div>
 				</div>
 				<!-- Berichten -->
-				<div class="row">
-					<div class="col-md-12 news-section">
-						<p class='title'>Title</p>
-						<div class="row">
-							<div class="col-md-12 text-right">
-								<img src="../img/icons/dots.png">
-							</div>
-							<div class="col-md-6">
-								<p>Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.</p>
-							</div>
-							<div class="col-md-6 text-right">								
-								<img src="http://image.shutterstock.com/z/stock-photo-this-mutated-and-mutilated-human-has-his-feet-on-his-hands-64680841.jpg" class="img-thumbnail news-image" alt="Nieuwsbrief foto">
-							</div>						
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 news-section">
-						<p class='title'>Title</p>
-						<div class="row">
-							<div class="col-md-12 text-right">
-								<img src="../img/icons/dots.png">
-							</div>
-							<div class="col-md-6">
-								<p>Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.</p>
-							</div>
-							<div class="col-md-6 text-right">								
-								<img src="http://image.shutterstock.com/z/stock-photo-this-mutated-and-mutilated-human-has-his-feet-on-his-hands-64680841.jpg" class="img-thumbnail news-image" alt="Nieuwsbrief foto">
-							</div>						
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12 news-section">
-						<p class='title'>Title</p>
-						<div class="row">
-							<div class="col-md-12 text-right">
-								<img src="../img/icons/dots.png">
-							</div>
-							<div class="col-md-6">
-								<p>Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.</p>
-							</div>
-							<div class="col-md-6 text-right">								
-								<img src="http://image.shutterstock.com/z/stock-photo-this-mutated-and-mutilated-human-has-his-feet-on-his-hands-64680841.jpg" class="img-thumbnail news-image" alt="Nieuwsbrief foto">
-							</div>						
-						</div>
-					</div>
-				</div>
+				<div id="news-articles"></div>
 			</div>
 			<div class="col-md-6">
 				<div id="weather"></div>
+				<div id="birthdays"></div>
 			</div>
 		</div>		
 
