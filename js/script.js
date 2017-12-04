@@ -6,6 +6,7 @@ $(document).ready(function() {
 
 		LoadWeather(location_name);
 		LoadNewsArticle(location_id);
+		LoadBirthdays(location_id);
 	})
 
 	$('[data-toggle="popover"]').popover();
@@ -21,5 +22,11 @@ function LoadWeather(location_name){
 function LoadNewsArticle(location_id){	
 	$.get("get/getNewsArticle.php?location_id="+location_id, function(data) {
 		$("#news-articles").html(data); //Putting the article information inside a div tag
+	});
+}
+
+function LoadBirthdays(location_id){	
+	$.get("get/getBirthday.php?location_id="+location_id, function(data) {
+		$("#birthdays").html(data); //Putting the birthday information inside a div tag
 	});
 }

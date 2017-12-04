@@ -95,6 +95,7 @@ if (isset($_POST["logout"])) {
 			</div>
 			<div class="col-md-6">
 				<div id="weather"></div>
+				<div id="birthdays"></div>
 			</div>
 		</div>		
 
