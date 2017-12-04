@@ -13,7 +13,7 @@
     
     <body>      
 
-        <nav class="navbar" id="top-bar">
+        <nav class="navbar fixed-top" id="top-bar">
             <a id="date" class="navbar-brand"></a>
             <a id="time" class="navbar-brand"></a>
             <img id="logo" src="https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="">
@@ -32,9 +32,9 @@
                     print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
                     return NULL;
                 }
-                elseif(isset($_SESSION["locatie"])){
-                    $_GET["locatie"] = $_SESSION["locatie"];
-                    return $_SESSION["locatie"];
+                elseif(isset($_SESSION["location"])){
+                    $_GET["location"] = $_SESSION["location"];
+                    return $_SESSION["location"];
                 }
 
                 else{
@@ -43,7 +43,7 @@
                     $locationresult = $locationquery->fetch();
 
                     if($locationquery->rowCount() > 0){
-                        $_SESSION["locatie"] = $locationresult;
+                        $_SESSION["location"] = $locationresult;
                         return $locationresult;
                     }
                     else{
@@ -97,7 +97,7 @@
             
             function getPriority($priority){
                 if($priority == 1){
-                    $string = "<i class='fa fa-exclamation-triangle fa-4x priority-alert' aria-hidden='true' ></i>";
+                    $string = "<div class='d-flex align-self-end mt-5'><i class='fa fa-exclamation-triangle fa-4x priority-alert float-right' aria-hidden='true' ></i></div>";
                     return $string;
                 }
                 else{
@@ -123,12 +123,14 @@
                 
 
                 if(!($mainquery->rowCount() > 0)){
-                    print("<li class='media mb-5 mt-5 border border-dark'>");
-                    print("<div class='media-body'>");
-                    print("<h5 class='mt-0'>Geen title</h5>");
-                    print("<p>Deze Database is leeg</p>");
+                    print("<li class='media mb-5 mt-5 border border-dark' id='nolocation'>");
+                    print("<div class='media-body mx-4 mt-4'>");
+                    print("<h3 class='font-weight-bold mb-4'>Geen title</h3>");
+                    print("<div class='messagecontent01'><p>Deze Database is leeg</p></div>");
                     print("</div>");
+                    print("<div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>");
                     print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Geen Foto'>");                                        
+                    print("</div>"); 
                     print("</li>");
                     return false;
                 } 
@@ -144,36 +146,41 @@
                         //nieuwbericht gewoon
                         
                         print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['color']."' id='" . $row['news_article_id']. "-messageimg'>
-                        <div class='media-body'>
-                        <h5 class='mt-0'> " . $row['title'] . "</h5>
-                        <div class'messagecontent01'>" . $row['description']. "</div>
-                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='font-weight-bold mb-4'> " . $row['title'] . "</h3>
+                        <div class='messagecontent01'>" . $row['description']. "</div>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
-                        print(getPriority($row['priority']));                                   
+                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>
+                        <img class='align-self-center img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
+                        print(getPriority($row['priority']));
+                        print("</div>");                                   
                         print("</li>");
                         
                     }
                     elseif($row['n.file_id'] == NULL){
                     
                         print("<li class='media mb-5 mt-5 border border-dark' id='" . $row['news_article_id']. "-message'>
-                        <div class='media-body'>
-                        <h5 class='mt-0'> " . $row['title'] . "</h5>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='mt-0'> " . $row['title'] . "</h3>
                         <div class'messagecontent01'>" . $row['description']. "</div>
-                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
-                        </div>");
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        </div>
+                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>
+                        ");
                         print(getPriority($row['priority']));
+                        print("</div>");
                         print("</li>");
                     }
                     elseif($row['type'] == "video"){
                         $videotype = explode(".", $row['location']);
 
                         print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['color']."' id='" .$row['news_article_id'] ."-messagevideo'>
-                        <div class='media-body'>
-                        <h5 class='mt-0'>". $row['title'] ."</h5>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9' muted>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
-                        <p>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>");
                         print(getPriority($row['priority']));
                         print("</li>");
@@ -192,18 +199,20 @@
                     if($bdrow['b.file_id'] == NULL){
                         //verjaardag zonder foto
                         print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
-                        <div class='media-body'>
-                        <h5 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h5>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='mx-5 my-5'> " . $bdrow['first_name'] . " is jarig!</h3>
                         </div>
                         </li>");
                     }
                     else{
                         //verjaardag met foto
                         print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
-                        <div class='media-body'>
-                        <h5 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h5>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h3>
                         </div>
-                        <img class='align-self-center mr-3 img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
+                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>                        
+                        <img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
+                        </div>
                         </li>");
                     }
                 }
@@ -215,12 +224,14 @@
             function testspam($run){
                 for($i = 0; $i < $run; $i++){
                     print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
-                    print("<div class='media-body'>");      //from top to bottom really fast.
-                    print("<h5 class='mt-0'>Test title</h5>");
+                    print("<div class='media-body mx-4 mt-4'>");      //from top to bottom really fast.
+                    print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
                     print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
                     print("</div>");
-                    print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Generic placeholder image'>");
-                    print(getPriority(1));                                   
+                    print("<div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>");
+                    print("<img class='align-self-center img-thumbnail img-responsive imagecontent' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
+                    print(getPriority(1));
+                    print("</div>");                                   
                     print("</li>");
                 }
             }

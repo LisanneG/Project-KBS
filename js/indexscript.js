@@ -68,7 +68,7 @@ function ListScroll(i, length){
         else if($(listitem).is("li[id$='-messageimg']")){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 100)}).delay((($(".messagecontent01").children().text().length) / 20.83 + 2 )*50);
         }
-
+        
 
 }
 
