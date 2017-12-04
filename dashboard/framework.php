@@ -64,4 +64,23 @@ function GetNewsArticles($location_id){
 	return $result;
 }
 
+// Function to get all the birthdays
+// Returns the results
+function GetBirthdays($location_id){
+	//Building the query
+	$stringBuilder = "SELECT b.*, u.first_name, u.insertion, u.last_name, u.birthday, c.name, c.color, f.location, f.`type` ";
+	$stringBuilder .= "FROM birthday b ";
+	$stringBuilder .= "INNER JOIN `user` u ON u.user_id=b.user_id ";
+	$stringBuilder .= "LEFT JOIN category c ON c.category_id=b.category_id ";
+	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=b.file_id ";	
+	$stringBuilder .= "WHERE u.location=? ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array($location_id)); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	return $result;
+}
+
 ?>
