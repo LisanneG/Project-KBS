@@ -25,6 +25,18 @@ if (isset($_POST["submit"])) {
 			$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES ('".$url."','".$type."')");
 			$stmt->execute();
 			$lastInsertedFileId[$counter] = $conn->lastInsertId();
+			
+			if ($type == "pdf") {
+				// create Imagick object
+				$imagick = new Imagick();
+				$imagick->setResolution(150, 150);
+				// Reads image from PDF
+				$imagick->readImage($url);
+				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
+				//copy file to new folder and select that file
+				$imagick->writeImages('converted.jpg', false);
+			}
+			
 		}
 		$counter ++;
     }
