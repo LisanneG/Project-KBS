@@ -19,15 +19,15 @@ if (isset($_POST["submit"])) {
 	
 	// inserting newsarticle into db
 	$stmt = $conn->prepare("INSERT INTO news_article (title, category_id, file_id, display_from, display_till, priority, description) 
-	VALUES ('".$news_title."','".$categoryId."','".$fileId."','".$displayFrom."','".$displayTill."','".$priority."','".$description."')");
-	$stmt->execute();
+	VALUES (?,?,?,?,?,?,?)");
+	$stmt->execute(array($news_title, $categoryId, $fileId, $displayFrom, $displayTill, $priority, $description));
 	$lastInsertedNewsId = $conn->lastInsertId();
 	
 	// inserting relations between newsarticle and locations to display
 	foreach ($_POST["location"] as $v) {
 		$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) 
-		VALUES ('".$lastInsertedNewsId."','".$v."')");
-		$stmt->execute();
+		VALUES (?,?)");
+		$stmt->execute(array($lastInsertedNewsId, $v));
 		$finished = $conn->lastInsertId();
 	}
 	// making sure everything worked out correctly

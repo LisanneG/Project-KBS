@@ -22,9 +22,21 @@ if (isset($_POST["submit"])) {
         $url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $medium;
 
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
-			$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES ('".$url."','".$type."')");
-			$stmt->execute();
+			$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
+			$stmt->execute(array($url, $type));
 			$lastInsertedFileId[$counter] = $conn->lastInsertId();
+			
+			if ($type == "pdf") {
+				// create Imagick object
+				$imagick = new Imagick();
+				$imagick->setResolution(500, 700);
+				// Reads image from PDF
+				$imagick->readImage($url);
+				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
+				// copy file to new folder and select that file
+				$imagick->writeImages('converted.jpg', false);
+			}
+			
 		}
 		$counter ++;
     }

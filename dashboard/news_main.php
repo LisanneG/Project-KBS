@@ -121,7 +121,7 @@ if (isset($_POST["filelocation"])) {
 	
 	
 	
-	<!-- <img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo"> -->
+	<img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo">
 
 	<!-- Modal for logging out -->
 	<div class="modal fade" id="modal-logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
