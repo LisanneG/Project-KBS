@@ -58,7 +58,7 @@ include 'framework.php';
 					<input type="submit" name="submit" value="Log in" class="btn btn-secondary">
 				</div>
 				<div class="col-lg-2 col-md-3 col-5 password-btn-section">
-					<a href="password_forgotten.php" class="btn btn-secondary">Wachtwoord vergeten</a>
+					<button class="btn btn-secondary">Wachtwoord vergeten</button>
 				</div>
 				<div class="col-lg-1 col-md-1 col-1 question-mark-btn-section">
 					<img class='icon-question' src="../img/icons/question-mark.png" data-toggle="popover" title="Inloggen" data-content="Hier komt wat text bla bla bla" data-placement="top">

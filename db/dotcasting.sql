@@ -62,14 +62,15 @@ CREATE TABLE IF NOT EXISTS `file` (
   `location` varchar(255) NOT NULL,
   `type` varchar(45) NOT NULL COMMENT 'afbeelding, video',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~1 rows (approximately)
+-- Dumping data for table dotcasting.file: ~4 rows (approximately)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 INSERT INTO `file` (`file_id`, `location`, `type`) VALUES
 	(1, '\\img\\kerst.png', 'afbeelding'),
 	(2, '\\img\\test.jpg', 'afbeelding'),
-	(3, '\\img\\test2.jpg', 'afbeelding');
+	(3, '\\img\\test2.jpg', 'afbeelding'),
+	(4, '\\img\\bolcom.png', 'afbeelding');
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.layout
@@ -77,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `layout` (
   `layout_id` int(11) NOT NULL AUTO_INCREMENT,
   `font` varchar(45) NOT NULL,
   `font_color` varchar(45) NOT NULL,
+  `background_color` varchar(45) NOT NULL,
   `default_background` int(11) NOT NULL,
   `logo` int(11) NOT NULL,
   PRIMARY KEY (`layout_id`),
@@ -88,8 +90,8 @@ CREATE TABLE IF NOT EXISTS `layout` (
 
 -- Dumping data for table dotcasting.layout: ~1 rows (approximately)
 /*!40000 ALTER TABLE `layout` DISABLE KEYS */;
-INSERT INTO `layout` (`layout_id`, `font`, `font_color`, `default_background`, `logo`) VALUES
-	(1, 'arial', '#00000', 1, 1);
+INSERT INTO `layout` (`layout_id`, `font`, `font_color`, `background_color`, `default_background`, `logo`) VALUES
+	(1, 'arial', '#00000', '', 1, 4);
 /*!40000 ALTER TABLE `layout` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.location
