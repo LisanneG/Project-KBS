@@ -10,7 +10,7 @@
 	      		<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beheer</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-			        	<a class="dropdown-item" href="#">Nieuwsbericht</a>			        	
+			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>			        	
 			        	<a class="dropdown-item" href="#">Weerbericht</a>
 			        	<a class="dropdown-item" href="#">Calender</a>
 			    	</div>
@@ -20,7 +20,7 @@
 				        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
 				        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 				        	<a class="dropdown-item" href="#">Medewerkers</a>
-				        	<a class="dropdown-item" href="#">Rechten</a>			        	
+				        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/users/rights.php">Rechten</a>			        	
 				    	</div>
 					</li>
 				<?php } ?>

@@ -21,7 +21,17 @@
             </nav>
         </header>
         
+<<<<<<< HEAD
         <div class="container" id="messagediv">
+=======
+        <nav class="navbar fixed-top" id="top-bar">
+            <a id="date" class="navbar-brand"></a>
+            <a id="time" class="navbar-brand"></a>
+            <img id="logo" src="<?php $logo; ?>" alt="Logo">
+        </nav>
+        <div class="container">
+            <div id="location_name"><?php echo $_GET["location"]; ?></div>
+>>>>>>> b748d7d57edd9695d4d5f7db9b5c43cc2d0e2c59
             
         <ul class="list-unstyle mw-50" >
             <?php
