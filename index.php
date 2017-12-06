@@ -32,18 +32,19 @@
                     print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
                     return NULL;
                 }
-                elseif(isset($_SESSION["location"])){
+                elseif(isset($_SESSION["location"]) && (isset($_SESSION["location_id"]))){
                     $_GET["location"] = $_SESSION["location"];
-                    return $_SESSION["location"];
+                    return $_SESSION["location_id"];
                 }
 
                 else{
-                    $locationquery = $conn->prepare("SELECT location_id FROM `location` WHERE `name` = ? ");
+                    $locationquery = $conn->prepare("SELECT location_id `name` FROM `location` WHERE `name` = ? ");
                     $locationquery->execute(array($_GET["location"]));
                     $locationresult = $locationquery->fetch();
 
                     if($locationquery->rowCount() > 0){
-                        $_SESSION["location"] = $locationresult;
+                        $_SESSION["location_id"] = $locationresult["location_id"];
+                        $_SESSION["location_name"] = $locationresult["name"];
                         return $locationresult;
                     }
                     else{
@@ -123,15 +124,7 @@
                 
 
                 if(!($mainquery->rowCount() > 0)){
-                    print("<li class='media mb-5 mt-5 border border-dark' id='nolocation'>");
-                    print("<div class='media-body mx-4 mt-4'>");
-                    print("<h3 class='font-weight-bold mb-4'>Geen title</h3>");
-                    print("<div class='messagecontent01'><p>Deze Database is leeg</p></div>");
-                    print("</div>");
-                    print("<div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>");
-                    print("<img class='align-self-center mr-3 img-thumbnail img-responsive' src='...' alt='Geen Foto'>");                                        
-                    print("</div>"); 
-                    print("</li>");
+                    print("<div class='alert alert-info' role='alert'><strong>Error:</strong> Geen berichten.</div>");
                     return false;
                 } 
                 else {
