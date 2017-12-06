@@ -63,30 +63,42 @@
                 
                 
                 //TODO: make query, add relevant info to style
-                $themequery = $conn->prepare("SELECT l.font, l.font_color, l.color, l.font_size, fbg.location flg.location FROM theme t 
+                $themequery = $conn->prepare("SELECT lay.font, lay.font_color, flayoutlogo.location, flayoutbg.location, ftheme.location, loc.theme_id FROM `location` loc
                 
-                LEFT JOIN theme_has_location thl ON t.theme_id = thl.theme_id
-                LEFT JOIN layout l ON t.layout_id = l.layout_id
-                LEFT JOIN `file` fbg ON l.default_background = fbg.file_id
-                LEFT JOIN `file` flg ON l.logo = flg.file_id
+                LEFT JOIN theme th ON loc.theme_id = th.theme_id
+                LEFT JOIN layout lay ON loc.layout_id = lay.layout_id
+                LEFT JOIN `file` ftheme ON th.background_file = ftheme.file_id
+                LEFT JOIN `file` flayoutlogo ON lay.logo = flayoutlogo.file_id
+                LEFT JOIN `file` flayoutbg ON lay.default_background = flayoutbg.file_id
 
-                WHERE thl.location_id = ? ");
+                WHERE loc.location_id = ? ");
                 $themequery->execute($location_id);
                 $themeresult = $themequery->fetch();
 
                 if(($resultquery->rowCount() > 0) && ($resultquery->rowCount() < 2)){
                     print("<style>");
+                    if($themeresult["loc.theme_id"] == NULL){
                     print("body{
-                            background-image: ". $themeresult["f.location"] .";
-                            }
-                            navbar{
+                            background-image: ". $themeresult["flayoutbg.location"] .";
+                            }");
+                    }
+                    
+                    else {
+                        print("body{
+                                background-image: ". $themeresult["ftheme.location"] .";
+                                }");
+                    }
+                    
+                    
+                    
+                    print("navbar{
                             background-color: ". $themeresult["l.color"] .";
                             font-color: ". $themeresult["l.font_color"] .";
                             font-size: ". $themeresult["l.font_size"] . ";
                             }"
                         );
                     print("</style>");
-                    $logo = $themeresult["logo"];
+                    $logo = $themeresult["flayoutlogo.location"];
                             //li bgcolor needed?
                             return $logo;
  
@@ -121,7 +133,7 @@
                 LEFT JOIN `file` f ON n.file_id = f.file_id 
                 LEFT JOIN catagory c ON n.catagory_id = c.catagory_id 
                 LEFT JOIN news_article_has_location nahl ON n.newsarticle_id = nahl.newsarticle_id
-                WHERE display_from => ? AND display_till <= ? AND nahl.location_id = ? ORDER BY priority"); 
+                WHERE display_from => NOW() AND display_till <= NOW() AND nahl.location_id = ? ORDER BY priority"); 
                 $mainquery->execute(array($currentdbtime, $currentdbtime, $location_id));
                 $result = $mainquery->fetch(); // getting information
                 
