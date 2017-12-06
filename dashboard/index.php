@@ -74,7 +74,7 @@ if (isset($_POST["logout"])) {
 			<div class="col-md-6">
 				<!-- Locatie select -->
 				<div class="row justify-content-end">
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-6">
 						<select class="form-control" id="locations">
 							<option value="">Kies een locatie</option>
 							<?php

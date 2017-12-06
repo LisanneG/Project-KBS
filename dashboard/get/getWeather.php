@@ -63,7 +63,7 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 
 				$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)
 
-				echo "<div class=\"col-md-2\">";
+				echo "<div class=\"col-md-4 col-lg-2\">";
 				echo "	<p class=\"day\">$day</p>";
 				echo "	<div class=\"temp\">$icon<br>$avg_temp &deg;</div>";
 				echo "</div>";

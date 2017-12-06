@@ -4,9 +4,12 @@ $(document).ready(function() {
 		var location_name = $("#locations option:selected").text();
 		var location_id = $("#locations option:selected").val();
 
-		LoadWeather(location_name);
-		LoadNewsArticle(location_id);
-		LoadBirthdays(location_id);
+		if(location_id != ""){
+			LoadWeather(location_name);
+			LoadNewsArticle(location_id);
+			LoadBirthdays(location_id);
+		}
+		
 	})
 
 	$('[data-toggle="popover"]').popover();
