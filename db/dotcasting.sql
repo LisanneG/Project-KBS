@@ -62,13 +62,14 @@ CREATE TABLE IF NOT EXISTS `file` (
   `location` varchar(255) NOT NULL,
   `type` varchar(45) NOT NULL COMMENT 'afbeelding, video',
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~0 rows (approximately)
+-- Dumping data for table dotcasting.file: ~1 rows (approximately)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 INSERT INTO `file` (`file_id`, `location`, `type`) VALUES
 	(1, '\\img\\kerst.png', 'afbeelding'),
-	(2, '\\img\\test.jpg', 'afbeelding');
+	(2, '\\img\\test.jpg', 'afbeelding'),
+	(3, '\\img\\test2.jpg', 'afbeelding');
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.layout
@@ -95,6 +96,7 @@ INSERT INTO `layout` (`layout_id`, `font`, `font_color`, `default_background`, `
 CREATE TABLE IF NOT EXISTS `location` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `layout_id` int(11) NOT NULL,
+  `theme_id` int(11) DEFAULT NULL,
   `name` varchar(45) NOT NULL,
   `address` varchar(255) NOT NULL,
   `postal_code` varchar(45) NOT NULL,
@@ -102,18 +104,20 @@ CREATE TABLE IF NOT EXISTS `location` (
   `intern_number` int(11) NOT NULL,
   PRIMARY KEY (`location_id`),
   KEY `FK_location_layout` (`layout_id`),
-  CONSTRAINT `FK_location_layout` FOREIGN KEY (`layout_id`) REFERENCES `layout` (`layout_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_location_theme` (`theme_id`),
+  CONSTRAINT `FK_location_layout` FOREIGN KEY (`layout_id`) REFERENCES `layout` (`layout_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_location_theme` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table dotcasting.location: ~6 rows (approximately)
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` (`location_id`, `layout_id`, `name`, `address`, `postal_code`, `main_number`, `intern_number`) VALUES
-	(1, 1, 'Zwolle', '', '', '', 0),
-	(2, 1, 'Nunspeet', '', '', '', 0),
-	(3, 1, 'Nieuwleusen', '', '', '', 0),
-	(4, 1, 'Den Haag', '', '', '', 0),
-	(5, 1, 'Amsterdam', '', '', '', 0),
-	(6, 1, 'Hoogeveen', '', '', '', 0);
+INSERT INTO `location` (`location_id`, `layout_id`, `theme_id`, `name`, `address`, `postal_code`, `main_number`, `intern_number`) VALUES
+	(1, 1, 2, 'Zwolle', '', '', '', 0),
+	(2, 1, 2, 'Nunspeet', '', '', '', 0),
+	(3, 1, 2, 'Nieuwleusen', '', '', '', 0),
+	(4, 1, 2, 'Den Haag', '', '', '', 0),
+	(5, 1, 2, 'Amsterdam', '', '', '', 0),
+	(6, 1, 2, 'Hoogeveen', '', '', '', 0);
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.news_article
@@ -139,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `news_article` (
 INSERT INTO `news_article` (`news_article_id`, `title`, `category_id`, `file_id`, `date`, `display_from`, `display_till`, `priority`, `description`) VALUES
 	(1, 'Test 1', 5, 2, '2017-12-01 13:30:31', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.'),
 	(2, 'Test 2', 5, 2, '2017-12-01 13:30:33', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.'),
-	(3, 'Test 3', 5, 2, '2017-12-01 13:30:34', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.');
+	(3, 'Test 3', 5, 3, '2017-12-06 12:00:07', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.');
 /*!40000 ALTER TABLE `news_article` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.news_article_has_location
@@ -152,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `news_article_has_location` (
   CONSTRAINT `news_article_has_location_ibfk_2` FOREIGN KEY (`news_article_id`) REFERENCES `news_article` (`news_article_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article_has_location: ~0 rows (approximately)
+-- Dumping data for table dotcasting.news_article_has_location: ~5 rows (approximately)
 /*!40000 ALTER TABLE `news_article_has_location` DISABLE KEYS */;
 INSERT INTO `news_article_has_location` (`news_article_id`, `location_id`) VALUES
 	(1, 1),
@@ -184,10 +188,12 @@ CREATE TABLE IF NOT EXISTS `theme` (
   PRIMARY KEY (`theme_id`),
   KEY `FK__bestand` (`background_file`),
   CONSTRAINT `FK__bestand` FOREIGN KEY (`background_file`) REFERENCES `file` (`file_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.theme: ~0 rows (approximately)
+-- Dumping data for table dotcasting.theme: ~1 rows (approximately)
 /*!40000 ALTER TABLE `theme` DISABLE KEYS */;
+INSERT INTO `theme` (`theme_id`, `name`, `background_file`) VALUES
+	(2, 'test', 1);
 /*!40000 ALTER TABLE `theme` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.user
