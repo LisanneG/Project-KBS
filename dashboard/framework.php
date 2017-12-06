@@ -82,4 +82,27 @@ function GetBirthdays($location_id){
 	return $result;
 }
 
+// Function to get the company logo from the layout
+// Returns location from file
+function GetLogo(){
+	//Building the query
+	$stringBuilder = "SELECT f.location ";
+	$stringBuilder .= "FROM layout l ";
+	$stringBuilder .= "INNER JOIN `file` f ON f.file_id=l.logo ";
+	$stringBuilder .= "LIMIT 0,1 ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute();
+	$result = $query->fetchAll(); //Fetching it
+
+	$location = "";
+
+	if (isset($result[0]["location"])) {
+		$location = $result[0]["location"];
+	}
+
+	return "..$location";
+}
+
 ?>
