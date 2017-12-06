@@ -1,15 +1,12 @@
 <?php
 session_start();
 include 'framework.php';
-
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
 }
-
 if (isset($_POST["logout"])) {
 	session_destroy(); //Removing the login session
-
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
 }
@@ -33,11 +30,9 @@ if (isset($_POST["logout"])) {
 						<select class="form-control" id="locations">
 							<option value="">Kies een locatie</option>
 							<?php
-
 								foreach (GetLocations() as $row) {
 									$location_id = $row["location_id"];
 									$name = $row["name"];
-
 									echo "<option value=\"$location_id\">$name</option>";
 								}
 								
