@@ -1,8 +1,8 @@
 <?php
-$imageList = array("png", "jpeg", "jpg", "gif");
-$videoList = array("mp4", "avi");
-$pdfList = array("pdf");
-if (isset($_POST["submit"])) {
+if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
+	$imageList = array("png", "jpeg", "jpg", "gif");
+	$videoList = array("mp4", "avi");
+	$pdfList = array("pdf");
 	$counter = 0;
 	$lastInsertedFileId = array();
 	foreach ($_FILES["medium"]["name"] as $k => $v) {
@@ -18,23 +18,37 @@ if (isset($_POST["submit"])) {
 		if (in_array($ext, $pdfList)) {
 			$type = "pdf";
 		}
-
-        $url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $medium;
-
+		
+        
+		
+		
+		//maybe random numbers b4 filename
+		
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $medium;
+		//$url = "/bestanden/media/" . $type . "/" . $medium;
+		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
-			$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-			$stmt->execute(array($url, $type));
-			$lastInsertedFileId[$counter] = $conn->lastInsertId();
-			
 			if ($type == "pdf") {
+				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/foto/" . $medium;
+				$save_file = substr($save_file, 0, -3) . "jpg";
 				// create Imagick object
 				$imagick = new Imagick();
-				$imagick->setResolution(500, 700);
+				$imagick->setResolution(300, 300);
 				// Reads image from PDF
-				$imagick->readImage($url);
+				$imagick->readImage("{$url}[0]");
 				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
 				// copy file to new folder and select that file
-				$imagick->writeImages('converted.jpg', false);
+				$imagick->setImageFormat('jpg');
+				$imagick->writeImages($save_file, false);
+				
+				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
+				$stmt->execute(array($save_file, "foto"));
+				$lastInsertedFileId[$counter] = $conn->lastInsertId();
+				
+			} else {
+				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
+				$stmt->execute(array($url, $type));
+				$lastInsertedFileId[$counter] = $conn->lastInsertId();
 			}
 			
 		}
@@ -42,14 +56,6 @@ if (isset($_POST["submit"])) {
     }
 }
 /*
-    print ("<h2><span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>");
-    foreach ($_FILES["medium"]["name"] as $k => $v) {
-        print $_FILES["medium"]["name"][$k];
-        print (" ");
-    }
-    print ("toegevoegd</h2>");
-}
-
 // Check if file already exists
 if (file_exists($target_file)) {
     echo "Sorry, file already exists.";
@@ -59,24 +65,5 @@ if (file_exists($target_file)) {
 if ($_FILES["fileToUpload"]["size"] > 10000000) {
     echo "Sorry, your file is too large.";
     $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
-    } else {
-        echo "Sorry, there was an error uploading your file.";
-    }
-}
-return $target_file;
 } */
 ?>

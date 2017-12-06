@@ -1,10 +1,8 @@
 <?php
 session_start();
-$success = 0;
 include 'framework.php';
 include '../database.php';
 include 'upload.php';
-include 'news/news_send.php';
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
@@ -16,10 +14,6 @@ if (isset($_POST["logout"])) {
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
 }
-
-if (isset($_POST["filelocation"])) {
-	$filelocation = $_POST["filelocation"];
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +24,8 @@ if (isset($_POST["filelocation"])) {
 	<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
 </head>
 <body>
-	<?php include 'navbar.php'; ?>
-	
-	<!-- Alerts for success & failure -->
-	<?php 
-	if (isset($_POST["submit"])) {
-		if ($success == 1) {
-			print("<div class='alert alert-success' role='alert'>Nieuwsbericht succesvol toegevoegd</div>");
-		} elseif ($success == 0) {
-			print("<div class='alert alert-danger' role='alert'>Er is iets fout gegaan, nieuwsbericht is niet toegevoegd</div>");
-		}
-	}
-	?>
+	<?php include 'navbar.php'; 
+	include 'news/news_send.php';?>
 	
 	<!-- Navigational tabs -->
 	<section id="dashboard-content" class="container-fluid">
@@ -68,7 +52,7 @@ if (isset($_POST["filelocation"])) {
 					<div class="form-group row">
 						<label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
 						<div class="col-10">
-							<input class="btn btn-default" id="file" type="file" name="medium[]" required="required">
+							<input class="btn btn-default" id="file" type="file" name="medium[]">
 						</div>
 					</div>
 					<div class="form-group row">

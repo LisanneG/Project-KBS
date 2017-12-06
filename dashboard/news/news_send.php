@@ -1,12 +1,11 @@
 <?php
+$success = 0;
 if (isset($_POST["submit"])) {
-	$stmt = $conn->prepare("SELECT * FROM location");
-	$stmt->execute();
-	$locations = $stmt->fetchAll();
-	
 	$news_title = $_POST["title"];
 	$categoryId = $_POST["category"];
+	
 	$fileId = $lastInsertedFileId[0];
+	
 	$displayFrom = $_POST["dateFrom"];
 	$displayTill = $_POST["dateTill"];
 	if (isset($_POST["priority"])) {
@@ -16,23 +15,39 @@ if (isset($_POST["submit"])) {
 	}
 	$description = $_POST["description"]; //should be null when video is being uploaded
 	
-	
-	// inserting newsarticle into db
-	$stmt = $conn->prepare("INSERT INTO news_article (title, category_id, file_id, display_from, display_till, priority, description) 
-	VALUES (?,?,?,?,?,?,?)");
-	$stmt->execute(array($news_title, $categoryId, $fileId, $displayFrom, $displayTill, $priority, $description));
-	$lastInsertedNewsId = $conn->lastInsertId();
+	//checking if a file has been added and choosing the right query for the job
+	if (isset($fileId)) {
+		// inserting newsarticle w/ file into db
+		$stmt = $conn->prepare("INSERT INTO news_article (title, category_id, file_id, display_from, display_till, priority, description) VALUES (?,?,?,?,?,?,?)");
+		$stmt->execute(array($news_title, $categoryId, $fileId, $displayFrom, $displayTill, $priority, $description));
+		$lastInsertedNewsId = $conn->lastInsertId();
+	} else {
+		// inserting newsarticle w/out file into db
+		$stmt = $conn->prepare("INSERT INTO news_article (title, category_id, display_from, display_till, priority, description) VALUES (?,?,?,?,?,?)");
+		$stmt->execute(array($news_title, $categoryId, $displayFrom, $displayTill, $priority, $description));
+		$lastInsertedNewsId = $conn->lastInsertId();
+	}
 	
 	// inserting relations between newsarticle and locations to display
 	foreach ($_POST["location"] as $v) {
-		$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) 
-		VALUES (?,?)");
+		$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) VALUES (?,?)");
 		$stmt->execute(array($lastInsertedNewsId, $v));
 		$finished = $conn->lastInsertId();
 	}
+	
 	// making sure everything worked out correctly
-	if (isset($finished)){
+	if (isset($finished) && $finished == "0"){
 		$success = 1;
+	}
+	//var_dump($finished);
+}
+
+//Alerts for success & failure
+if (isset($_POST["submit"])) {
+	if ($success == 1) {
+		print("<div class=\"alert alert-success\"role=\"alert\">Nieuwsbericht succesvol toegevoegd</div>");
+	} elseif ($success == 0) {
+		print("<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan, het nieuwsbericht is niet toegevoegd</div>");
 	}
 }
 ?>
