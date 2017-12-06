@@ -1,6 +1,9 @@
 /*General*/
 .btn {cursor: pointer;}
-.dotsolutions_logo{position: fixed; bottom: 0; left: 10px;}
+.dotsolutions_logo{bottom: 0; left: 10px;}
+@media screen and (min-width: 768px) {
+	.dotsolutions_logo{position: fixed; }
+}
 
 /*Icons*/
 .icon-question{margin-top: 7px; cursor: pointer;}
@@ -10,6 +13,9 @@
 #login{margin-top: 50px;}
 #login .logo{margin-bottom: 10px;}
 #login .password-btn-section{padding-left: 0px;}
+
+/*Password forgotten*/
+.btn-password-forgotten{width:100%;}
 
 @media screen and (max-width: 1200px) {
 	#login .question-mark-btn-section{margin-left: 15px;}	
@@ -40,3 +46,6 @@
 
 /* Navigation tabs (news_manage) */
 h3.navtabs{padding-top: 15px; margin-bottom: 25px;}
+
+/*Rights*/
+#user-rights-table{visibility: hidden;}

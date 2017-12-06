@@ -15,7 +15,6 @@ if (isset($_GET["location_id"])) {
 		$category_id = $row["category_id"];
 		$file_id = $row["file_id"];
 		$date = $row["date"];
-		$location_id = $row["location_id"];
 		$display_from = $row["display_from"];
 		$display_till = $row["display_till"];
 		$priority = $row["priority"];
@@ -25,13 +24,7 @@ if (isset($_GET["location_id"])) {
 		$type = $row["type"];
 		//Category
 		$category_name = $row["category_name"];
-		$color = $row["color"];
-		//location
-		$location_name = $row["location_name"];
-		$address = $row["address"];
-		$postal_code = $row["postal_code"];
-		$main_number = $row["main_number"];
-		$intern_number = $row["intern_number"];	
+		$color = $row["background_color"];
 
 		echo "<div class=\"row\">";
 		echo "	<div class=\"col-md-12 news-section\">";

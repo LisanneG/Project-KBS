@@ -17,11 +17,11 @@ if (isset($_GET["location_id"])) {
 		$first_name = $row["first_name"];
 		$insertion = $row["insertion"];
 		$last_name = $row["last_name"];		
-		$birthday = $row["birthday"];		
+		$birthday = date("d-m-Y", strtotime($row["birthday"]));
 		//Category
 		$category_id = $row["category_id"];
 		$name = $row["name"];
-		$color = $row["color"];
+		$background_color = $row["background_color"];
 		//File
 		$location = $row["location"];
 		$type = $row["type"];
@@ -37,17 +37,12 @@ if (isset($_GET["location_id"])) {
 		}
 		$full_name .= "$last_name";
 
-		//Creating the right date
-		$date_birthday = date("d-m", strtotime($birthday));
-		$date_now = date("d-m", time());
-		$date_with_days = date('d-m', strtotime($date. ' + 3 days'));
-			
 		echo "<div class=\"row\">";
 		echo "	<div class=\"col-md-12 birthday-section\">";
 		echo "		<p class=\"title\">Verjaardag</p>";
 		echo "		<div class=\"row\">";		
 		echo "			<div class=\"col-md-12\">";
-		echo "				<p>$full_name ($date_birthday)</p>";
+		echo "				<p>$full_name ($birthday)</p>";
 		echo "			</div>";
 		echo "		</div>";
 		echo "	</div>";
