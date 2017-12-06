@@ -9,14 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="3600">
     <link rel="stylesheet"  href="css/fpstyle.css">
+    <?php $logo = getTheme(getLocation()); ?>
     </head>
     
     <body>      
-
+        
         <nav class="navbar fixed-top" id="top-bar">
             <a id="date" class="navbar-brand"></a>
             <a id="time" class="navbar-brand"></a>
-            <img id="logo" src="https://images.pexels.com/photos/380768/pexels-photo-380768.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt="">
+            <img id="logo" src="<?php $logo; ?>" alt="Logo">
         </nav>
         <div class="container">
             
@@ -62,7 +63,7 @@
                 
                 
                 //TODO: make query, add relevant info to style
-                $themequery = $conn->prepare("SELECT l.font, l.color, l.font_size, f.location FROM theme t 
+                $themequery = $conn->prepare("SELECT l.font, l.font_color, l.color, l.font_size, f.location FROM theme t 
                 LEFT JOIN theme_has_location thl ON t.theme_id = thl.theme_id
                 LEFT JOIN layout l ON t.layout_id = l.layout_id
                 LEFT JOIN `file` f ON l.default_background = f.file_id
@@ -74,19 +75,18 @@
                     print("<style>");
                     print("body{
                             background-image: ". $themeresult["f.location"] .";
-                            font: ;
-                            font-size: ". $themeresult["l.font_size"] .";
-                            }
-                            li{
-                            background-color: ". $themeresult["l.color"] .";
                             }
                             navbar{
-                            background-color: ". $themeresult["l.color"] ."; 
-                            }");
-
-                            //li bgcolor needed?
-                            return;
+                            background-color: ". $themeresult["l.color"] .";
+                            font-color: ". $themeresult["l.font_color"] .";
+                            font-size: ". $themeresult["l.font_size"] . ";
+                            }"
+                        );
                     print("</style>");
+                    $logo = $themeresult["logo"];
+                            //li bgcolor needed?
+                            return $logo;
+ 
 
 
                 }
@@ -110,7 +110,7 @@
             
             function readDB($location_id)
             {
-                getTheme($location_id); //not working right
+                
                 include 'database.php';
                 $currentdbtime = date("Y-m-d H:i:s");   /*using time() to pull local time and formatting it to DATETIME Mysql format*/
             
@@ -144,7 +144,7 @@
                         <div class='messagecontent01'>" . $row['description']. "</div>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>
+                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>
                         <img class='align-self-center img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
                         print(getPriority($row['priority']));
                         print("</div>");                                   
@@ -159,7 +159,7 @@
                         <div class'messagecontent01'>" . $row['description']. "</div>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>
+                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>
                         ");
                         print(getPriority($row['priority']));
                         print("</div>");
@@ -203,7 +203,7 @@
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h3>
                         </div>
-                        <div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>                        
+                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>                        
                         <img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
                         </div>
                         </li>");
@@ -221,8 +221,8 @@
                     print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
                     print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
                     print("</div>");
-                    print("<div class='media-object d-flex align-self-center mr-4 flex-column mt-4 mb-4 '>");
-                    print("<img class='align-self-center img-thumbnail img-responsive imagecontent' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
+                    print("<div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4'>");
+                    print("<img class='align-self-end img-thumbnail img-responsive' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
                     print(getPriority(1));
                     print("</div>");                                   
                     print("</li>");
