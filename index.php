@@ -63,10 +63,13 @@
                 
                 
                 //TODO: make query, add relevant info to style
-                $themequery = $conn->prepare("SELECT l.font, l.font_color, l.color, l.font_size, f.location FROM theme t 
+                $themequery = $conn->prepare("SELECT l.font, l.font_color, l.color, l.font_size, fbg.location flg.location FROM theme t 
+                
                 LEFT JOIN theme_has_location thl ON t.theme_id = thl.theme_id
                 LEFT JOIN layout l ON t.layout_id = l.layout_id
-                LEFT JOIN `file` f ON l.default_background = f.file_id
+                LEFT JOIN `file` fbg ON l.default_background = fbg.file_id
+                LEFT JOIN `file` flg ON l.logo = flg.file_id
+
                 WHERE thl.location_id = ? ");
                 $themequery->execute($location_id);
                 $themeresult = $themequery->fetch();
@@ -230,7 +233,7 @@
             }
             
             readDB(getLocation());
-            testspam(20);
+            testspam(5);
             
             
             ?>            
