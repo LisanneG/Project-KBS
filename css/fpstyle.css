@@ -12,15 +12,12 @@
     vertical-align: bottom;
 }
 
-<<<<<<< HEAD
 #messagediv{
     padding-top: 100px;
 }
 
-=======
 /*invisible location name*/
 #location_name{visibility: hidden;}
->>>>>>> b748d7d57edd9695d4d5f7db9b5c43cc2d0e2c59
 
 /*weather section*/
 .weather-section{border: 1px solid black; padding: 45px; margin-bottom: 20px;}
