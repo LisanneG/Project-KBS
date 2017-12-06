@@ -12,7 +12,8 @@
     vertical-align: bottom;
 }
 
-
+/*invisible location name*/
+#location_name{visibility: hidden;}
 
 /*weather section*/
 .weather-section{border: 1px solid black; padding: 45px; margin-bottom: 20px;}

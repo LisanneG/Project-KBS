@@ -9,7 +9,9 @@ function updateClock(){
 
 
 $(document).ready(function(){
-	LoadWeather("Zwolle");
+    //Getting the location name
+    location_name = $("#location_name").html();
+	LoadWeather(location_name);
 
     setInterval('updateClock()', 1000);
     //scroll($('html, .container'), 10000);

@@ -20,6 +20,7 @@
             <img id="logo" src="<?php $logo; ?>" alt="Logo">
         </nav>
         <div class="container">
+            <div id="location_name"><?php echo $_GET["location"]; ?></div>
             
         <ul class="list-unstyle mw-50" >
             <?php

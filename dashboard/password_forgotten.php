@@ -15,30 +15,9 @@ include 'framework.php';
 	<div class='container' id="login">	
 		<div class='row justify-content-center'>
 			<div class='col-lg-6'>
-				<img src="<?php echo GetLogo(); ?>" class="img-fluid logo" alt="Responsive image">
+				<a href="/KBS/Project-KBS/dashboard/"><img src="<?php echo GetLogo(); ?>" class="img-fluid logo" alt="Responsive image"></a>
 			</div>
 		</div>
-
-		<?php 						
-			if (isset($_POST["submit"])) {
-				//Collecting the email and password inputs
-				$email = $_POST["email"];
-				$password = $_POST["password"];	
-
-				$admin = CheckIfUserExists($email, $password);
-
-				if($admin != false){					
-					// Set session variables
-					$_SESSION["email"] = $email;
-					$_SESSION["admin"] = $admin[0];
-
-					header("Location: index.php"); //Redirecting to index.php
-					exit();
-				} else {
-					echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
-				}
-			}			
-		?>
 
 		<form method="POST">			
 			<div class="form-group row justify-content-center">
@@ -47,21 +26,12 @@ include 'framework.php';
 					<input type="email" class="form-control" name="email" placeholder="Email">
 				</div>
 			</div>
-			<div class="form-group row justify-content-center">
-				<label for="inputPassword3" class="col-sm-2 form-control-label">Wachtwoord</label>
-				<div class="col-sm-10 col-md-10 col-lg-4">
-					<input type="password" class="form-control" name="password" placeholder="Wachtwoord">
-				</div>
-			</div>
 			<div class="form-group row">
-				<div class="col-lg-1 col-md-2 col-2 offset-md-5 offset-lg-5 login-btn-section">
-					<input type="submit" name="submit" value="Log in" class="btn btn-secondary">
-				</div>
-				<div class="col-lg-2 col-md-3 col-5 password-btn-section">
-					<button class="btn btn-secondary">Wachtwoord vergeten</button>
-				</div>
+				<div class="col-lg-4 col-md-8 col-10 offset-md-2 offset-lg-5 login-btn-section">
+					<input type="submit" name="submit" value="Verstuur mail" class="btn btn-secondary btn-password-forgotten">
+				</div>				
 				<div class="col-lg-1 col-md-1 col-1 question-mark-btn-section">
-					<img class='icon-question' src="../img/icons/question-mark.png" data-toggle="popover" title="Inloggen" data-content="Hier komt wat text bla bla bla" data-placement="top">
+					<img class='icon-question' src="../img/icons/question-mark.png" data-toggle="popover" title="Wachtwoord vergeten" data-content="Je krijgt een mailtje met een nieuw wachtwoord om in te loggen" data-placement="top">
 				</div>
 			</div>
 		</form>

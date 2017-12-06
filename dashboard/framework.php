@@ -105,4 +105,88 @@ function GetLogo(){
 	return "..$location";
 }
 
+
+// Function to get all the users
+// Returns result
+function GetUsers(){
+	$stringBuilder = "SELECT u.user_id, u.email, l.name ";
+	$stringBuilder .= "FROM `user` u ";
+	$stringBuilder .= "INNER JOIN location l ON l.location_id=u.location ";
+	$stringBuilder .= "ORDER BY l.name ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	return $result;
+}
+
+// Function to get all the rights for a specific user
+// Returns result
+function GetRights(){
+	$stringBuilder = "SELECT r.* ";
+	$stringBuilder .= "FROM `right` r ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute();
+	$result = $query->fetchAll(); //Fetching it
+
+	return $result;
+}
+
+// Function to get all the rights for a specific user
+// Returns result
+function GetUserRights($user_id){
+	$stringBuilder = "SELECT r.*, (SELECT COUNT(uhr.right_id) FROM user_has_right uhr WHERE uhr.user_id=? AND uhr.right_id=r.right_id) AS has_this_right ";
+	$stringBuilder .= "FROM `right` r ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array($user_id)); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	return $result;
+}
+
+// Function to save all the rights for a specific user
+// Returns alert
+function SaveRights($user_id, $rights){
+	//First deleting all the rights
+	$stringBuilder = "DELETE FROM user_has_right ";
+	$stringBuilder .= "WHERE user_id=? ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	
+	$valid = true;
+
+	if($query->execute(array($user_id))){
+		//Making the insert query
+		$stringBuilder = "INSERT INTO user_has_right (user_id, right_id) VALUES (?,?) ";
+
+		//preparing the query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+		foreach ($rights as $right_id) {
+
+			if($query->execute(array($user_id, $right_id))){
+				//
+			} else {
+				$valid = false;
+			}
+
+		}
+	} else {
+		$valid = false;
+	}
+
+	if($valid){
+		echo "<div class=\"alert alert-success\" role=\"alert\">De rechten zijn opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+	}
+}
+
 ?>
