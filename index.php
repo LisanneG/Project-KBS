@@ -22,7 +22,7 @@
         </header>
         
         <div class="container" id="messagediv">
-            
+        <div id ="location_name"><?php print($_GET["location"]);?></div>
         <ul class="list-unstyle mw-50" >
             <?php
             //borrowing DB connection code
@@ -117,7 +117,7 @@
             
             function setPriority($priority){
                 if($priority == 1){
-                    $string = "fixed-top";
+                    $string = "priority-box";
                     return $string;
                 }
                 else{
@@ -125,18 +125,52 @@
                 }
             }
             
+            function setPriorityID($priority, $type){
+                if($priority == 1){
+                    
+                    if($type == "afbeelding"){
+
+                    }
+                    elseif($type == "video"){
+                        
+                    }
+                    elseif($type == NULL){
+                        
+                    }
+                    elseif($type == 0){
+                        
+                    }
+
+
+                }
+                else{
+                    if($type == "afbeelding"){
+                        return "-messageimg";
+                    }
+                    elseif($type == "video"){
+                        return "-messagevideo";                        
+                    }
+                    elseif($type == NULL){
+                        return "-message";
+                    }
+                    elseif($type == 0){
+                        return "-messagevideowithsound";
+                    }
+                }
+            }
+
             
             function readDB($location_id)
             {
                 
                 include 'database.php';            
-                $mainquery = $conn->prepare("SELECT n.news_article_id, title, background_color, n.file_id, `date`, `description`, nahl.location_id , `type`, `priority`, f.muted, `location` FROM news_article n 
+                $mainquery = $conn->prepare("SELECT n.news_article_id, title, background_color, n.file_id as 'fileID', `date`, `description`, nahl.location_id , `type`, `priority`, f.muted, `location` FROM news_article n 
                 LEFT JOIN `file` f ON n.file_id = f.file_id 
                 LEFT JOIN category c ON n.category_id = c.category_id 
                 LEFT JOIN news_article_has_location nahl ON n.news_article_id = nahl.news_article_id 
                 WHERE (display_from <= NOW() AND display_till >= NOW()) 
                 AND nahl.location_id = ? 
-                ORDER BY priority");
+                ORDER BY `priority` DESC");
                 $mainquery->execute(array($location_id));
                 
 
@@ -155,28 +189,28 @@
                     if($row['type'] == "afbeelding"){
                         //nieuwbericht gewoon
                         
-                        print("<li class='media mb-5 mt-5 border border-dark ". setPriority($row["priority"]) ."' style='background-color: ". $row['color']."' id='" . $row['news_article_id']. "-messageimg'>
+                        print("<li class='media mb-5 mt-5 border border-dark ". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']. setPriorityID($row["priority"], $row["type"]) ."'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'> " . $row['title'] . "</h3>
                         <div class='messagecontent01'>" . $row['description']. "</div>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>
+                        <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         <img class='align-self-center img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
                         print(getPriorityWarning($row['priority']));
                         print("</div>");                                   
                         print("</li>");
                         
                     }
-                    elseif($row['n.file_id'] == NULL){
+                    elseif($row['fileID'] == NULL){
                     
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' id='" . $row['news_article_id']. "-message'>
+                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']. setPriorityID($row["priority"], $row["fileID"]) ."'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='mt-0'> " . $row['title'] . "</h3>
                         <div class'messagecontent01'>" . $row['description']. "</div>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
                         </div>
-                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>
+                        <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         ");
                         print(getPriorityWarning($row['priority']));
                         print("</div>");
@@ -185,7 +219,7 @@
                     elseif($row['type'] == "video"){
                         $videotype = explode(".", $row['location']);
 
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['color']."' id='" .$row['news_article_id'] ."-messagevideo'>
+                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . setPriorityID($row["priority"], $row["type"]) ."'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9' muted>
@@ -198,7 +232,7 @@
                     elseif($row['type'] == "video" && $row["muted"] == 0){
                         $videotype = explode(".", $row['location']);
 
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['color']."' id='" .$row['news_article_id'] ."-messagevideowithsound'>
+                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] .setPriorityID($row["priority"], $row["muted"]) ."'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9'>
@@ -235,7 +269,7 @@
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h3>
                         </div>
-                        <div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4' '>                        
+                        <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
                         <img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
                         </div>
                         </li>");
@@ -253,7 +287,7 @@
                     print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
                     print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
                     print("</div>");
-                    print("<div class='media-object d-flex align-self-end mr-4 flex-column col-5 mt-4 mb-4'>");
+                    print("<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4'>");
                     print("<img class='align-self-end img-thumbnail img-responsive' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
                     print("</div>");                                   
                     print("</li>");
