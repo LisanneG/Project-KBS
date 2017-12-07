@@ -194,7 +194,7 @@
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'> " . $row['title'] . "</h3>
                         <div class='messagecontent01'>" . $row['description']. "</div>
-                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>
                         <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         <img class='align-self-center img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
@@ -209,7 +209,7 @@
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='mt-0'> " . $row['title'] . "</h3>
                         <div class'messagecontent01'>" . $row['description']. "</div>
-                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>
                         <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         ");
@@ -225,7 +225,7 @@
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9' muted>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
-                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>");
                         print(getPriorityWarning($row['priority']));
                         print("</li>");
@@ -238,7 +238,7 @@
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9'>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
-                        <p class='mt-2'>Datum: ". date( "d-m-Y", $row['date']) ."</p>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>");
                         print(getPriorityWarning($row['priority']));
                         print("</li>");
