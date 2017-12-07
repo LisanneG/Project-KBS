@@ -35,8 +35,8 @@
                     print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
                     return NULL;
                 }
-                elseif(isset($_SESSION["location"]) && (isset($_SESSION["location_id"]))){
-                    $_GET["location"] = $_SESSION["location"];
+                elseif(isset($_SESSION["location_name"]) && (isset($_SESSION["location_id"]))){
+                    $_GET["location"] = $_SESSION["location_name"];
                     return $_SESSION["location_id"];
                 }
 
