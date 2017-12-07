@@ -21,6 +21,7 @@
             </nav>
         </header>
         
+        <div id="location_name"><?php echo $_GET["location"]; ?></div>
         <div class="container" id="messagediv">
         <div id ="location_name"><?php print($_GET["location"]);?></div>
         <ul class="list-unstyle mw-50" >
