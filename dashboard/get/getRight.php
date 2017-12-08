@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET["user_id"])) {
-	include '../framework.php';
+	include '../include/framework.php';
 
 	$user_id = $_GET["user_id"];
 
@@ -26,7 +26,7 @@ if (isset($_GET["user_id"])) {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen rechten om te geven</div>";
 	}
 } else {
-	include '../framework.php';
+	include '../include/framework.php';
 
 	$hasAtLeastOneRight = false;
 
@@ -40,6 +40,7 @@ if (isset($_GET["user_id"])) {
 		echo "<tr>";
 		echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editRight\" data-id=\"$right_id\" data-name=\"$name\" data-description=\"$description\">$name</button></td>";
 		echo "	<td>$description</td>";
+		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-right\" data-id=\"$right_id\" data-name=\"$name\">Verwijderen</td>";
 		echo "</tr>";
 	}
 
