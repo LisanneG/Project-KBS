@@ -24,6 +24,8 @@
         <div id="location_name"><?php echo $_GET["location"]; ?></div>
         <div class="container" id="messagediv">
         <div id ="location_name"><?php print($_GET["location"]);?></div>
+        <div class="row justify-content-center">
+        <div class="col">
         <ul class="list-unstyle mw-50" >
             <?php
             //borrowing DB connection code
@@ -106,59 +108,35 @@
 
             }
             
-            function getPriorityWarning($priority){
-                if($priority == 1){
-                    $string = "<div class='d-flex align-self-end mt-5'><i class='fa fa-exclamation-triangle fa-4x priority-alert float-right' aria-hidden='true' ></i></div>";
-                    return $string;
-                }
-                else{
-                    return;
-                }
+            function getPriority($location_id){
+                include 'database.php';
+
+                $priorityquery = $conn->prepare("SELECT n.news_article_id, title, background_color, `date`, `description` FROM news_article n 
+                LEFT JOIN category c ON n.category_id = c.category_id 
+                LEFT JOIN news_article_has_location nahl ON n.news_article_id = nahl.news_article_id 
+                WHERE (display_from <= NOW() AND display_till >= NOW())
+                AND nahl.location_id = ? AND `priority` = ?"); 
+                $priorityquery->execute(array($location_id, 1));
+
+                    foreach($priorityquery as $row){
+                        
+                        print("<li class='media mb-5 mt-5 border border-dark priority-message' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id'] ."-prioritymessage'>
+                        <div class='media-body mx-4 mt-4'>
+                        <h3 class='mt-0'> " . $row['title'] . "</h3>
+                        <div class'messagecontent01'>" . $row['description']. "</div>
+                        <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
+                        </div>
+                        <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
+                        <div class='d-flex align-self-end mt-5'><i class='fa fa-exclamation-triangle fa-4x priority-alert float-right' aria-hidden='true' ></i></div>
+                        ");
+                        print("</div>");
+                        print("</li>");
+                    }
+                
             }
             
-            function setPriority($priority){
-                if($priority == 1){
-                    $string = "priority-box";
-                    return $string;
-                }
-                else{
-                    return;
-                }
-            }
             
-            function setPriorityID($priority, $type){
-                if($priority == 1){
-                    
-                    if($type == "afbeelding"){
-
-                    }
-                    elseif($type == "video"){
-                        
-                    }
-                    elseif($type == NULL){
-                        
-                    }
-                    elseif($type == 0){
-                        
-                    }
-
-
-                }
-                else{
-                    if($type == "afbeelding"){
-                        return "-messageimg";
-                    }
-                    elseif($type == "video"){
-                        return "-messagevideo";                        
-                    }
-                    elseif($type == NULL){
-                        return "-message";
-                    }
-                    elseif($type == 0){
-                        return "-messagevideowithsound";
-                    }
-                }
-            }
+            
 
             
             function readDB($location_id)
@@ -171,8 +149,8 @@
                 LEFT JOIN news_article_has_location nahl ON n.news_article_id = nahl.news_article_id 
                 WHERE (display_from <= NOW() AND display_till >= NOW()) 
                 AND nahl.location_id = ? 
-                ORDER BY `priority` DESC");
-                $mainquery->execute(array($location_id));
+                AND `priority` = ?");
+                $mainquery->execute(array($location_id, 0));
                 
 
                 if(!($mainquery->rowCount() > 0)){
@@ -190,7 +168,7 @@
                     if($row['type'] == "afbeelding"){
                         //nieuwbericht gewoon
                         
-                        print("<li class='media mb-5 mt-5 border border-dark ". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']. setPriorityID($row["priority"], $row["type"]) ."'>
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']."-messageimg'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'> " . $row['title'] . "</h3>
                         <div class='messagecontent01'>" . $row['description']. "</div>
@@ -198,14 +176,13 @@
                         </div>
                         <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         <img class='align-self-center img-thumbnail img-responsive' src='". $row['location'] ."' alt='Error'>");
-                        print(getPriorityWarning($row['priority']));
                         print("</div>");                                   
                         print("</li>");
                         
                     }
                     elseif($row['fileID'] == NULL){
                     
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']. setPriorityID($row["priority"], $row["fileID"]) ."'>
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id'] ."-message'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='mt-0'> " . $row['title'] . "</h3>
                         <div class'messagecontent01'>" . $row['description']. "</div>
@@ -213,34 +190,31 @@
                         </div>
                         <div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>
                         ");
-                        print(getPriorityWarning($row['priority']));
                         print("</div>");
                         print("</li>");
                     }
                     elseif($row['type'] == "video"){
                         $videotype = explode(".", $row['location']);
 
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . setPriorityID($row["priority"], $row["type"]) ."'>
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9' muted>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>");
-                        print(getPriorityWarning($row['priority']));
                         print("</li>");
                     }
                     elseif($row['type'] == "video" && $row["muted"] == 0){
                         $videotype = explode(".", $row['location']);
 
-                        print("<li class='media mb-5 mt-5 border border-dark". setPriority($row["priority"]) ."' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] .setPriorityID($row["priority"], $row["muted"]) ."'>
+                        print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
                         <div class='media-body mx-4 mt-4'>
                         <h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
                         <video class='embed-responsive-item embed-responsive-item-16by9'>
                         <source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
                         <p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
                         </div>");
-                        print(getPriorityWarning($row['priority']));
                         print("</li>");
                     }
                 }
@@ -251,7 +225,7 @@
                 LEFT JOIN `file` f ON b.file_id = f.file_id 
                 WHERE birthday = NOW() AND u.location = ?
                 ORDER BY first_name"); 
-                $birthdayquery->execute(array($locationid));
+                $birthdayquery->execute(array($location_id));
                 // getting birthday information
                 
                 foreach($birthdayquery as $bdrow){
@@ -276,9 +250,7 @@
                         </li>");
                     }
                 }
-
-
-
+                return $location_id;
             } 
 
             function testspam($run){
@@ -295,13 +267,19 @@
                 }
             }
             
-            readDB(getLocation());
+            $location_id = readDB(getLocation());
             testspam(5);
             
             
             ?>            
         </ul>
-
+        </div>
+        </div>
+            <div class="col">
+                <ul>
+                    <?php getPriority($location_id); ?>
+                </ul>
+            </div>
             <div id="weather"></div>
         </div>
 
