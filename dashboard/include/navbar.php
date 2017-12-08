@@ -25,11 +25,21 @@
 					</li>
 				<?php } ?>
 		      	<li class="nav-item"><a class="nav-link" href="#">Locaties</a></li>
-		      	<li class="nav-item"><a class="nav-link" href="#">Schermen</a></li>		      	
-		      	<form class="form-inline" id="search-section">
+		      	<form class="form-inline" id="search-section" method="POST" action="search.php">
 				    <div class="input-group">
 				    	<button class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></button>
-				    	<input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+				    	<input type="text" class="form-control" name="search-words" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+				    	<select class="form-control" name="search-section">
+				    		<option value="">Alles</option>
+				    		<option value="news_article">Nieuwsberichten</option>
+				    		<option value="location">Locaties</option>
+				    		<option value="account">Accounts</option>
+				    		<option value="theme">Thema's</option>
+				    		<option value="right">Rechten</option>
+				    		<option value="category">Categorie</option>
+				    		<option value="file">Bestanden</option>
+				    		<option value="layout">Opmaak</option>
+				    	</select>
 				    </div>
 				</form>	      		      	
 	    	</ul>	    
