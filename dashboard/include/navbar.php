@@ -1,6 +1,6 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  		<a class="navbar-brand" href="index.php">Dotcasting</a>
+  		<a class="navbar-brand" href="/KBS/Project-KBS/dashboard/index.php">Dotcasting</a>
   		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     		<span class="navbar-toggler-icon"></span>
   		</button>
@@ -28,7 +28,7 @@
 		      	<li class="nav-item"><a class="nav-link" href="#">Schermen</a></li>		      	
 		      	<form class="form-inline" id="search-section">
 				    <div class="input-group">
-				    	<button class="input-group-addon" id="basic-addon1"><img src="../img/icons/searcher.png" alt="Search icon"></button>
+				    	<button class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></button>
 				    	<input type="text" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
 				    </div>
 				</form>	      		      	
@@ -36,7 +36,7 @@
 	    	<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#">Welkom: <?php echo $_SESSION["email"]; ?></a></li>
 				<li class="nav-item">
-			    	<a class="nav-link icon-settings" href="#"><img src="../img/icons/settings.png" alt="Settings icon"></a>
+			    	<a class="nav-link icon-settings" href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
 			  	</li>
 			  	<li class="nav-item">
 		  			<button type="button" class="btn" data-toggle="modal" data-target="#modal-logout">Uitloggen</button>			    	

@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET["location_id"])) {
-	include '../framework.php';
+	include '../include/framework.php';
 
 	$location_id = $_GET["location_id"];
 

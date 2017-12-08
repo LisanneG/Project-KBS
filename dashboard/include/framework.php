@@ -108,10 +108,13 @@ function GetLogo(){
 
 // Function to get all the users
 // Returns result
-function GetUsers(){
+function GetUsers($NotAdmin){
 	$stringBuilder = "SELECT u.user_id, u.email, l.name ";
 	$stringBuilder .= "FROM `user` u ";
 	$stringBuilder .= "INNER JOIN location l ON l.location_id=u.location ";
+	if($NotAdmin){
+		$stringBuilder .= "WHERE u.admin=0 ";
+	}
 	$stringBuilder .= "ORDER BY l.name ";
 
 	// Preparing query
@@ -152,7 +155,7 @@ function GetUserRights($user_id){
 
 // Function to save all the rights for a specific user
 // Returns alert
-function SaveRights($user_id, $rights){
+function SaveUserRights($user_id, $rights){
 	//First deleting all the rights
 	$stringBuilder = "DELETE FROM user_has_right ";
 	$stringBuilder .= "WHERE user_id=? ";
@@ -183,10 +186,51 @@ function SaveRights($user_id, $rights){
 	}
 
 	if($valid){
-		echo "<div class=\"alert alert-success\" role=\"alert\">De rechten zijn opgeslagen</div>";
+		echo "<div class=\"alert alert-success\" role=\"alert\">Het rechten zijn opgeslagen</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
 }
 
+function SaveRights($input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+	}
+}
+
+function EditRights($right_id, $input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "UPDATE `right` SET name=?, description=? WHERE right_id=? ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description, $right_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+	}
+}
+
+function RemoveRights($right_id){
+	//Making the insert query
+	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($right_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is verwijderd</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+	}
+}
 ?>
