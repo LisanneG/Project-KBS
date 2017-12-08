@@ -13,16 +13,20 @@ $(document).ready(function(){
     location_name = $("#location_name").html();
 	LoadWeather(location_name);
     setInterval('updateClock()', 1000);
-    //scroll($('html, .container'), 10000);
-    MessageScroll();   
+    MessageScroll();
+    Checkpriority();
+
 });
 
-
-
-function scroll(element, speed) { //needs to be removed
-    element.animate({ scrollTop: $("html, .container").offset().top }, speed, function() {
-        $(this).animate({ scrollTop: 0 }, speed, scroll(element, speed), 5000);
-    });
+function Checkpriority(){
+    if($(".priority-message")[0]){
+        $("#messagediv").removeClass("col");
+        $("#messagediv").addClass("offset-4 col-8");
+    }
+    else{
+        $("div.row").addClass("justify-content-center");
+        $("div.container-fluid").removeClass("container-fluid").addClass("container");
+    }
 }
 
 
