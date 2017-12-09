@@ -32,7 +32,6 @@ if (isset($_POST["logout"])) {
 		<nav class="nav nav-tabs" id="myTab" role="tablist">
 			<a class="nav-item nav-link active" id="nav-toevoegen-tab" data-toggle="tab" href="#nav-toevoegen" role="tab" aria-controls="nav-toevoegen" aria-selected="true">Toevoegen</a>
 			<a class="nav-item nav-link" id="nav-wijzigen-tab" data-toggle="tab" href="#nav-wijzigen" role="tab" aria-controls="nav-wijzigen" aria-selected="false">Wijzigen</a>
-			<a class="nav-item nav-link" id="nav-verwijderen-tab" data-toggle="tab" href="#nav-verwijderen" role="tab" aria-controls="nav-verwijderen" aria-selected="false">Verwijderen</a>
 		</nav>
 		
 		<!-- content of the tabs -->
@@ -78,7 +77,7 @@ if (isset($_POST["logout"])) {
 					<div class="form-group row">
 						<label class="control-label col-2 col-form-label" for="description">Beschrijving:</label>
 						<div class="col-10">
-							<textarea name="description" class="form-control" id="description" form="newsAddForm"></textarea>
+							<textarea name="description" class="form-control" id="description" form="newsAddForm" placeholder="Enter title"></textarea>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -92,11 +91,6 @@ if (isset($_POST["logout"])) {
 			<!-- content of "wijzigen" -->
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">
 				<?php include 'news/news_edit.php' ?>
-			</div>
-			
-			<!-- content of "verwijderen" -->
-			<div class="tab-pane fade" id="nav-verwijderen" role="tabpanel" aria-labelledby="nav-verwijderen-tab">
-				<?php include 'news/news_remove.php' ?>
 			</div>
 		</div>
 	</section>	

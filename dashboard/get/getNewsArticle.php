@@ -47,6 +47,38 @@ if (isset($_GET["location_id"])) {
 	if(!$hasAtLeastOneArticle){
 		echo "<div class=\"alert alert-warning\" role=\"alert\">De gekozen locatie heeft geen nieuwsberichten</div>";
 	}
+} elseif (isset($_GET["newsManage"])) {
+	include '../include/framework.php';
+
+	$hasAtLeastOneArticle = false;
+
+	foreach (GetNewsArticles() as $row) {
+		$hasAtLeastOneArticle = true;
+
+		$news_article_id = $row["news_article_id"];
+		$title = $row["title"];
+		$category_id = $row["category_id"];
+		$file_id = $row["file_id"];
+		$date = $row["date"];
+		$display_from = $row["display_from"];
+		$display_till = $row["display_till"];
+		$priority = $row["priority"];
+		$description = $row["description"];
+		//File
+		$file_location = $row["location"];
+		//Location
+		$location = $row["location_id"];
+
+		echo "<tr>";
+		echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNewsArticle\" data-id=\"$news_article_id\" data-name=\"$title\" data-description=\"$description\">$title</button></td>";
+		echo "	<td>$description</td>";
+		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-newsArticle\" data-id=\"$news_article_id\" data-name=\"$title\">Verwijderen</td>";
+		echo "</tr>";
+	}
+
+	if(!$hasAtLeastOneArticle){
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen rechten om te geven</div>";
+	}
 } else {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is geen locatie meegenomen</div>";
 }

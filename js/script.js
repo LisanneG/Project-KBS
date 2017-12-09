@@ -15,6 +15,11 @@ $(document).ready(function() {
 		
 	});
 
+	//When the tab is clicked for editing newsarticles
+	$("#nav-wijzigen-tab").click(function(){
+		LoadNewsArticles();
+	});
+
 	//When another person is selected for the rights
     $("#rights-users").on("change", function() {
 		var user_name = $("#rights-users option:selected").text();
@@ -107,5 +112,11 @@ function LoadRights(){
 function LoadUserRights(user_id){
 	$.get("../get/getRight.php?user_id="+user_id, function(data) {
 		$("#user-rights-tbody").html(data); //Putting the rights information inside a tbody tag
+	});
+}
+
+function LoadNewsArticles(){
+	$.get("../get/getNewsArticle.php?newsManage=\"yes\"", function(data) {
+		$("#newsArticles-tbody").html(data); //Putting the articles information inside a tbody tag
 	});
 }
