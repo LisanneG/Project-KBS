@@ -2,6 +2,9 @@ $(document).ready(function() {
 	//Loading the rights
 	LoadRights();
 
+	//Loading the articles
+	LoadNewsArticles();
+
     //When another location is selected
     $("#locations").on("change", function() {
 		var location_name = $("#locations option:selected").text();
@@ -13,11 +16,6 @@ $(document).ready(function() {
 			LoadBirthdays(location_id);
 		}
 		
-	});
-
-	//When the tab is clicked for editing newsarticles
-	$("#nav-wijzigen-tab").click(function(){
-		LoadNewsArticles();
 	});
 
 	//When another person is selected for the rights
