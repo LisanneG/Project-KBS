@@ -90,10 +90,111 @@ if (isset($_POST["logout"])) {
 			
 			<!-- content of "wijzigen" -->
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">
-				<?php include 'news/news_edit.php' ?>
+				<div class="row">					
+					<div class="col-md-12">
+						<table class="table">
+							<thead>
+								<tr>								
+									<th>Titel</th>
+									<th>Beschrijving</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody id="newsArticles-tbody">
+							</tbody>
+						</table>	
+					</div>					
+				</div>
 			</div>
 		</div>
 	</section>	
+
+	<!-- Modal for editing the newsarticle -->
+	<div class="modal fade" id="editNews" tabindex="-1" role="dialog" aria-labelledby="editNewsLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+	    	<div class="modal-content">
+	    		<div class="modal-header">
+	        		<h5 class="modal-title" id="editNewsLabel">Bewerken nieuwsbericht</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	        		</button>
+	      		</div>	      		
+	      		<div class="modal-body">		        	
+	          		<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="title">Titel:</label>
+						<div class="col-10">
+							<input type="text" class="form-control" id="news-title" placeholder="Voer een titel in" name="news-title" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
+						<div class="col-10">
+							<input class="btn btn-default" id="news-file" type="file" name="medium[]">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="priority">Prioriteit:</label>
+						<div class="col-10">
+							<input class="mr-1" type="checkbox" id="news-priority" name="news-priority">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="dateFrom">Datum van:</label>
+						<div class="col-10">
+							<input type="date" id="news-date-from" name="news-date-from" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-2" for="dateTill">Datum tot:</label>
+						<div class="col-10">
+							<input type="date" id="news-date-till" name="news-date-till" required="required">
+						</div>
+					</div>
+					
+					<?php include 'news/news_add.php' ?>
+					
+					<div class="form-group row">
+						<label class="control-label col-2 col-form-label" for="description">Beschrijving:</label>
+						<div class="col-10">
+							<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Enter title"></textarea>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="mr-auto col-10">
+							<button type="submit" class="btn btn-default" id="save-news-edit">Submit</button>
+						</div>
+					</div>    	
+	      		</div>
+	      		<div class="modal-footer">
+	      			<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+	      			<input type="hidden" id="right-id">
+	        		<button type="button" class="btn btn-success" id="save-right-edit">Opslaan</button>
+	      		</div>	      		
+	    	</div>
+	  	</div>
+	</div>
+	
+	<!-- Modal for removing right -->
+	<div class="modal fade" id="modal-remove-news" tabindex="-1" role="dialog" aria-labelledby="removeNewsLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Verwijderen</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Weet jij zeker dat je het nieuwsbericht "<span id="news-title"></span>" wilt verwijderen?</p>
+					<input type="hidden" id="news-id">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>	 
+					<button type="button" class="btn btn-warning" id="btn-remove-news">Ja</button>	 
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<?php include 'include/footer.php'; ?>
 </body>

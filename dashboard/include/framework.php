@@ -403,6 +403,85 @@ function SaveUserRights($user_id, $rights){
 	}
 }
 
+//Function for inserting a new file
+function SaveFile($input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for updating association between file and 
+function EditFile($news_article_id, $input_title, $input_description){
+	//Making the insert query
+	$stringBuilder = "UPDATE `right` ";
+	$stringBuilder .= "SET name=?, description=? ";
+	$stringBuilder .= "WHERE right_id=? ";
+	
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_title, $input_description, $news_article_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for inserting a new newsarticle
+function SaveNews($input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for inserting an edited newsarticle
+function EditNews($news_article_id, $input_title, $input_description){
+	//Making the insert query
+	$stringBuilder = "UPDATE `right` ";
+	$stringBuilder .= "SET name=?, description=? ";
+	$stringBuilder .= "WHERE right_id=? ";
+	
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_title, $input_description, $news_article_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for deleting a selected newsarticle
+function RemoveNews($news_article_id){
+	//Making the insert query
+	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($news_article_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is verwijderd</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
 function SaveRights($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
@@ -413,7 +492,7 @@ function SaveRights($input_name, $input_description){
 	if($query->execute(array($input_name, $input_description))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
@@ -427,7 +506,7 @@ function EditRights($right_id, $input_name, $input_description){
 	if($query->execute(array($input_name, $input_description, $right_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is bijgewerkt</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
@@ -441,7 +520,7 @@ function RemoveRights($right_id){
 	if($query->execute(array($right_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is verwijderd</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
