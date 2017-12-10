@@ -418,7 +418,7 @@ function SaveFile($input_name, $input_description){
 	}
 }
 
-//Function for updating association between file and 
+//Function for updating association between file and newsarticle
 function EditFile($news_article_id, $input_title, $input_description){
 	//Making the insert query
 	$stringBuilder = "UPDATE `right` ";
