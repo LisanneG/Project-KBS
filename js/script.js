@@ -40,11 +40,22 @@ $(document).ready(function() {
 		var id = button.data("id") // Extract info from data-id attribute
 		var title = button.data("title") // Extract info from data-name attribute
 		var description = button.data("description") // Extract info from data-description attribute
+		var priority = button.data("priority") // Extract info from data-description attribute
+		var displayFrom = button.data("display-from") // Extract info from data-description attribute
+		var displayTill = button.data("display-till") // Extract info from data-description attribute
+		var category = button.data("category-id") // Extract info from data-description attribute
+		var fileLocation = button.data("file-location") // Extract info from data-description attribute
 		
 		var modal = $(this)
-		modal.find("#right-name").val(name);
-		modal.find("#right-description").val(description);
+		modal.find("#news-title").val(title);
+		modal.find("#news-file").val(fileLocation);
+		modal.find("#news-priority").val(priority);
+		modal.find("#news-date-from").val(displayFrom);
+		modal.find("#news-date-till").val(displayTill);
 		modal.find("#right-id").val(id);
+		modal.find("#right-id").val(id);
+		modal.find("#news-description").val(description);
+		modal.find("#newsarticle-id").val(id);
 	});
 
 	//Modal for the newsarticle removal

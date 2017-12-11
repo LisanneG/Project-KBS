@@ -419,7 +419,7 @@ function SaveFile($input_name, $input_description){
 }
 
 //Function for updating association between file and newsarticle
-function EditFile($news_article_id, $input_title, $input_description){
+function EditFile($newsarticle_id, $input_title, $input_description){
 	//Making the insert query
 	$stringBuilder = "UPDATE `right` ";
 	$stringBuilder .= "SET name=?, description=? ";
@@ -428,7 +428,7 @@ function EditFile($news_article_id, $input_title, $input_description){
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
 
-	if($query->execute(array($input_title, $input_description, $news_article_id))){
+	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
@@ -451,7 +451,7 @@ function SaveNews($input_name, $input_description){
 }
 
 //Function for inserting an edited newsarticle
-function EditNews($news_article_id, $input_title, $input_description){
+function EditNews($newsarticle_id, $input_title, $input_description){
 	//Making the insert query
 	$stringBuilder = "UPDATE `right` ";
 	$stringBuilder .= "SET name=?, description=? ";
@@ -460,7 +460,7 @@ function EditNews($news_article_id, $input_title, $input_description){
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
 
-	if($query->execute(array($input_title, $input_description, $news_article_id))){
+	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
@@ -468,14 +468,14 @@ function EditNews($news_article_id, $input_title, $input_description){
 }
 
 //Function for deleting a selected newsarticle
-function RemoveNews($news_article_id){
+function RemoveNews($newsarticle_id){
 	//Making the insert query
 	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
 
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
 
-	if($query->execute(array($news_article_id))){
+	if($query->execute(array($newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is verwijderd</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";

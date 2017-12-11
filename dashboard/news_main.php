@@ -121,54 +121,50 @@ if (isset($_POST["logout"])) {
 	      		</div>	      		
 	      		<div class="modal-body">		        	
 	          		<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="title">Titel:</label>
+						<label class="control-label col-2 col-form-label" for="news-title">Titel:</label>
 						<div class="col-10">
 							<input type="text" class="form-control" id="news-title" placeholder="Voer een titel in" name="news-title" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
+						<label class="control-label col-2 col-form-label" for="news-file">Bestand(en):</label>
 						<div class="col-10">
 							<input class="btn btn-default" id="news-file" type="file" name="medium[]">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2" for="priority">Prioriteit:</label>
+						<label class="control-label col-2" for="news-priority">Prioriteit:</label>
 						<div class="col-10">
 							<input class="mr-1" type="checkbox" id="news-priority" name="news-priority">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2" for="dateFrom">Datum van:</label>
+						<label class="control-label col-2" for="news-date-from">Datum van:</label>
 						<div class="col-10">
 							<input type="date" id="news-date-from" name="news-date-from" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2" for="dateTill">Datum tot:</label>
+						<label class="control-label col-2" for="news-date-till">Datum tot:</label>
 						<div class="col-10">
 							<input type="date" id="news-date-till" name="news-date-till" required="required">
 						</div>
 					</div>
 					
+					<?php xdebug_break(); ?>
 					<?php include 'news/news_add.php' ?>
 					
 					<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="description">Beschrijving:</label>
+						<label class="control-label col-2 col-form-label" for="news-description">Beschrijving:</label>
 						<div class="col-10">
 							<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Enter title"></textarea>
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="mr-auto col-10">
-							<button type="submit" class="btn btn-default" id="save-news-edit">Submit</button>
-						</div>
-					</div>    	
 	      		</div>
 	      		<div class="modal-footer">
 	      			<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
-	      			<input type="hidden" id="right-id">
-	        		<button type="button" class="btn btn-success" id="save-right-edit">Opslaan</button>
+	      			<input type="hidden" id="newsarticle-id">
+	        		<button type="button" class="btn btn-success" id="save-news-edit">Opslaan</button>
 	      		</div>	      		
 	    	</div>
 	  	</div>

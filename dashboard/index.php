@@ -40,7 +40,7 @@ if (isset($_POST["logout"])) {
 					</div>
 				</div>
 				<!-- Berichten -->
-				<div id="news-articles"></div>
+				<div id="newsarticles"></div>
 			</div>
 			<div class="col-md-6">
 				<div id="weather"></div>

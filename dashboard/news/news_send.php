@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_POST["submit"])) {
 	$title = $_POST["news-title"];
 	$categoryId = $_POST["news-category"];

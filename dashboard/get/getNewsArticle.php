@@ -49,7 +49,7 @@ if (isset($_GET["location_id"])) {
 	}
 } elseif (isset($_GET["newsManage"])) {
 	include '../include/framework.php';
-
+	print("newsManage");
 	$hasAtLeastOneArticle = false;
 
 	foreach (GetNewsArticles() as $row) {
@@ -78,7 +78,7 @@ if (isset($_GET["location_id"])) {
 	}
 
 	if(!$hasAtLeastOneArticle){
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen rechten om te geven</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen nieuwsartikelen om weer te geven</div>";
 	}
 } else {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is geen locatie meegenomen</div>";
