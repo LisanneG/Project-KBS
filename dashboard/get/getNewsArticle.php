@@ -66,12 +66,12 @@ if (isset($_GET["location_id"])) {
 		$description = $row["description"];
 		//File
 		$file_location = $row["location"];
-
+		xdebug_break();
 		echo "<tr>";
 		echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
-		echo "	data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
-		echo "	data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\"";
-		echo "	>$title</button></td>";
+		echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+		echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\"";
+		echo ">$title</button></td>";
 		echo "	<td>$description</td>";
 		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-name=\"$title\">Verwijderen</td>";
 		echo "</tr>";

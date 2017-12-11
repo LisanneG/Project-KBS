@@ -48,7 +48,7 @@ $(document).ready(function() {
 		
 		var modal = $(this)
 		modal.find("#news-title").val(title);
-		modal.find("#news-file").val(fileLocation);
+		//modal.find("#news-file").val(fileLocation);
 		modal.find("#news-priority").val(priority);
 		modal.find("#news-date-from").val(displayFrom);
 		modal.find("#news-date-till").val(displayTill);

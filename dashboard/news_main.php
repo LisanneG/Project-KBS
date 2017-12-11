@@ -151,7 +151,6 @@ if (isset($_POST["logout"])) {
 						</div>
 					</div>
 					
-					<?php xdebug_break(); ?>
 					<?php include 'news/news_add.php' ?>
 					
 					<div class="form-group row">
