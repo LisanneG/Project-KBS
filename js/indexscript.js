@@ -78,7 +78,7 @@ function ListScroll(i, length){
             var video = $(listitem).find("div > video").get(0);     
             video.autoplay = false;
             video.muted = false;
-            var vidlength = (video.duration) * 1000 + 5000;
+            var vidlength = (video.duration) * 1000 + 15000;
             console.log(vidlength);
             if($(video).visible()){
             video.play();
