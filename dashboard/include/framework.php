@@ -57,7 +57,7 @@ function CheckIfUserExists($input_email, $input_password)
 		$return = "<div class=\"row\">";
 		$return .= "	<h3>Nieuwsberichten</h3>";
 		$return .= "	<div class=\"col-md-12\">";
-		$return .= "	<div class=\"table-responsive\">";
+		$return .= "		<div class=\"table-responsive\">";
 		$return .= "			<table class=\"table\">";
 		$return .= "				<thead>";
 		$return .= "					<tr>";
@@ -241,21 +241,37 @@ function GetLocations(){
 
 // Function to get all the news articles
 // Returns the results
-function GetNewsArticles($location_id){
-	//Building the query
-	$stringBuilder = "SELECT na.*, f.location, f.`type`, c.name AS category_name, c.background_color ";
-	$stringBuilder .= "FROM news_article na ";
-	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=na.file_id ";
-	$stringBuilder .= "INNER JOIN category c ON c.category_id=na.category_id ";
-	$stringBuilder .= "WHERE (na.display_till >= NOW() && display_from <= NOW()) ";
-	$stringBuilder .= "AND na.news_article_id IN (SELECT nahl.news_article_id FROM news_article_has_location nahl WHERE nahl.location_id=?) ";
+function GetNewsArticles($location_id = NULL){
+	if (isset($location_id)){
+		//Building the query
+		$stringBuilder = "SELECT na.*, f.location, f.`type`, c.name AS category_name, c.background_color ";
+		$stringBuilder .= "FROM news_article na ";
+		$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=na.file_id ";
+		$stringBuilder .= "INNER JOIN category c ON c.category_id=na.category_id ";
+		$stringBuilder .= "WHERE (na.display_till >= NOW() && display_from <= NOW()) ";
+		$stringBuilder .= "AND na.news_article_id IN (SELECT nahl.news_article_id FROM news_article_has_location nahl WHERE nahl.location_id=?) ";
 
-	// Preparing query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	$query->execute(array($location_id)); //Putting in the parameters
-	$result = $query->fetchAll(); //Fetching it
+		// Preparing query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		$query->execute(array($location_id)); //Putting in the parameters
+		$result = $query->fetchAll(); //Fetching it
 
-	return $result;
+		return $result;
+	} else {
+		//Building the query
+		$stringBuilder = "SELECT * ";
+		$stringBuilder .= "FROM news_article na ";
+		$stringBuilder .= "JOIN news_article_has_location nahl ON na.news_article_id = nahl.news_article_id ";
+		$stringBuilder .= "JOIN file f ON na.file_id = f.file_id ";
+		$stringBuilder .= "GROUP BY na.news_article_id";
+
+		// Preparing query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		$query->execute(); //Putting in the parameters
+		$result = $query->fetchAll(); //Fetching it
+
+		return $result;
+	}
 }
 
 // Function to get all the birthdays
@@ -387,6 +403,85 @@ function SaveUserRights($user_id, $rights){
 	}
 }
 
+//Function for inserting a new file
+function SaveFile($input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for updating association between file and newsarticle
+function EditFile($newsarticle_id, $input_title, $input_description){
+	//Making the insert query
+	$stringBuilder = "UPDATE `right` ";
+	$stringBuilder .= "SET name=?, description=? ";
+	$stringBuilder .= "WHERE right_id=? ";
+	
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for inserting a new newsarticle
+function SaveNews($input_name, $input_description){
+	//Making the insert query
+	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_name, $input_description))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for inserting an edited newsarticle
+function EditNews($newsarticle_id, $input_title, $input_description){
+	//Making the insert query
+	$stringBuilder = "UPDATE `right` ";
+	$stringBuilder .= "SET name=?, description=? ";
+	$stringBuilder .= "WHERE right_id=? ";
+	
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+//Function for deleting a selected newsarticle
+function RemoveNews($newsarticle_id){
+	//Making the insert query
+	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+	if($query->execute(array($newsarticle_id))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is verwijderd</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
 function SaveRights($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
@@ -397,7 +492,7 @@ function SaveRights($input_name, $input_description){
 	if($query->execute(array($input_name, $input_description))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
@@ -411,7 +506,7 @@ function EditRights($right_id, $input_name, $input_description){
 	if($query->execute(array($input_name, $input_description, $right_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is bijgewerkt</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
@@ -425,7 +520,7 @@ function RemoveRights($right_id){
 	if($query->execute(array($right_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is verwijderd</div>";
 	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
