@@ -64,6 +64,7 @@
         crossorigin="anonymous"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-dateFormat.min.js"></script>
+    <script src="js/jquery.visible.min.js"></script>
     <script src="js/indexscript.js"></script>
 </body>
 

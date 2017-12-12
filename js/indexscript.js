@@ -53,9 +53,10 @@ function ListScroll(i, length){
     //250 / 60 = 4.17 words-per-second
     //20.83 character per second
     //txtlength / 20.83 + 2 * 1000 = seconds of display
+    
     var listitem = $("li.media.mb-5.mt-5.border.border-dark").eq(i);
         if($(listitem).attr("[id$='-messagevideo']")){
-            var video = $(listitem).find("video");            
+            var video = $(listitem).find("div > video").get(0);    
             video.autoplay = false;
             video.muted = true;
             var vidlength = (video.duration) * 1000;
@@ -74,11 +75,15 @@ function ListScroll(i, length){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 200)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
         }
         else if($(listitem).is("li[id$='-messagevideowithsound']")){
-            var video = $(listitem).find("video");            
+            var video = $(listitem).find("div > video").get(0);     
             video.autoplay = false;
             video.muted = false;
-            var vidlength = (video.duration) * 1000;
-            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 50)},2000).queue(function(){video.play();}).delay(vidlength + 5000).dequeue();
+            var vidlength = (video.duration) * 1000 + 5000;
+            console.log(vidlength);
+            if($(video).visible()){
+            video.play();
+            $("html, body").stop().animate({ scrollTop: ($(listitem).offset().top - 200)},2000).delay(vidlength);          
+            }
         }
 
 }
