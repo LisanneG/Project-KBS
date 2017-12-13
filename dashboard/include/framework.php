@@ -687,14 +687,14 @@ function readDB($location_id)
 			print("</div>");
 			print("</li>");
 		}
-		elseif($row['type'] == "video"){
+		elseif($row['type'] == "video" && $row["muted"] == 1){
 			$videotype = explode(".", $row['location']);
 
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
 			<video class='embed-responsive-item embed-responsive-item-16by9' muted>
-			<source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
@@ -706,7 +706,7 @@ function readDB($location_id)
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
 			<video class='embed-responsive-item embed-responsive-item-16by9'>
-			<source src='". $row['location'] ." type='video/". $videotype ."'>Your browser does not support video</video>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
