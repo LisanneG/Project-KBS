@@ -263,13 +263,12 @@ function GetNewsArticles($location_id = NULL){
 		$stringBuilder .= "FROM news_article na ";
 		$stringBuilder .= "JOIN news_article_has_location nahl ON na.news_article_id = nahl.news_article_id ";
 		$stringBuilder .= "JOIN file f ON na.file_id = f.file_id ";
-		$stringBuilder .= "GROUP BY na.news_article_id";
+		//$stringBuilder .= "GROUP BY na.news_article_id";
 
 		// Preparing query
 		$query = GetDatabaseConnection()->prepare($stringBuilder);
 		$query->execute(); //Putting in the parameters
 		$result = $query->fetchAll(); //Fetching it
-
 		return $result;
 	}
 }
@@ -470,7 +469,7 @@ function EditNews($newsarticle_id, $input_title, $input_description){
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
 	//Making the insert query
-	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
+	$stringBuilder = "DELETE FROM `news_article` WHERE right_id=? ";
 
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);

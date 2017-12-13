@@ -19,7 +19,7 @@ if (isset($_GET["newsarticle_id"]) && isset($_GET["title"]) && isset($_GET["desc
 
 	$newsarticle_id = $_GET["newsarticle_id"];
 
-	echo RemoveRights($newsarticle_id); //Calling a function to remove it, which gives back a message if it's successful or not
+	echo RemoveNews($newsarticle_id); //Calling a function to remove it, which gives back a message if it's successful or not
 } else {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 }

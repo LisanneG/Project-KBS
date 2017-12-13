@@ -38,22 +38,42 @@ $(document).ready(function() {
 	$("#editNews").on("show.bs.modal", function (event) {
 		var button = $(event.relatedTarget) // Button that triggered the modal
 		var id = button.data("id") // Extract info from data-id attribute
-		var title = button.data("title") // Extract info from data-name attribute
+		var title = button.data("title") // Extract info from data-title attribute
 		var description = button.data("description") // Extract info from data-description attribute
-		var priority = button.data("priority") // Extract info from data-description attribute
-		var displayFrom = button.data("display-from") // Extract info from data-description attribute
-		var displayTill = button.data("display-till") // Extract info from data-description attribute
-		var category = button.data("category-id") // Extract info from data-description attribute
-		var fileLocation = button.data("file-location") // Extract info from data-description attribute
+		var priority = button.data("priority") // Extract info from data-priority attribute
+		var displayFrom = button.data("display-from") // Extract info from data-display-from attribute
+		var displayTill = button.data("display-till") // Extract info from data-display-till attribute
+		var category = button.data("category-id") // Extract info from data-category-id attribute
+		var fileLocation = button.data("file-location") // Extract info from data-file-location attribute
+		var locations = button.data("location") // Extract info from data-location attribute
+		if (locations.length >= 3){
+			var arrlocations = locations.split(',') // Split locations into an array
+		}
 		
 		var modal = $(this)
 		modal.find("#news-title").val(title);
-		//modal.find("#news-file").val(fileLocation);
-		modal.find("#news-priority").val(priority);
+		modal.find(".oldimg img").attr('src', fileLocation);
+		modal.find("#news-category").each( function (){
+			if ($(this).attr('value') == category) {
+				$(this).attr('checked', "checked");
+			}
+		});
+		if (priority != 0) {
+			modal.find("#news-priority").attr('checked', "checked");
+		}
 		modal.find("#news-date-from").val(displayFrom);
 		modal.find("#news-date-till").val(displayTill);
-		modal.find("#right-id").val(id);
-		modal.find("#right-id").val(id);
+		modal.find("#news-location").each( function (){
+			if (isset(arrlocations)) {
+				if (arrlocations.indexOf($(this).attr('value')) != -1){
+					$(this).attr('checked', "checked");
+				}
+			} else {
+				if ($(this).attr('value') == locations) {
+					$(this).attr('checked', "checked");
+				}
+			}
+		});
 		modal.find("#news-description").val(description);
 		modal.find("#newsarticle-id").val(id);
 	});
@@ -65,30 +85,36 @@ $(document).ready(function() {
 		var title = button.data("title") // Extract info from data-name attribute
 		
 		var modal = $(this)
-		modal.find("right-title").text(name);
-		modal.find("#right-id").val(id);
+		modal.find("#news-title").text(title);
+		modal.find("#news-id").val(id);
 	});
 
 	//When the button is clicked to edit a newsarticle
-	$("#save-right-edit").click(function(){
-		var right_name = $("#editRight #right-name").val();
-		var right_description = $("#editRight #right-description").val();
-		var right_id = $("#editRight #right-id").val();
+	$("#save-news-edit").click(function(){
+		var news_title = $("#editNews #news-title").val();
+		var news_description = $("#editNews #news-description").val();
+		var news_id = $("#editNews #news-id").val();
+		var news_priority = $("#editNews #news-priority").val();
+		var news_display_from = $("#editNews #news-date-from").val();
+		var news_display_till = $("#editNews #news-date-till").val();
+		var news_category = $("#editNews #news-category").val();
+		var news_filelocation = $("#editNews #news-file").attr('name');
+		var news_locations = $("#editNews #news-locations").val();
 
-		$.get("../get/right.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
+		$.get("../get/news_article.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
-			LoadRights(); //Loading the rights again			
+			LoadNewsArticles(); //Loading the newsarticles again			
 		});
 	});
 
 	//When the button is clicked to delete a newsarticle
-	$("#btn-remove-right").click(function(){
-		var right_id = $("#modal-remove-right #right-id").val();
+	$("#btn-remove-news").click(function(){
+		var id = $("#modal-remove-news #news-id").val();
     	
-    	$.get("../get/right.php?method=remove&right_id="+right_id, function(data) {
+    	$.get("../get/news_article.php?method=remove&newsarticle_id="+id, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
-			LoadRights(); //Loading the rights again
-			$('#modal-remove-right').modal('hide'); //Closing the modal
+			LoadNewsArticles(); //Loading the newsarticles again
+			$('#modal-remove-news').modal('hide'); //Closing the modal
 		});
 	});	
 	
@@ -175,4 +201,35 @@ function LoadNewsArticles(){
 	$.get("../dashboard/get/getNewsArticle.php?newsManage=yes", function(data) {
 		$("#newsArticles-tbody").html(data); //Putting the articles information inside a tbody tag
 	});
+}
+
+function isset () {
+    // !No description available for isset. @php.js developers: Please update the function summary text file.
+    // 
+    // version: 1103.1210
+    // discuss at: http://phpjs.org/functions/isset
+    // +   original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+    // +   improved by: FremyCompany
+    // +   improved by: Onno Marsman
+    // +   improved by: Rafał Kukawski
+    // *     example 1: isset( undefined, true);
+    // *     returns 1: false
+    // *     example 2: isset( 'Kevin van Zonneveld' );
+    // *     returns 2: true
+    var a = arguments,
+        l = a.length,
+        i = 0,
+        undef;
+
+    if (l === 0) {
+        throw new Error('Empty isset');
+    }
+
+    while (i !== l) {
+        if (a[i] === undef || a[i] === null) {
+            return false;
+        }
+        i++;
+    }
+    return true;
 }
