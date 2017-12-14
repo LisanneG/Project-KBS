@@ -102,7 +102,7 @@ if (isset($_GET["location_id"])) {
 			$location .= "," . $row["location_id"];
 		}
 	}
-	echo "data-location\"$location\"";
+	echo "data-location=\"$location\"";
 	echo ">$title</button></td>";
 	echo "	<td>$description</td>";
 	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";

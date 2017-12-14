@@ -396,7 +396,7 @@ function EditNews($newsarticle_id, $input_title, $input_description){
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
 	//Making the insert query
-	$stringBuilder = "DELETE FROM `news_article` WHERE right_id=? ";
+	$stringBuilder = "DELETE FROM `news_article` WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
 	if($query->execute(array($newsarticle_id))){

@@ -138,7 +138,7 @@ $(document).ready(function() {
 		var name = button.data("name") // Extract info from data-name attribute
 		
 		var modal = $(this)
-		modal.find("right-title").text(name);
+		modal.find("#right-title").text(name);
 		modal.find("#right-id").val(id);
 	});
 
