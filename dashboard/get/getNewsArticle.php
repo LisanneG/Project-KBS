@@ -47,6 +47,70 @@ if (isset($_GET["location_id"])) {
 	if(!$hasAtLeastOneArticle){
 		echo "<div class=\"alert alert-warning\" role=\"alert\">De gekozen locatie heeft geen nieuwsberichten</div>";
 	}
+} elseif (isset($_GET["newsManage"])) {
+	include '../include/framework.php';
+	$hasAtLeastOneArticle = false;
+	$news_article_id = false;
+	foreach (GetNewsArticles() as $row) {
+		$hasAtLeastOneArticle = true;
+		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
+			echo "data-location=\"$location\"";
+			echo ">$title</button></td>";
+			echo "	<td>$description</td>";
+			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+			echo "</tr>";
+			
+			$news_article_id = $row["news_article_id"];
+			$title = $row["title"];
+			$category_id = $row["category_id"];
+			$file_id = $row["file_id"];
+			$date = $row["date"];
+			$display_from = $row["display_from"];
+			$display_from = substr($display_from, 0, -9);
+			$display_till = $row["display_till"];
+			$display_till = substr($display_till, 0, -9);
+			$priority = $row["priority"];
+			$description = $row["description"];
+			//File
+			$file_location = $row["location"];
+			$location = $row["location_id"];
+			echo "<tr>";
+			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
+			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
+
+		} elseif ($news_article_id != $row["news_article_id"]) {
+			$news_article_id = $row["news_article_id"];
+			$title = $row["title"];
+			$category_id = $row["category_id"];
+			$file_id = $row["file_id"];
+			$date = $row["date"];
+			$display_from = $row["display_from"];
+			$display_from = substr($display_from, 0, -9);
+			$display_till = $row["display_till"];
+			$display_till = substr($display_till, 0, -9);
+			$priority = $row["priority"];
+			$description = $row["description"];
+			//File
+			$file_location = $row["location"];
+			$location = $row["location_id"];
+			echo "<tr>";
+			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
+			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
+		} else {
+			$location .= "," . $row["location_id"];
+		}
+	}
+	echo "data-location\"$location\"";
+	echo ">$title</button></td>";
+	echo "	<td>$description</td>";
+	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+	echo "</tr>";
+
+	if(!$hasAtLeastOneArticle){
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen nieuwsartikelen om weer te geven</div>";
+	}
 } else {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is geen locatie meegenomen</div>";
 }

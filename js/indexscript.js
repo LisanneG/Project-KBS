@@ -12,18 +12,21 @@ $(document).ready(function(){
     //Getting the location name
     location_name = $("#location_name").html();
 	LoadWeather(location_name);
-
     setInterval('updateClock()', 1000);
-    //scroll($('html, .container'), 10000);
-    MessageScroll();   
+    MessageScroll();
+    Checkpriority();
+
 });
 
-
-
-function scroll(element, speed) { //needs to be removed
-    element.animate({ scrollTop: $("html, .container").offset().top }, speed, function() {
-        $(this).animate({ scrollTop: 0 }, speed, scroll(element, speed), 5000);
-    });
+function Checkpriority(){
+    if($(".priority-message")[0]){
+        $("#messagediv").removeClass("col");
+        $("#messagediv").addClass("offset-4 col-8");
+    }
+    else{
+        $("div.row").addClass("justify-content-center");
+        $("div.container-fluid").removeClass("container-fluid").addClass("container");
+    }
 }
 
 
@@ -50,9 +53,10 @@ function ListScroll(i, length){
     //250 / 60 = 4.17 words-per-second
     //20.83 character per second
     //txtlength / 20.83 + 2 * 1000 = seconds of display
+    
     var listitem = $("li.media.mb-5.mt-5.border.border-dark").eq(i);
         if($(listitem).attr("[id$='-messagevideo']")){
-            var video = $(listitem).find("video");            
+            var video = $(listitem).find("div > video").get(0);    
             video.autoplay = false;
             video.muted = true;
             var vidlength = (video.duration) * 1000;
@@ -71,11 +75,15 @@ function ListScroll(i, length){
             $("html, body").animate({ scrollTop: ($(listitem).offset().top - 200)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
         }
         else if($(listitem).is("li[id$='-messagevideowithsound']")){
-            var video = $(listitem).find("video");            
+            var video = $(listitem).find("div > video").get(0);     
             video.autoplay = false;
             video.muted = false;
-            var vidlength = (video.duration) * 1000;
-            $("html, body").animate({ scrollTop: ($(listitem).offset().top - 50)},2000).queue(function(){video.play();}).delay(vidlength + 5000).dequeue();
+            var vidlength = (video.duration) * 1000 + 5000;
+            console.log(vidlength);
+            if($(video).visible()){
+            video.play();
+            $("html, body").stop().animate({ scrollTop: ($(listitem).offset().top - 200)},2000).delay(vidlength);          
+            }
         }
 
 }

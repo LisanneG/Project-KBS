@@ -50,3 +50,10 @@ h3.navtabs{padding-top: 15px; margin-bottom: 25px;}
 /*Rights*/
 #user-rights-table{display: none;}
 .btn-right-add{margin-top: 10px;}
+
+/*Search*/
+.short-description{width:40%;}
+.search-img{width:50px;}
+
+/* Newsarticles */
+.modal-lg{max-width: 1200px !important;}

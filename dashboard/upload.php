@@ -19,12 +19,12 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 			$type = "pdf";
 		}
 		
-		//maybe random numbers b4 filename
+		//4 random numbers before filename for identification
 		
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
-		print($prename);
 		
+		$server_url = "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
 		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
@@ -32,9 +32,11 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 			if ($type == "pdf") {
 				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/foto/" . $prename . $medium;
 				$save_file = substr($save_file, 0, -3) . "jpg";
+				$server_save_file = "/KBS/Project-KBS/bestanden/media/foto/" . $prename . $medium;
+				$save_file = substr($save_file, 0, -3) . "jpg";
 				// create Imagick object
 				$imagick = new Imagick();
-				$imagick->setResolution(300, 300);
+				$imagick->setResolution(150, 150);
 				// Reads image from PDF
 				$imagick->readImage("{$url}[0]");
 				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
@@ -43,12 +45,12 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 				$imagick->writeImages($save_file, false);
 				
 				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-				$stmt->execute(array($save_file, "foto"));
+				$stmt->execute(array($server_save_file, "foto"));
 				$lastInsertedFileId[$counter] = $conn->lastInsertId();
 				
 			} else {
 				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-				$stmt->execute(array($url, $type));
+				$stmt->execute(array($server_url, $type));
 				$lastInsertedFileId[$counter] = $conn->lastInsertId();
 			}
 			

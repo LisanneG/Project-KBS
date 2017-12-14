@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost",
+            "url": "http://localhost/index.php?location='zwolle'",
             "webRoot": "${workspaceRoot}",
             "runtimeExecutable": "/usr/bin/google-chrome-stable",
             "skipFiles": [
