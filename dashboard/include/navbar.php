@@ -10,9 +10,8 @@
 	      		<li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beheer</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>			        	
-			        	<a class="dropdown-item" href="#">Weerbericht</a>
-			        	<a class="dropdown-item" href="#">Calender</a>
+			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>
+			        	<a class="dropdown-item" href="#">Locaties</a>			        	
 			    	</div>
 				</li>
 				<?php if (isset($_SESSION["admin"]) && $_SESSION["admin"] == "1") { ?>			
@@ -23,8 +22,7 @@
 				        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/users/rights.php">Rechten</a>			        	
 				    	</div>
 					</li>
-				<?php } ?>
-		      	<li class="nav-item"><a class="nav-link" href="#">Locaties</a></li>
+				<?php } ?>		      
 		      	<form class="form-inline" id="search-section" method="POST" action="search.php">
 				    <div class="input-group">
 				    	<button class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></button>

@@ -14,7 +14,7 @@ include 'include/framework.php';
 	<div class='container' id="login">	
 		<div class='row justify-content-center'>
 			<div class='col-lg-6'>
-				<img src="<?php echo GetLogo(); ?>" class="img-fluid logo" alt="Responsive image">
+				<img src="<?php echo GetLogo(); ?>" class="img-fluid logo" alt="Logo bedrijf">
 			</div>
 		</div>
 

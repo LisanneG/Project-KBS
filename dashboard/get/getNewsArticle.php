@@ -33,12 +33,15 @@ if (isset($_GET["location_id"])) {
 		echo "			<div class=\"col-md-12 text-right\">";
 		echo "				<i class=\"fa fa-ellipsis-h\" aria-hidden=\"true\"></i>";
 		echo "			</div>";
-		echo "			<div class=\"col-md-6\">";
+		echo "			<div class=\"col-md-12\">";
+		echo "				<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
 		echo "				<p>$description</p>";
 		echo "			</div>";
-		echo "			<div class=\"col-md-6 text-right\">";
-		echo "				<img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
-		echo "			</div>";
+		// if($type == "foto"){
+		// 	echo "			<div class=\"col-md-6 text-right\">";
+		// 	echo "				<img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
+		// 	echo "			</div>";
+		// }
 		echo "		</div>";
 		echo "	</div>";
 		echo "</div>";

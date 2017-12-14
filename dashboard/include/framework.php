@@ -100,7 +100,7 @@ function GetLogo(){
 	if (isset($result[0]["location"])) {
 		$location = $result[0]["location"];
 	}
-	return "..$location";
+	return "$location";
 }
 // Function to get all the users
 // Returns result
