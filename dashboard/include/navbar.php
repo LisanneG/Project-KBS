@@ -28,18 +28,27 @@
 		      	<form class="form-inline" id="search-section" method="POST" action="search.php">
 				    <div class="input-group">
 				    	<button class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></button>
-				    	<input type="text" class="form-control" name="search-words" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">
+				    	<input type="text" class="form-control" name="search-words" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">				    	
 				    	<select class="form-control" name="search-section">
 				    		<option value="">Alles</option>
-				    		<option value="news_article">Nieuwsberichten</option>
-				    		<option value="location">Locaties</option>
-				    		<option value="account">Accounts</option>
-				    		<option value="theme">Thema's</option>
-				    		<option value="right">Rechten</option>
-				    		<option value="category">Categorie</option>
-				    		<option value="file">Bestanden</option>
-				    		<option value="layout">Opmaak</option>
+				    		<option <?php IsSelected("news"); ?> value="news_article">Nieuwsberichten</option>
+				    		<option <?php IsSelected("locations"); ?> value="location">Locaties</option>
+				    		<option <?php IsSelected("manage_accounts"); ?> value="account">Accounts</option>
+				    		<option <?php IsSelected("themes"); ?> value="theme">Thema's</option>
+				    		<option <?php IsSelected("rights"); ?> value="right">Rechten</option>
+				    		<option <?php IsSelected("categories"); ?> value="category">Categorie</option>
 				    	</select>
+				    	
+				    	<?php
+				    		function IsSelected($page){
+				    			$url = $_SERVER['PHP_SELF'];
+
+				    			if (strpos($url, $page) !== false) {
+									echo "selected";
+								}				    			
+				    		}
+
+				    	?>
 				    </div>
 				</form>	      		      	
 	    	</ul>	    

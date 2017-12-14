@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'include/framework.php';
+include 'include/searchFunctions.php';
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
 	exit();
@@ -43,8 +43,6 @@ if (isset($_POST["logout"])) {
 						SearchTheme($search_words);
 						SearchRight($search_words);
 						SearchCategory($search_words);
-						SearchFile($search_words);
-						SearchLayout($search_words);
 						break;
 					case "news_article":
 						print_r(SearchNewsArticle($search_words));
@@ -63,12 +61,6 @@ if (isset($_POST["logout"])) {
 						break;
 					case "category":
 						SearchCategory($search_words);
-						break;
-					case "file":
-						SearchFile($search_words);
-						break;
-					case "layout":
-						SearchLayout($search_words);
 						break;
 				}
 			} else {
