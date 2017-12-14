@@ -28,13 +28,7 @@ function CheckIfUserExists($input_email, $input_password)
 		return false;
 	}
 }
-<<<<<<< HEAD
 // Functions for searching
-=======
-
-// Functions for searching
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	//Function to search in the articles
 	function SearchNewsArticle($search_words){
 		//Building the query
@@ -47,18 +41,10 @@ function CheckIfUserExists($input_email, $input_password)
 		$stringBuilder .= "WHERE (na.display_till >= NOW() && display_from <= NOW()) ";
 		$stringBuilder .= "AND (MATCH(na.title) AGAINST (? IN BOOLEAN MODE) OR MATCH(na.description) AGAINST (? IN BOOLEAN MODE)) ";
 		$stringBuilder .= "ORDER BY relevanceTitle, relevanceDescription ";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		// Preparing query
 		$query = GetDatabaseConnection()->prepare($stringBuilder);
 		$query->execute(array($search_words, $search_words, $search_words, $search_words)); //Putting in the parameters
 		$result = $query->fetchAll(); //Fetching it
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		$hasAtLeastOneResult = false;
 		$return = "<div class=\"row\">";
 		$return .= "	<h3>Nieuwsberichten</h3>";
@@ -101,10 +87,6 @@ function CheckIfUserExists($input_email, $input_password)
 			} else {
 				$relevanceDescription = $row["relevanceDescription"];
 			}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 			$return .= "<tr>";
 			$return .= "	<td>$title " . (($priority == 1) ? "<i class=\"fa fa-exclamation-triangle\" aria-hidden=\"true\"></i>" : "") . " ($relevanceTitle%)</td>";
 			$return .= "	<td>".substr($description, 0, 150)."... ($relevanceDescription%)</td>";
@@ -113,29 +95,17 @@ function CheckIfUserExists($input_email, $input_password)
 			$return .= "	<td>" . (($type == "afbeelding") ? "<img src=\"$location\" alt=\"$title foto\" class=\"img-thumbnail search-img\">" : "") . "</td>";
 			$return .= "</tr>";
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		$return .= "				</tbody>";
 		$return .= "			</table>";	
 		$return .= "		</div>";
 		$return .= "	</div>";
 		$return .= "</div>";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		if(!$hasAtLeastOneResult){
 			echo "<div class=\"alert alert-warning\" role=\"alert\">Er zijn geen resultaten voor de nieuwsberichten</div>";
 		} else {
 			echo $return;
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	//Function to search in the locations
 	function SearchLocation($search_words){
 		//Building the query
@@ -144,18 +114,10 @@ function CheckIfUserExists($input_email, $input_password)
 		$stringBuilder .= "FROM location l ";
 		$stringBuilder .= "LEFT JOIN theme t ON t.theme_id=l.theme_id ";
 		$stringBuilder .= "WHERE MATCH(l.name) AGAINST (? IN BOOLEAN MODE) ";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		// Preparing query
 		$query = GetDatabaseConnection()->prepare($stringBuilder);
 		$query->execute(array($search_words, $search_words)); //Putting in the parameters
 		$result = $query->fetchAll(); //Fetching it
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		$hasAtLeastOneResult = false;
 		$return = "<div class=\"row\">";
 		$return .= "	<h3>Locaties</h3>";
@@ -184,10 +146,6 @@ function CheckIfUserExists($input_email, $input_password)
 			$intern_number = $row["intern_number"];
 			//Category
 			$category_name = $row["category_name"];
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 			//Relevance
 			if(number_format($row["relevanceName"], 2) > 0){
 				$relevanceName = number_format($row["relevanceName"], 2);
@@ -204,19 +162,11 @@ function CheckIfUserExists($input_email, $input_password)
 			$return .= "	<td>$category_name</td>";			
 			$return .= "</tr>";
 		}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		$return .= "				</tbody>";
 		$return .= "			</table>";	
 		$return .= "		</div>";
 		$return .= "	</div>";
 		$return .= "</div>";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		if(!$hasAtLeastOneResult){
 			echo "<div class=\"row\">";
 			echo "	<h3>Locaties</h3>";
@@ -228,7 +178,6 @@ function CheckIfUserExists($input_email, $input_password)
 			echo $return;
 		}
 	}
-<<<<<<< HEAD
 	//Function to search in the accounts
 	function SearchAccount($search_words){
 	}
@@ -248,41 +197,6 @@ function CheckIfUserExists($input_email, $input_password)
 	function SearchLayout($search_words){
 	}
 // End functions for searching
-=======
-
-	//Function to search in the accounts
-	function SearchAccount($search_words){
-
-	}
-
-	//Function to search in the themes
-	function SearchTheme($search_words){
-
-	}
-
-	//Function to search in the right
-	function SearchRight($search_words){
-
-	}
-
-	//Function to search in the categories
-	function SearchCategory($search_words){
-
-	}
-
-	//Function to search in the files
-	function SearchFile($search_words){
-
-	}
-
-	//Function to search in the layouts
-	function SearchLayout($search_words){
-
-	}
-
-// End functions for searching
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 // Function to get all the locations
 // Returns the results
 function GetLocations(){
@@ -303,18 +217,10 @@ function GetNewsArticles($location_id = NULL){
 		$stringBuilder .= "INNER JOIN category c ON c.category_id=na.category_id ";
 		$stringBuilder .= "WHERE (na.display_till >= NOW() && display_from <= NOW()) ";
 		$stringBuilder .= "AND na.news_article_id IN (SELECT nahl.news_article_id FROM news_article_has_location nahl WHERE nahl.location_id=?) ";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		// Preparing query
 		$query = GetDatabaseConnection()->prepare($stringBuilder);
 		$query->execute(array($location_id)); //Putting in the parameters
 		$result = $query->fetchAll(); //Fetching it
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		return $result;
 	} else {
 		//Building the query
@@ -323,10 +229,6 @@ function GetNewsArticles($location_id = NULL){
 		$stringBuilder .= "JOIN news_article_has_location nahl ON na.news_article_id = nahl.news_article_id ";
 		$stringBuilder .= "JOIN file f ON na.file_id = f.file_id ";
 		//$stringBuilder .= "GROUP BY na.news_article_id";
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		// Preparing query
 		$query = GetDatabaseConnection()->prepare($stringBuilder);
 		$query->execute(); //Putting in the parameters
@@ -437,33 +339,18 @@ function SaveUserRights($user_id, $rights){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 //Function for inserting a new file
 function SaveFile($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-<<<<<<< HEAD
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-=======
-
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if($query->execute(array($input_name, $input_description))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 //Function for updating association between file and newsarticle
 function EditFile($newsarticle_id, $input_title, $input_description){
 	//Making the insert query
@@ -473,43 +360,24 @@ function EditFile($newsarticle_id, $input_title, $input_description){
 	
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 //Function for inserting a new newsarticle
 function SaveNews($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-<<<<<<< HEAD
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-=======
-
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if($query->execute(array($input_name, $input_description))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 //Function for inserting an edited newsarticle
 function EditNews($newsarticle_id, $input_title, $input_description){
 	//Making the insert query
@@ -519,43 +387,24 @@ function EditNews($newsarticle_id, $input_title, $input_description){
 	
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
 	//Making the insert query
 	$stringBuilder = "DELETE FROM `news_article` WHERE right_id=? ";
-<<<<<<< HEAD
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-=======
-
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if($query->execute(array($newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is verwijderd</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 function SaveRights($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
@@ -589,15 +438,7 @@ function RemoveRights($right_id){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
-<<<<<<< HEAD
 /* functions to make narrowcasting page run */
-=======
-
-
-
-/* functions to make narrowcasting page run */
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 function getLocation(){
 	//TODO: work on it
 	include 'database.php';
@@ -609,18 +450,10 @@ function getLocation(){
 		$_GET["location"] = $_SESSION["location_name"];
 		return $_SESSION["location_id"];
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	else{
 		$locationquery = $conn->prepare("SELECT location_id, `name` FROM `location` WHERE `name` = ? ");
 		$locationquery->execute(array($_GET["location"]));
 		$locationresult = $locationquery->fetch();
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		if($locationquery->rowCount() > 0){
 			$_SESSION["location_id"] = $locationresult["location_id"];
 			$_SESSION["location_name"] = $locationresult["name"];
@@ -631,13 +464,7 @@ function getLocation(){
 			return NULL;
 		}
 	}
-<<<<<<< HEAD
 }
-=======
-
-}
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 function getTheme($location_id){
 	include 'database.php';
 	if($location_id == NULL){
@@ -653,17 +480,9 @@ function getTheme($location_id){
 	LEFT JOIN `file` ftheme ON th.background_file = ftheme.file_id
 	LEFT JOIN `file` flayoutlogo ON lay.logo = flayoutlogo.file_id
 	LEFT JOIN `file` flayoutbg ON lay.default_background = flayoutbg.file_id
-<<<<<<< HEAD
 	WHERE loc.location_id = ? ");
 	$themequery->execute(array($location_id));
 	$themeresult = $themequery->fetch(PDO::FETCH_ASSOC);
-=======
-
-	WHERE loc.location_id = ? ");
-	$themequery->execute(array($location_id));
-	$themeresult = $themequery->fetch(PDO::FETCH_ASSOC);
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
 		print("<style>");
 		if($themeresult["isTheme"] == NULL){
@@ -681,38 +500,19 @@ function getTheme($location_id){
 		$logo = $themeresult["logo"];
 				//li bgcolor needed?
 				return $logo;
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	}
 	else{
 		return;
 	}
-<<<<<<< HEAD
 }
 function getPriority($location_id){
 	include 'database.php';
-=======
-
-}
-
-function getPriority($location_id){
-	include 'database.php';
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	$priorityquery = $conn->prepare("SELECT n.news_article_id, title, background_color, `date`, `description` FROM news_article n 
 	LEFT JOIN category c ON n.category_id = c.category_id 
 	LEFT JOIN news_article_has_location nahl ON n.news_article_id = nahl.news_article_id 
 	WHERE (display_from <= NOW() AND display_till >= NOW())
 	AND nahl.location_id = ? AND `priority` = ?"); 
 	$priorityquery->execute(array($location_id, 1));
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 		foreach($priorityquery as $row){
 			
 			print("<li class='media mb-5 mt-5 border border-dark priority-message' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id'] ."-prioritymessage'>
@@ -727,14 +527,6 @@ function getPriority($location_id){
 		}
 	
 }
-<<<<<<< HEAD
-=======
-
-
-
-
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 function readDB($location_id)
 {
 	
@@ -748,10 +540,6 @@ function readDB($location_id)
 	AND `priority` = ?");
 	$mainquery->execute(array($location_id, 0));
 	
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	if(!($mainquery->rowCount() > 0)){
 		print("<div class='alert alert-info' role='alert'><strong>Error:</strong> Geen berichten.</div>");
 		return false;
@@ -761,10 +549,6 @@ function readDB($location_id)
 	}
 	
 	
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	foreach($mainquery as $row) {
 		
 		if($row['type'] == "afbeelding"){
@@ -797,10 +581,6 @@ function readDB($location_id)
 		}
 		elseif($row['type'] == "video" && $row["muted"] == 1){
 			$videotype = explode(".", $row['location']);
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
@@ -812,10 +592,6 @@ function readDB($location_id)
 		}
 		elseif($row['type'] == "video" && $row["muted"] == 0){
 			$videotype = explode(".", $row['location']);
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
@@ -826,10 +602,6 @@ function readDB($location_id)
 			print("</li>");
 		}
 	}
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 	$birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.category_id, first_name FROM birthday b 
 	LEFT JOIN user u ON b.user_id = u.user_id 
 	LEFT JOIN category c ON b.category_id = c.category_id 
@@ -863,10 +635,6 @@ function readDB($location_id)
 	}
 	return $location_id;
 } 
-<<<<<<< HEAD
-=======
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
 function testspam($run){
 	for($i = 0; $i < $run; $i++){
 		print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
@@ -880,14 +648,5 @@ function testspam($run){
 		print("</li>");
 	}
 }
-<<<<<<< HEAD
 /* end of screen functionality*/
 ?>
-=======
-
-/* end of screen functionality*/
-
-
-?>
-
->>>>>>> f28687b9a325f3c0845c6cbac696255a83ed33fe
