@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_GET["location_id"])) {
-	include '../framework.php';
+	include '../include/framework.php';
 
 	$location_id = $_GET["location_id"];
 
@@ -31,13 +31,13 @@ if (isset($_GET["location_id"])) {
 		echo "		<p class=\"title\">$title</p>";
 		echo "		<div class=\"row\">";
 		echo "			<div class=\"col-md-12 text-right\">";
-		echo "				<img src=\"../img/icons/dots.png\">";
+		echo "				<i class=\"fa fa-ellipsis-h\" aria-hidden=\"true\"></i>";
 		echo "			</div>";
 		echo "			<div class=\"col-md-6\">";
 		echo "				<p>$description</p>";
 		echo "			</div>";
 		echo "			<div class=\"col-md-6 text-right\">";
-		echo "				<img src=\"..$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
+		echo "				<img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
 		echo "			</div>";
 		echo "		</div>";
 		echo "	</div>";

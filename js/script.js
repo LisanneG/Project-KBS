@@ -3,7 +3,7 @@ $(document).ready(function() {
 	LoadRights();
 
     //When another location is selected
-    $('#locations').on('change', function() {
+    $("#locations").on("change", function() {
 		var location_name = $("#locations option:selected").text();
 		var location_id = $("#locations option:selected").val();
 
@@ -15,33 +15,68 @@ $(document).ready(function() {
 		
 	});
 
-    //When another person is selected for the rights
-    $('#rights-users').on('change', function() {
+	//When another person is selected for the rights
+    $("#rights-users").on("change", function() {
 		var user_name = $("#rights-users option:selected").text();
 		var user_id = $("#rights-users option:selected").val();
 
 		if(user_id != ""){			
-			$("#user-rights-table").css("visibility", "visible"); //Showing the table
+			$("#user-rights-table").css("display", "table"); //Showing the table
 			LoadUserRights(user_id);
 		} else {
-			$("#user-rights-table").css("visibility", "hidden"); //Hiding the table if no user is selected
+			$("#user-rights-table").css("display", "none"); //Hiding the table if no user is selected
 		}
 		
 	});
 
-	$('[data-toggle="popover"]').popover();
+	$("[data-toggle=\"popover\"]").popover();
 
 	//Modal for the right edit
-	$('#editRight').on('show.bs.modal', function (event) {
+	$("#editRight").on("show.bs.modal", function (event) {
 		var button = $(event.relatedTarget) // Button that triggered the modal
-		var id = button.data('id') // Extract info from data-id attribute
-		var name = button.data('name') // Extract info from data-name attribute
-		var description = button.data('description') // Extract info from data-description attribute
+		var id = button.data("id") // Extract info from data-id attribute
+		var name = button.data("name") // Extract info from data-name attribute
+		var description = button.data("description") // Extract info from data-description attribute
 		
 		var modal = $(this)
-		modal.find('#right-name').val(name);
-		modal.find('#right-description').val(description);		
+		modal.find("#right-name").val(name);
+		modal.find("#right-description").val(description);
+		modal.find("#right-id").val(id);
 	});
+
+	//Modal for the right remove
+	$("#modal-remove-right").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var id = button.data("id") // Extract info from data-id attribute
+		var name = button.data("name") // Extract info from data-name attribute
+		
+		var modal = $(this)
+		modal.find("right-title").text(name);
+		modal.find("#right-id").val(id);
+	});
+
+	//When the button is clicked to edit a right
+	$("#save-right-edit").click(function(){
+		var right_name = $("#editRight #right-name").val();
+		var right_description = $("#editRight #right-description").val();
+		var right_id = $("#editRight #right-id").val();
+
+		$.get("../get/right.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
+			$("#message").html(data); //Putting the message inside a div tag
+			LoadRights(); //Loading the rights again			
+		});
+	});
+
+	//When the button is clicked to delete a right
+	$("#btn-remove-right").click(function(){
+		var right_id = $("#modal-remove-right #right-id").val();
+    	
+    	$.get("../get/right.php?method=remove&right_id="+right_id, function(data) {
+			$("#message").html(data); //Putting the message inside a div tag
+			LoadRights(); //Loading the rights again
+			$('#modal-remove-right').modal('hide'); //Closing the modal
+		});
+	});	
 });
 
 function LoadWeather(location_name){

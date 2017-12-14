@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../framework.php';
+include '../include/framework.php';
 
 if(!isset($_SESSION["email"])){
 	header("Location: login.php"); //Redirecting to login.php
@@ -19,11 +19,10 @@ if (isset($_POST["logout"])) {
 <head>
 	<meta charset="UTF-8">
 	<title>Dashboard | rechten</title>
-	<link rel="stylesheet" type="text/css" href="../../css/style.css">
-	<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">	
+	<?php include '../include/css.php'; ?>
 </head>
 <body>
-	<?php include '../header.php'; ?>
+	<?php include '../include/navbar.php'; ?>
 	<!-- Navigational tabs -->
 	<section id="dashboard-content" class="container-fluid">
 		<h1>Rechten</h1>
@@ -34,19 +33,31 @@ if (isset($_POST["logout"])) {
 		
 		<!-- content of the tabs -->
 		<div class="tab-content" id="nav-tabContent">
+
+			<?php
+				//Saving user rights
+				if (isset($_POST["save"])) {
+					$rights = $_POST["rights"];
+					$user_id = $_POST["user_id"];
+
+					SaveUserRights($user_id, $rights);
+				}
+
+				//Saving rights
+				if (isset($_POST["save_right"])) {
+					$name = $_POST["right_name"];
+					$description = $_POST["right_description"];
+
+					SaveRights($name, $description);
+				}
+
+			?>
+
+			<div id="message"></div>
 			
 			<!-- content of changing a user rights -->
 			<div class="tab-pane fade show active" id="nav-change-user-right" role="tabpanel" aria-labelledby="nav-change-user-right-tab">
-				<h3 class="navtabs">Gebruikers rechten</h3>				
-				<?php
-					if (isset($_POST["save"])) {
-						$rights = $_POST["rights"];
-						$user_id = $_POST["user_id"];
-
-						saveRights($user_id, $rights);
-					}
-
-				?>
+				<h3 class="navtabs">Gebruikers rechten</h3>								
 
 				<form method="POST">
 					<div class="row">					
@@ -54,7 +65,7 @@ if (isset($_POST["logout"])) {
 							<select class="form-control" id="rights-users" name="user_id">
 								<option value="">Kies een gebruiker</option>
 								<?php
-									foreach (GetUsers() as $row) {
+									foreach (GetUsers(true) as $row) {
 										$user_id = $row["user_id"];
 										$email = $row["email"];
 										$name = $row["name"];
@@ -92,7 +103,8 @@ if (isset($_POST["logout"])) {
 							<thead>
 								<tr>								
 									<th>Naam</th>
-									<th>Beschrijving</th>							
+									<th>Beschrijving</th>
+									<th>Delete</th>
 								</tr>
 							</thead>
 							<tbody id="rights-tbody">
@@ -104,100 +116,93 @@ if (isset($_POST["logout"])) {
 
 			<div class="row">
 				<div class="col-md-12">
-					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
+					<button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
 				</div>
 			</div>		
 		</div>
-	</section>
-
-	<img src="../../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo">
+	</section>	
 
 	<!-- Modal for editing right -->
 	<div class="modal fade" id="editRight" tabindex="-1" role="dialog" aria-labelledby="editRightLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="editRightLabel">Bewerken recht</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <form>
-	          <div class="form-group">
-	            <label for="right-name" class="form-control-label">Naam:</label>
-	            <input type="text" class="form-control" id="right-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="right-description"" class="form-control-label">Beschrijving:</label>
-	            <textarea class="form-control" id="right-description"></textarea>
-	          </div>
-	        </form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
-	        <button type="button" class="btn btn-success">Opslaan</button>
-	      </div>
-	    </div>
-	  </div>
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content">
+	    		<div class="modal-header">
+	        		<h5 class="modal-title" id="editRightLabel">Bewerken recht</h5>
+	        		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          			<span aria-hidden="true">&times;</span>
+	        		</button>
+	      		</div>	      		
+	      		<div class="modal-body">		        	
+	          		<div class="form-group">
+            			<label for="right-name" class="form-control-label">Naam:</label>
+	            		<input type="text" class="form-control" id="right-name">
+	          		</div>
+	          		<div class="form-group">
+	            		<label for="right-description" class="form-control-label">Beschrijving:</label>
+	            		<textarea class="form-control" id="right-description"></textarea>
+	          		</div>		        	
+	      		</div>
+	      		<div class="modal-footer">
+	      			<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+	      			<input type="hidden" id="right-id">
+	        		<button type="button" class="btn btn-success" id="save-right-edit">Opslaan</button>
+	      		</div>	      		
+	    	</div>
+	  	</div>
 	</div>
 
 	<!-- Modal for adding right -->
 	<div class="modal fade" id="addRight" tabindex="-1" role="dialog" aria-labelledby="addRightLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="addRightLabel">Toevoegen recht</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <form>
-	          <div class="form-group">
-	            <label for="right-name" class="form-control-label">Naam:</label>
-	            <input type="text" class="form-control" id="right-name">
-	          </div>
-	          <div class="form-group">
-	            <label for="right-description"" class="form-control-label">Beschrijving:</label>
-	            <textarea class="form-control" id="right-description"></textarea>
-	          </div>
-	        </form>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
-	        <button type="button" class="btn btn-success">Opslaan</button>
-	      </div>
-	    </div>
-	  </div>
+		<div class="modal-dialog" role="document">
+	    	<div class="modal-content">
+	    		<div class="modal-header">
+	        		<h5 class="modal-title" id="addRightLabel">Toevoegen recht</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        	<span aria-hidden="true">&times;</span>
+			        </button>
+	      		</div>
+	      		<form method="POST">
+	      			<div class="modal-body">	        
+	          			<div class="form-group">
+	            			<label for="right-name" class="form-control-label">Naam:</label>
+	            			<input type="text" class="form-control" name="right_name">
+	          			</div>
+	          			<div class="form-group">
+	            			<label for="right-description" class="form-control-label">Beschrijving:</label>
+            				<textarea class="form-control" name="right_description"></textarea>
+	          			</div>	        
+	      			</div>
+	     			<div class="modal-footer">
+	        			<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
+	        			<input type="submit" class="btn btn-success" name="save_right" value="Opslaan">
+	      			</div>
+      	  		</form>
+	    	</div>
+		</div>
 	</div>
 
-	<!-- Modal for logging out -->
-	<div class="modal fade" id="modal-logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Uitloggen</h5>
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	          <span aria-hidden="true">&times;</span>
-	        </button>
-	      </div>
-	      <div class="modal-body">
-	        <p>Weet jij zeker dat je wilt uitloggen?</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>	 
-	        <form method="POST">
-	        	<input type="submit" name="logout" class="btn btn-success" value="Uitloggen">
-	        </form>
-	      </div>
-	    </div>
-	  </div>
-	</div>	
+	<!-- Modal for removing right -->
+	<div class="modal fade" id="modal-remove-right" tabindex="-1" role="dialog" aria-labelledby="removeRightLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Verwijdern</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<p>Weet jij zeker dat je het recht "<span id="right-title"></span>" wilt verwijderen?</p>
+					<input type="hidden" id="right-id">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>	 
+					<button type="button" class="btn btn-warning" id="btn-remove-right">Ja</button>	 
+				</div>
+			</div>
+		</div>
+	</div>
 
-	<script src="../../js/jquery-3.2.1.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="../../js/script.js"></script>
+	<?php include '../include/footer.php'; ?>
 </body>
 </html>
