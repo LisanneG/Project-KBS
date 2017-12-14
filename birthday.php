@@ -40,13 +40,6 @@ delete birthdays that are older than 6 days
 		$date_minus_days = date('m-d', strtotime($date . ' - 1 days'));
 		$age_temp = substr($birthday_temp, 0, -6);
 		$age = ($year-$age_temp);
-		print $birthday_temp;
-		print "</br>";
-		print $birthday;
-		print "</br>";
-		print $date_minus_days;
-		print "</br>";
-		print $date_plus_days;
 
 		if($birthday == $date_plus_days ) {
 			$birthday_exists = FALSE;			
@@ -62,7 +55,7 @@ delete birthdays that are older than 6 days
 		}
 	}
 //delete birthdays that are older than 6 days
-$stmt = $conn->prepare("DELETE FROM birthday WHERE date > " . $birthday["date"]);
+$stmt = $conn->prepare("DELETE FROM birthday where datediff(now(), date) > 6");
 $stmt->execute();
 
 ?>
