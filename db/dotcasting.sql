@@ -22,20 +22,17 @@ CREATE TABLE IF NOT EXISTS `birthday` (
   `user_id` int(11) NOT NULL,
   `date` date DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  `file_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`birthday_id`),
   KEY `FK_verjaardag_persoon` (`user_id`),
   KEY `FK_verjaardag_categorie` (`category_id`),
-  KEY `FK_verjaardag_bestand` (`file_id`),
-  CONSTRAINT `FK_verjaardag_bestand` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_verjaardag_categorie` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_verjaardag_persoon` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.birthday: ~0 rows (approximately)
+-- Dumping data for table dotcasting.birthday: ~1 rows (approximately)
 /*!40000 ALTER TABLE `birthday` DISABLE KEYS */;
-INSERT INTO `birthday` (`birthday_id`, `user_id`, `date`, `category_id`, `file_id`) VALUES
-	(1, 3, '2017-11-27', 1, NULL);
+INSERT INTO `birthday` (`birthday_id`, `user_id`, `date`, `category_id`) VALUES
+	(1, 3, '2017-11-27', 1);
 /*!40000 ALTER TABLE `birthday` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.category
@@ -50,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 -- Dumping data for table dotcasting.category: ~5 rows (approximately)
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
 INSERT INTO `category` (`category_id`, `name`, `background_color`) VALUES
-	(1, 'Test', '#AD1919'),
+	(1, 'Verjaardag', '#AD1919'),
 	(2, 'Financieel', 'grey'),
 	(3, 'Administratie', 'green'),
 	(4, 'Wereldnieuws', 'blue'),
@@ -62,19 +59,21 @@ CREATE TABLE IF NOT EXISTS `file` (
   `file_id` int(11) NOT NULL AUTO_INCREMENT,
   `location` varchar(255) NOT NULL,
   `type` varchar(45) NOT NULL COMMENT 'afbeelding, video',
-  `muted` tinyint(4) NOT NULL,
+  `muted` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~6 rows (approximately)
+-- Dumping data for table dotcasting.file: ~7 rows (approximately)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 INSERT INTO `file` (`file_id`, `location`, `type`, `muted`) VALUES
-	(1, '../bestanden/media/foto/kerst.jpg', 'foto', 0),
-	(4, '../bestanden/media/foto/bolcom.png', 'foto', 0),
-	(7, '/KBS/Project-KBS/bestanden/media/foto/4393rutte-haalt-schaamteloze-orban.jpg', 'foto', 0),
-	(8, '/KBS/Project-KBS/bestanden/media/foto/0517dader-verliest-beroep-tbs-verlenging-in-zaak-meisje-van-nulde.jpg', 'foto', 0),
-	(9, '/KBS/Project-KBS/bestanden/media/foto/9056kamer-verontwaardigd-nieuwe-blunder-belastingdienst.jpg', 'foto', 0),
-	(10, '/KBS/Project-KBS/bestanden/media/foto/9039herdenkingsdienst-slachtoffers-brand-woontoren-londen.jpg', 'foto', 0);
+	(1, '/KBS/Project-KBS/bestanden/media/photo/kerst.jpg', 'photo', NULL),
+	(4, '/KBS/Project-KBS/bestanden/media/photo/bolcom.png', 'photo', NULL),
+	(7, '/KBS/Project-KBS/bestanden/media/photo/4393rutte-haalt-schaamteloze-orban.jpg', 'photo', NULL),
+	(8, '/KBS/Project-KBS/bestanden/media/photo/0517dader-verliest-beroep-tbs-verlenging-in-zaak-meisje-van-nulde.jpg', 'photo', NULL),
+	(9, '/KBS/Project-KBS/bestanden/media/photo/9056kamer-verontwaardigd-nieuwe-blunder-belastingdienst.jpg', 'photo', NULL),
+	(10, '/KBS/Project-KBS/bestanden/media/photo/9039herdenkingsdienst-slachtoffers-brand-woontoren-londen.jpg', 'photo', NULL),
+	(11, '/KBS/Project-KBS/bestanden/media/video/test.mp4', 'video', 0),
+	(12, '/KBS/Project-KBS/bestanden/media/photo/dotsolutions.jpeg', 'photo', NULL);
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.layout
@@ -95,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `layout` (
 -- Dumping data for table dotcasting.layout: ~1 rows (approximately)
 /*!40000 ALTER TABLE `layout` DISABLE KEYS */;
 INSERT INTO `layout` (`layout_id`, `font`, `font_color`, `background_color`, `default_background`, `logo`) VALUES
-	(1, 'arial', '#00000', '', 1, 4);
+	(1, 'arial', '#FFFFFF', '#639833', 12, 4);
 /*!40000 ALTER TABLE `layout` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.location
@@ -189,14 +188,20 @@ CREATE TABLE IF NOT EXISTS `right` (
   PRIMARY KEY (`right_id`),
   FULLTEXT KEY `name` (`name`),
   FULLTEXT KEY `description` (`description`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table dotcasting.right: ~3 rows (approximately)
 /*!40000 ALTER TABLE `right` DISABLE KEYS */;
 INSERT INTO `right` (`right_id`, `name`, `description`) VALUES
 	(1, 'Aanmaken nieuwsbericht', 'Aanmaken van een nieuwsbericht'),
 	(2, 'Bewerken nieuwsbericht', 'Voor het bewerken van een nieuwsbericht'),
-	(3, 'Verwijderen nieuwsbericht', 'Voor het verwijderen van een nieuwsbericht');
+	(3, 'Verwijderen nieuwsbericht', 'Voor het verwijderen van een nieuwsbericht'),
+	(4, 'Aanmaken locatie', 'Voor het aanmaken van een locatie'),
+	(5, 'Bewerken locatie', 'Voor het bewerken van een locatie'),
+	(6, 'Verwijderen locatie', 'Voor het verwijderen van een locatie'),
+	(7, 'Aanmaken thema', 'Voor het aanmaken van een thema'),
+	(8, 'Bewerken thema', 'Voor het bewerken van een thema'),
+	(9, 'Verwijderen thema', 'Voor het verwijderen van een thema');
 /*!40000 ALTER TABLE `right` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.theme
@@ -213,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `theme` (
 -- Dumping data for table dotcasting.theme: ~1 rows (approximately)
 /*!40000 ALTER TABLE `theme` DISABLE KEYS */;
 INSERT INTO `theme` (`theme_id`, `name`, `background_file`) VALUES
-	(2, 'test', 1);
+	(2, 'kerst', 1);
 /*!40000 ALTER TABLE `theme` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.user
@@ -241,9 +246,9 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table dotcasting.user: ~3 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `first_name`, `insertion`, `last_name`, `birthday`, `email`, `password`, `admin`, `location`, `file_id`) VALUES
-	(3, 'Admin', NULL, 'admin', '1998-05-14', 'admin@dotcasting.nl', 'test', 1, 1, NULL),
-	(6, 'Medewerker', NULL, 'medewerker', '1978-10-10', 'medewerker@dotcasting.nl', 'test', 0, 1, NULL),
-	(8, 'Test', NULL, 'test', '2017-12-06', 'test@gmail.com', 'test', 0, 2, NULL);
+	(3, 'Bob', NULL, 'Hendrik', '1998-05-14', 'admin@dotcasting.nl', 'test', 1, 1, NULL),
+	(6, 'Jan', 'van der', 'Hans', '1978-10-10', 'medewerker@dotcasting.nl', 'test', 0, 2, NULL),
+	(8, 'Test', NULL, 'test', '1978-10-10', 'test@gmail.com', 'test', 0, 2, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.user_has_right
@@ -261,6 +266,10 @@ CREATE TABLE IF NOT EXISTS `user_has_right` (
 INSERT INTO `user_has_right` (`user_id`, `right_id`) VALUES
 	(6, 1),
 	(6, 2),
+	(6, 5),
+	(6, 7),
+	(6, 8),
+	(6, 9),
 	(8, 1),
 	(8, 2),
 	(8, 3);
