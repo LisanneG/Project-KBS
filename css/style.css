@@ -30,7 +30,11 @@
 }
 .news-image{max-height: 300px;}
 .news-section{border: 1px solid black; padding-top: 8px; margin-bottom: 20px;}
-.news-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}
+.news-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px; overflow: hidden; height: 40px;}
+.news-section .img-news{float: right; max-width: 300px; margin: 10px;}
+@media screen and (max-width: 600px) {
+	.img-news{display: none;}
+}
 
 /*Weather section*/
 #weather{margin-left: 10px;margin-top: 54px;}
@@ -54,3 +58,6 @@ h3.navtabs{padding-top: 15px; margin-bottom: 25px;}
 /*Search*/
 .short-description{width:40%;}
 .search-img{width:50px;}
+
+/* Newsarticles */
+.modal-lg{max-width: 1200px !important;}

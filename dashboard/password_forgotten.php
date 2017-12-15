@@ -35,9 +35,7 @@ include 'include/framework.php';
 			</div>
 		</form>
 	</div>	
-
-	<img src="../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo">
-
-	<?php include 'include/js.php'; ?>
+	
+	<?php include 'include/footer.php'; ?>
 </body>
 </html>

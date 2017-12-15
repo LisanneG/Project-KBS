@@ -42,9 +42,9 @@ if (isset($_POST["logout"])) {
 				<h3 class="navtabs">Nieuw bericht</h3>
 				<form action="news_main.php" method="POST" id="newsAddForm" enctype="multipart/form-data">
 					<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="title">Title:</label>
+						<label class="control-label col-2 col-form-label" for="title">Titel:</label>
 						<div class="col-10">
-							<input type="text" class="form-control" id="title" placeholder="Enter title" name="title" required="required">
+							<input type="text" class="form-control" id="title" placeholder="Voer een titel in" name="title" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -60,15 +60,15 @@ if (isset($_POST["logout"])) {
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2" for="dateFrom">Datum van:</label>
+						<label class="control-label col-2" for="date-from">Datum van:</label>
 						<div class="col-10">
-							<input type="date" id="dateFrom" name="dateFrom" required="required">
+							<input type="date" id="date-from" name="date-from" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-2" for="dateTill">Datum tot:</label>
+						<label class="control-label col-2" for="date-till">Datum tot:</label>
 						<div class="col-10">
-							<input type="date" id="dateTill" name="dateTill" required="required">
+							<input type="date" id="date-till" name="date-till" required="required">
 						</div>
 					</div>
 					
@@ -77,7 +77,7 @@ if (isset($_POST["logout"])) {
 					<div class="form-group row">
 						<label class="control-label col-2 col-form-label" for="description">Beschrijving:</label>
 						<div class="col-10">
-							<textarea name="description" class="form-control" id="description" form="newsAddForm" placeholder="Enter title"></textarea>
+							<textarea name="description" class="form-control" form="newsAddForm" placeholder="Voer een beschrijving in"></textarea>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -119,47 +119,52 @@ if (isset($_POST["logout"])) {
 	          			<span aria-hidden="true">&times;</span>
 	        		</button>
 	      		</div>	      		
-	      		<div class="modal-body">		        	
-	          		<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="news-title">Titel:</label>
-						<div class="col-10">
-							<input type="text" class="form-control" id="news-title" placeholder="Voer een titel in" name="news-title" required="required">
+	      		<div class="modal-body">
+					<div class="col-9">
+						<div class="form-group row">
+							<label class="control-label col-2 col-form-label" for="news-title">Titel:</label>
+							<div class="col-10">
+								<input type="text" class="form-control" id="news-title" placeholder="Voer een titel in" name="news-title" required="required">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="news-file">Bestand(en):</label>
-						<div class="col-10">
-							<input class="btn btn-default" id="news-file" type="file" name="medium[]">
+						<div class="form-group row">
+							<label class="control-label col-2 col-form-label" for="news-file">Bestand(en):</label>
+							<div class="col-10">
+								<input class="btn btn-default" id="news-file" type="file" name="medium[]">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="control-label col-2" for="news-priority">Prioriteit:</label>
-						<div class="col-10">
-							<input class="mr-1" type="checkbox" id="news-priority" name="news-priority">
+						<div class="form-group row">
+							<label class="control-label col-2" for="news-priority">Prioriteit:</label>
+							<div class="col-10">
+								<input class="mr-1" type="checkbox" id="news-priority" name="news-priority">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="control-label col-2" for="news-date-from">Datum van:</label>
-						<div class="col-10">
-							<input type="date" id="news-date-from" name="news-date-from" required="required">
+						<div class="form-group row">
+							<label class="control-label col-2" for="news-date-from">Datum van:</label>
+							<div class="col-10">
+								<input type="date" id="news-date-from" name="news-date-from" required="required">
+							</div>
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="control-label col-2" for="news-date-till">Datum tot:</label>
-						<div class="col-10">
-							<input type="date" id="news-date-till" name="news-date-till" required="required">
+						<div class="form-group row">
+							<label class="control-label col-2" for="news-date-till">Datum tot:</label>
+							<div class="col-10">
+								<input type="date" id="news-date-till" name="news-date-till" required="required">
+							</div>
 						</div>
-					</div>
 					
-					<?php include 'news/news_add.php' ?>
+						<?php include 'news/news_add.php' ?>
 					
-					<div class="form-group row">
-						<label class="control-label col-2 col-form-label" for="news-description">Beschrijving:</label>
-						<div class="col-10">
-							<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Enter title"></textarea>
+						<div class="form-group row">
+							<label class="control-label col-2 col-form-label" for="news-description">Beschrijving:</label>
+							<div class="col-10">
+								<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Voer een beschrijving in"></textarea>
+							</div>
 						</div>
 					</div>
-	      		</div>
+					<div class="oldimg col-3">
+						<img id="news-file-old" src="" alt="Het huidige bestand">
+					</div>
+				</div>
 	      		<div class="modal-footer">
 	      			<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
 	      			<input type="hidden" id="newsarticle-id">
