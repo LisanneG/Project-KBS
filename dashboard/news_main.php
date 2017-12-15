@@ -30,8 +30,12 @@ if (isset($_POST["logout"])) {
 	<section id="dashboard-content" class="container-fluid">
 		<h1>Nieuwsberichten</h1>
 		<nav class="nav nav-tabs" id="myTab" role="tablist">
-			<a class="nav-item nav-link active" id="nav-toevoegen-tab" data-toggle="tab" href="#nav-toevoegen" role="tab" aria-controls="nav-toevoegen" aria-selected="true">Toevoegen</a>
-			<a class="nav-item nav-link" id="nav-wijzigen-tab" data-toggle="tab" href="#nav-wijzigen" role="tab" aria-controls="nav-wijzigen" aria-selected="false">Wijzigen</a>
+			<?php if(CheckIfUserHasRight($_SESSION["admin"], "Aanmaken nieuwsbericht", $_SESSION["user_id"])){ ?>
+				<a class="nav-item nav-link active" id="nav-toevoegen-tab" data-toggle="tab" href="#nav-toevoegen" role="tab" aria-controls="nav-toevoegen" aria-selected="true">Toevoegen</a>
+			<?php } ?>
+			<?php if(CheckIfUserHasRight($_SESSION["admin"], "Bewerken nieuwsbericht", $_SESSION["user_id"])){ ?>
+				<a class="nav-item nav-link" id="nav-wijzigen-tab" data-toggle="tab" href="#nav-wijzigen" role="tab" aria-controls="nav-wijzigen" aria-selected="false">Wijzigen</a>
+			<?php } ?>
 		</nav>
 		
 		<!-- content of the tabs -->

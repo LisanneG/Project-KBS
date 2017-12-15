@@ -25,10 +25,6 @@ if (isset($_GET["location_id"])) {
 		//File
 		$location = $row["location"];
 		$type = $row["type"];
-		//File
-		$file_id = $row["file_id"];
-		$location = $row["location"];
-		$type = $row["type"];
 
 		//Creating the fullname
 		$full_name = "$first_name ";
