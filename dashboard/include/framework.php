@@ -631,7 +631,17 @@ function getPriority($location_id){
 }
 
 
-
+function checkBirthday($days){
+	if($days == 0){
+		return " is jarig!";
+	}
+	elseif($days < 0){
+		return " werd jarig!";
+	}
+	elseif($days > 0){
+		return " wordt jarig!";
+	}
+}
 
 
 function readDB($location_id)
@@ -694,8 +704,8 @@ function readDB($location_id)
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
-			<video class='embed-responsive-item embed-responsive-item-16by9' muted>
-			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
+			<video class='embed-responsive embed-responsive-16by9' muted>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."' class='embed-responsive-item embed-responsive-item-16by9'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
@@ -706,19 +716,20 @@ function readDB($location_id)
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
-			<video class='embed-responsive-item embed-responsive-item-16by9'>
-			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
+			<video class='embed-responsive embed-responsive-16by9'>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."' class='embed-responsive-item embed-responsive-item-16by9'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
 		}
 	}
 
+
 	$birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.category_id, first_name FROM birthday b 
 	LEFT JOIN user u ON b.user_id = u.user_id 
 	LEFT JOIN category c ON b.category_id = c.category_id 
 	LEFT JOIN `file` f ON b.file_id = f.file_id 
-	WHERE birthday = NOW() AND u.location = ?
+	WHERE b.date = NOW() AND u.location = ?
 	ORDER BY first_name"); 
 	$birthdayquery->execute(array($location_id));
 	// getting birthday information
@@ -745,6 +756,7 @@ function readDB($location_id)
 			</li>");
 		}
 	}
+
 	return $location_id;
 } 
 
