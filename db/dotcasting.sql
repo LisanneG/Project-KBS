@@ -130,7 +130,7 @@ INSERT INTO `location` (`location_id`, `layout_id`, `theme_id`, `name`, `address
 -- Dumping structure for table dotcasting.news_article
 CREATE TABLE IF NOT EXISTS `news_article` (
   `news_article_id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(45) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `category_id` int(11) NOT NULL,
   `file_id` int(11) DEFAULT NULL,
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -227,20 +227,23 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT '0',
   `location` int(11) NOT NULL,
+  `file_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`user_id`),
   KEY `FK_persoon_locaties` (`location`),
+  KEY `FK_user_file` (`file_id`),
   FULLTEXT KEY `email` (`email`),
   FULLTEXT KEY `first_name` (`first_name`),
   FULLTEXT KEY `last_name` (`last_name`),
-  CONSTRAINT `FK_persoon_locaties` FOREIGN KEY (`location`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `FK_persoon_locaties` FOREIGN KEY (`location`) REFERENCES `location` (`location_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_user_file` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COMMENT='Alle informatie van de medewerkers maar ook admins';
 
 -- Dumping data for table dotcasting.user: ~3 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_id`, `first_name`, `insertion`, `last_name`, `birthday`, `email`, `password`, `admin`, `location`) VALUES
-	(3, 'Admin', NULL, 'admin', '1998-05-14', 'admin@dotcasting.nl', 'test', 1, 1),
-	(6, 'Medewerker', NULL, 'medewerker', '1978-10-10', 'medewerker@dotcasting.nl', 'test', 0, 1),
-	(8, 'Test', NULL, 'test', '2017-12-06', 'test@gmail.com', 'test', 0, 2);
+INSERT INTO `user` (`user_id`, `first_name`, `insertion`, `last_name`, `birthday`, `email`, `password`, `admin`, `location`, `file_id`) VALUES
+	(3, 'Admin', NULL, 'admin', '1998-05-14', 'admin@dotcasting.nl', 'test', 1, 1, NULL),
+	(6, 'Medewerker', NULL, 'medewerker', '1978-10-10', 'medewerker@dotcasting.nl', 'test', 0, 1, NULL),
+	(8, 'Test', NULL, 'test', '2017-12-06', 'test@gmail.com', 'test', 0, 2, NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.user_has_right
