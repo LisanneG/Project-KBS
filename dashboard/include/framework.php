@@ -15,17 +15,43 @@ function GetDatabaseConnection(){
 	}
 }
 // Function to check if user is in the db with the correct email and password
-// Returns false if there isnt any result other wise it returns the results
+// Returns results if there is no result it will give a false
 function CheckIfUserExists($input_email, $input_password)
 {
 	// Preparing query
-	$query = GetDatabaseConnection()->prepare("SELECT admin FROM user WHERE email = ? AND password = ?");
+	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin FROM `user` u WHERE u.email = ? AND u.password = ? LIMIT 0,1");
 	$query->execute(array($input_email, $input_password)); //Putting in the parameters
 	$result = $query->fetch(); //Fetching it
+	
 	if($query->rowCount() > 0){		
 		return $result;
 	} else {
 		return false;
+	}
+}
+
+// Function to check if the user whos logged in has the right to do something on a certain page
+// Returns true or false
+function CheckIfUserHasRight($admin, $right_name, $user_id){
+	if($admin == 0){
+		//Building the query
+		$stringBuilder = "SELECT COUNT(uhr.user_id) ";
+		$stringBuilder .= "FROM user_has_right uhr ";
+		$stringBuilder .= "INNER JOIN `right` r ON r.right_id=uhr.right_id ";
+		$stringBuilder .= "WHERE r.name=? AND uhr.user_id=? ";
+
+		// Preparing query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		$query->execute(array($right_name, $user_id)); //Putting in the parameters
+		$result = $query->fetchAll(); //Fetching it
+
+		if($result[0][0] > 0){
+			return true;
+		} else {
+			return false;
+		}		
+	} else {
+		return true;
 	}
 }
 
@@ -76,7 +102,7 @@ function GetBirthdays($location_id){
 	$stringBuilder .= "FROM birthday b ";
 	$stringBuilder .= "INNER JOIN `user` u ON u.user_id=b.user_id ";
 	$stringBuilder .= "LEFT JOIN category c ON c.category_id=b.category_id ";
-	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=b.file_id ";	
+	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=u.file_id ";	
 	$stringBuilder .= "WHERE u.location=? ";
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);

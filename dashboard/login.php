@@ -24,15 +24,23 @@ include 'include/framework.php';
 				$email = $_POST["email"];
 				$password = $_POST["password"];	
 
-				$admin = CheckIfUserExists($email, $password);
+				$result = CheckIfUserExists($email, $password);
 
-				if($admin != false){					
-					// Set session variables
-					$_SESSION["email"] = $email;
-					$_SESSION["admin"] = $admin[0];
+				if($result != false){
+
+					if (isset($result[0]) && isset($result[1])) {
+						// Getting the right variables
+						$user_id = $result[0];
+						$admin = $result[1];						
+						
+						// Set session variables
+						$_SESSION["email"] = $email;					
+						$_SESSION["admin"] = $admin;
+						$_SESSION["user_id"] = $user_id;
+					}
 
 					header("Location: index.php"); //Redirecting to index.php
-					exit();
+					exit();	
 				} else {
 					echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
 				}
