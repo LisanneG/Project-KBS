@@ -22,6 +22,7 @@ function Checkpriority(){
     if($(".priority-message")[0]){
         $("#messagediv").removeClass("col");
         $("#messagediv").addClass("offset-4 col-8");
+        $("#weather").addClass("offset-4 col-8");
     }
     else{
         $("div.row").addClass("justify-content-center");
@@ -33,18 +34,25 @@ function Checkpriority(){
 function MessageScroll(){
     $("html, body").animate({scrollTop: 0});
 
+    var timer0 = 0;
+    var timer1 = 1000;
+
     var Listlength = $("ul.list-unstyle.mw-50 > li").length;
     for(i = 0; i < Listlength; i++){
-        var time = ListScroll(i);
+        timer0 = ListScroll(i);
+        timer1 = timer1 + timer0;
         console.log(i);
 
     }
     $("html, body").animate({ scrollTop: $("#weather").offset().top}, 1000).delay(2000);                
     for(i = Listlength; i != 0; i--){
-        var time = ListScroll(i);
+        timer0 = ListScroll(i);
+        timer1 = timer1 + timer0;
         console.log(i);
     }    
 
+    console.log(timer1);
+    //setTimeout(location.reload() ,time);
 }
 
 //todo remove console debug lines
@@ -72,6 +80,7 @@ function ListScroll(i, length){
             var item = listitem;
             var delay = (($(".messagecontent01").text().length) / 20.83 + 2 )*50;
             $("html, body").animate({ scrollTop: ($(item).offset().top - 200)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
+            return delay;
         }
         else if($(listitem).is("li[id$='-birthdayimg']")){
             var item = listitem;

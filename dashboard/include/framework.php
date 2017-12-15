@@ -374,6 +374,9 @@ function checkBirthday($days){
 }
 
 
+
+
+
 function readDB($location_id)
 {
 	
@@ -394,11 +397,9 @@ function readDB($location_id)
 	else {
 		
 	}
-	
-	
 	foreach($mainquery as $row) {
 		
-		if($row['type'] == "afbeelding"){
+		if($row['type'] == "photo" || $row["type"] == "pdf"){
 			//nieuwbericht gewoon
 			
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']."-messageimg'>
@@ -448,25 +449,24 @@ function readDB($location_id)
 			</div>");
 			print("</li>");
 		}
+		
 	}
-
-
-	$birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.category_id, first_name FROM birthday b 
+	$birthdayquery = $conn->prepare("SELECT (DAY(NOW()) - DAY(b.date)) as days_x_birthday , birthday_id, f.location as photolocation, u.file_id as photoid,  c.background_color as bgcolor, first_name FROM birthday b 
 	LEFT JOIN user u ON b.user_id = u.user_id 
-	LEFT JOIN category c ON b.category_id = c.category_id 
-	LEFT JOIN `file` f ON b.file_id = f.file_id 
-	WHERE b.date = NOW() AND u.location = ?
+	LEFT JOIN category c ON b.category_id = c.category_id
+    LEFT JOIN file f ON u.file_id = f.file_id
+	WHERE (b.date BETWEEN DATE_SUB(NOW(), INTERVAL 3 DAY) AND DATE_ADD(NOW(), INTERVAL 3 DAY))  AND u.location = ?
 	ORDER BY first_name"); 
 	$birthdayquery->execute(array($location_id));
 	// getting birthday information
 	
 	foreach($birthdayquery as $bdrow){
 		//hou hier geen rekening met catagorie, ik ga er van uit dat dat er sowieso anders uit ziet.
-		if($bdrow['b.file_id'] == NULL){
+		if($bdrow["photoid"] == NULL){
 			//verjaardag zonder foto
-			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
+			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow["bgcolor"]."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
 			<div class='media-body mx-4 mt-4'>
-			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . " is jarig!</h3>
+			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			</li>");
 		}
@@ -474,14 +474,16 @@ function readDB($location_id)
 			//verjaardag met foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
 			<div class='media-body mx-4 mt-4'>
-			<h3 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h3>
+			<h3 class='mt-0'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
-			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
+			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['photolocation'] ."' alt='Error'>                                    
 			</div>
 			</li>");
 		}
 	}
+
+	
 
 	return $location_id;
 } 
