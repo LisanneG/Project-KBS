@@ -64,17 +64,17 @@ CREATE TABLE IF NOT EXISTS `file` (
   `type` varchar(45) NOT NULL COMMENT 'afbeelding, video',
   `muted` tinyint(4) NOT NULL,
   PRIMARY KEY (`file_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~5 rows (approximately)
+-- Dumping data for table dotcasting.file: ~6 rows (approximately)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 INSERT INTO `file` (`file_id`, `location`, `type`, `muted`) VALUES
-	(1, '\\img\\kerst.png', 'afbeelding', 0),
-	(2, '../bestanden/media/foto/test.jpg', 'afbeelding', 0),
-	(3, '../bestanden/media/foto/test2.jpg', 'afbeelding', 0),
-	(4, '\\img\\bolcom.png', 'afbeelding', 0),
-	(5, '../bestanden/media/foto/Bedrijfkolom.png', 'foto', 0),
-	(6, 'D:/Program Files/Xampp/htdocs/KBS/Project-KBS/bestanden/media/foto/8206ERD(versie1).png', 'foto', 0);
+	(1, '../bestanden/media/foto/kerst.jpg', 'foto', 0),
+	(4, '../bestanden/media/foto/bolcom.png', 'foto', 0),
+	(7, '/KBS/Project-KBS/bestanden/media/foto/4393rutte-haalt-schaamteloze-orban.jpg', 'foto', 0),
+	(8, '/KBS/Project-KBS/bestanden/media/foto/0517dader-verliest-beroep-tbs-verlenging-in-zaak-meisje-van-nulde.jpg', 'foto', 0),
+	(9, '/KBS/Project-KBS/bestanden/media/foto/9056kamer-verontwaardigd-nieuwe-blunder-belastingdienst.jpg', 'foto', 0),
+	(10, '/KBS/Project-KBS/bestanden/media/foto/9039herdenkingsdienst-slachtoffers-brand-woontoren-londen.jpg', 'foto', 0);
 /*!40000 ALTER TABLE `file` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.layout
@@ -145,17 +145,15 @@ CREATE TABLE IF NOT EXISTS `news_article` (
   FULLTEXT KEY `description` (`description`),
   CONSTRAINT `FK_nieuwsbericht_bestand` FOREIGN KEY (`file_id`) REFERENCES `file` (`file_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_nieuwsbericht_categorie` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article: ~6 rows (approximately)
+-- Dumping data for table dotcasting.news_article: ~4 rows (approximately)
 /*!40000 ALTER TABLE `news_article` DISABLE KEYS */;
 INSERT INTO `news_article` (`news_article_id`, `title`, `category_id`, `file_id`, `date`, `display_from`, `display_till`, `priority`, `description`) VALUES
-	(1, 'Test 1', 5, 2, '2017-12-08 13:53:54', '2017-10-05 13:27:29', '2117-10-05 13:27:29', 1, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.'),
-	(2, 'Test 2', 5, 2, '2017-12-01 13:30:33', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.'),
-	(3, 'Test 3', 5, 3, '2017-12-06 12:00:07', '2017-10-05 13:27:29', '2117-12-01 13:27:31', 0, 'Lorem ipsum dolor sit amet, veri corpora in sea. Veri summo ea nam, et omnis habemus lucilius nec. Per ex accusam facilisi patrioque, facete feugait te vis. Pri ne sumo vulputate. Latine accusam fabellas cu mei. Cum eros consul accusamus ea, mei idque feugiat prodesset te, latine nominavi nominati ut pro. Et sint legere similique has, eum te luptatum democritum consectetuer, solet incorrupte vim at. An eum diam legimus offendit, te nec ipsum eligendi constituto. Cum ea electram sapientem adipiscing. Ea eros essent cum.'),
-	(4, 'test', 1, NULL, '2017-12-06 14:19:51', '2017-12-06 00:00:00', '2017-12-22 00:00:00', 0, 'asdasd'),
-	(5, 'test', 1, 5, '2017-12-06 14:20:56', '2017-12-06 00:00:00', '2017-12-22 00:00:00', 0, 'asdasd'),
-	(6, 'testing', 2, 6, '2017-12-07 14:20:59', '2017-12-07 00:00:00', '2017-12-15 00:00:00', 0, '');
+	(7, 'Rutte haalt uit naar \'schaamteloze\' Orban', 5, 7, '2017-12-14 15:18:28', '2017-12-13 00:00:00', '2018-01-06 00:00:00', 0, 'Premier Mark Rutte heeft woensdag hard uitgehaald naar zijn Hongaarse collega Viktor Orban. Die hoopt het verplicht opnemen van asielzoekers af te kunnen kopen. "En dan niet meer bijdragen aan de solidariteit? Een schaamteloos verhaal", zei Rutte. "Come on, dan zou Nederland ook kunnen zeggen: we doen niets meer."\r\nOrban en zijn collegaâ€™s uit Polen, TsjechiÃ« en Slowakije boden eerder op de dag 35 miljoen euro aan voor het Afrika-fonds, dat ervoor moet zorgen dat Afrikanen niet naar Europa komen. "Prachtig", zei Rutte, "maar Nederland geeft ook heel veel, dat fonds gaat over de grondoorzaken van migratie."\r\n\r\n"En wat ga je dan doen als er een SyriÃ«r is of EritreÃ«r die echt vlucht voor oorlog en geweld en probeert in Europa een veilig heenkomen te zoeken, en iedereen zegt: je kunt hier niet meer terecht?\'\', aldus Rutte.\r\n\r\nDe kwestie wordt donderdagavond besproken tijdens het diner. "Het zou heftig kunnen worden", aldus de premier. Hij erkende het recht van Orban om zich te verzetten tegen een verplicht verdelingsmechanisme. "Maar dan zeggen de andere landen, ik verwacht vanavond een grote meerderheid, dat we dat wel willen."\r\n\r\nRutte benadrukte dat afspraken zoals die eerder zijn gemaakt over een tijdelijke verplichte herverdeling van asielzoekers uit ItaliÃ« en Griekenland moeten worden nagekomen. De vier landen blijven dat echter weigeren. "Orban zal zich moeten realiseren dat dit niet een plek is waar je alleen iets haalt\'\', aldus Rutte.\r\n\r\nEen besluit over een permanent verplicht verdelingssysteem voor toekomstige vluchtelingencrises wordt overigens nog niet genomen.'),
+	(8, 'Dader verliest beroep tegen tbs-verlenging in', 5, 8, '2017-12-14 15:19:22', '2017-12-12 00:00:00', '2017-12-30 00:00:00', 1, 'Mike J., de veroordeelde stiefvader van het â€˜meisje van Nuldeâ€™, blijft voorlopig nog in de tbs-kliniek. Zijn beroep tegen de verlenging van zijn tbs-behandeling met twee jaar werd donderdag afgewezen.\r\nJ. (48) werd in 2003 tot twaalf jaar cel en tbs veroordeeld voor de gewelddadige dood van kleuter Rowena Rikkers in 2001. De dochter van zijn vriendin kwam door stelselmatige mishandeling om het leven en haar lichaamsdelen werden teruggevonden bij onder meer Hoek van Holland en Strand Nulde. Ook haar moeder werd veroordeeld.\r\n\r\nDe rechtbank verlengde zijn tbs-behandeling eerder dit jaar met twee jaar. Deskundigen uit de kliniek vinden verlenging van de maatregel nodig, omdat de problematiek rond de persoonlijkheid van J. nog onverminderd groot is. Ook wordt de kans op herhaling groot geacht, vooral als hij weer in een relatie met een kwetsbare vrouw belandt.\r\n\r\nHoger beroep\r\nJ. is het daar niet mee eens. Hij denkt dat hij klaar is voor een voorwaardelijke beÃ«indiging van de behandeling en ging daarom in hoger beroep bij het gerechtshof in Arnhem.\r\n\r\nEen voorwaardelijke beÃ«indiging van de behandeling vindt het hof te vroeg. Het hof gaat er ook van uit dat de behandeling van J. niet binnen een jaar is afgerond. Zijn gedrag is weliswaar stabiel maar nog onvoldoende veranderd, aldus de uitspraak.\r\n\r\nProefverlof\r\nGedurende de tbs-periode is het wel mogelijk dat J. geleidelijk oefent met proefverloven, ook met onbegeleid verlof. Naar verwachting wordt in de loop van volgend jaar verlof buiten de muren aangevraagd bij de minister van Veiligheid en Justitie.'),
+	(9, 'Kamer verontwaardigd over nieuwe blunder Bela', 4, 9, '2017-12-14 15:19:54', '2017-12-13 00:00:00', '2018-01-05 00:00:00', 0, 'De problemen met de systemen van de schenk- en erfbelasting bij de Belastingdienst hebben tot veel ergenis geleid bij meerdere partijen in de Tweede Kamer. De ambtelijke top wachtte lang met het delen van belangrijke informatie aan hun politieke bazen. De Kamer wil nu minutieus geÃ¯nformeerd worden.\r\n"Ik val nu echt van mijn stoel", zei CDA-Kamerlid Pieter Omtzigt donderdag tijdens een debat over de Belastingdienst.\r\n\r\n"De voorganger heeft de Belastingdienst nog problematischer achtergelaten dan ik al dacht", vulde Steven van Weyenberg (D66) aan.\r\n\r\nDe Kamer had zojuist te horen gekregen dat staatssecretaris Menno Snel (FinanciÃ«n) in oktober op de hoogte werd gesteld door zijn ambtenaren over het feit dat een nieuw systeem om de schenk- en erfbelasting te innen niet werkte. Daardoor liep de fiscus dit jaar 450 miljoen euro aan belastinginkomsten mis. Dat wordt later alsnog geÃ¯nd.\r\n\r\nHet nieuwe systeem had dit jaar in werking moeten treden, maar door technische problemen lukte dat niet. Ondertussen werd de oude inningsmethode stop gezet en trad vertraging op omdat de medewerkers handmatig aan de slag moesten gaan.\r\n\r\nAl die tijd bleef de politieke top, die verantwoordelijk is voor de Belastingdienst, in het ongewisse. Snel, pas zes weken in funcctie, liet daarom weten "onaangenaam verrast" te zijn.\r\n\r\n"Dat is een slecht besluit. Ik kan niet anders zeggen", zei de bewindsman. "Men dacht, het komt wel goed, maar het kwam niet goed."'),
+	(10, 'Herdenkingsdienst voor slachtoffers brand woo', 4, 10, '2017-12-14 15:20:25', '2017-12-13 00:00:00', '2017-12-30 00:00:00', 0, 'In Londen is donderdagmiddag een herdenkingsdienst gehouden voor de slachtoffers van de brand in de Londense Grenfell Tower. Een half jaar geleden kwamen 71 mensen om toen de woontoren in het westen van de stad vlam vatte. \r\nDe herdenkingsdienst vond plaats in St Paul\'s Cathedral in Londen. Onder de ongeveer vijftienhonderd genodigden waren overlevenden van de brand, nabestaanden van de slachtoffers en reddingswerkers die hebben geholpen toen de brand uitbrak.\r\n\r\nOok waren diverse leden van het Britse koningshuis aanwezig, waaronder prins Charles en zijn zonen William en Harry. Ook de Briitse premier Teresa May woonde de dienst bij. ');
 /*!40000 ALTER TABLE `news_article` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.news_article_has_location
@@ -168,18 +166,19 @@ CREATE TABLE IF NOT EXISTS `news_article_has_location` (
   CONSTRAINT `news_article_has_location_ibfk_2` FOREIGN KEY (`news_article_id`) REFERENCES `news_article` (`news_article_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article_has_location: ~9 rows (approximately)
+-- Dumping data for table dotcasting.news_article_has_location: ~8 rows (approximately)
 /*!40000 ALTER TABLE `news_article_has_location` DISABLE KEYS */;
 INSERT INTO `news_article_has_location` (`news_article_id`, `location_id`) VALUES
-	(1, 1),
-	(1, 2),
-	(2, 1),
-	(2, 3),
-	(3, 1),
-	(4, 1),
-	(5, 1),
-	(6, 5),
-	(6, 6);
+	(7, 1),
+	(8, 1),
+	(8, 2),
+	(8, 5),
+	(9, 1),
+	(9, 2),
+	(9, 3),
+	(10, 1),
+	(10, 2),
+	(10, 3);
 /*!40000 ALTER TABLE `news_article_has_location` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.right
