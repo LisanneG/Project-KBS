@@ -58,8 +58,8 @@ if (isset($_GET["location_id"])) {
 		$hasAtLeastOneArticle = true;
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
-			echo ">$title</button></td>";
-			echo "	<td>$description</td>";
+			echo ">".substr($title, 0, 60)."...</button></td>";
+			echo "	<td>".substr($description, 0, 200)."...</td>";
 			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 			echo "</tr>";
 			
@@ -68,12 +68,11 @@ if (isset($_GET["location_id"])) {
 			$category_id = $row["category_id"];
 			$file_id = $row["file_id"];
 			$date = $row["date"];
-			$display_from = $row["display_from"];
-			$display_from = substr($display_from, 0, -9);
-			$display_till = $row["display_till"];
-			$display_till = substr($display_till, 0, -9);
+			$display_from = substr($row["display_from"], 0, -9);
+			$display_till = substr($row["display_till"], 0, -9);
 			$priority = $row["priority"];
 			$description = $row["description"];
+			
 			//File
 			$file_location = $row["location"];
 			$location = $row["location_id"];
@@ -106,8 +105,8 @@ if (isset($_GET["location_id"])) {
 		}
 	}
 	echo "data-location=\"$location\"";
-	echo ">$title</button></td>";
-	echo "	<td>$description</td>";
+	echo ">".substr($title, 0, 60)."...</button></td>";
+	echo "	<td>".substr($description, 0, 200)."...</td>";
 	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 	echo "</tr>";
 

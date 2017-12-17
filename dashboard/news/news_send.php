@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST["submit"])) {
-	$news_title = $_POST["title"];
+	$news_title = htmlentities($_POST["title"]);
 	$categoryId = $_POST["news-category"];
 	
 	$fileId = $lastInsertedFileId[0];
@@ -12,7 +12,7 @@ if (isset($_POST["submit"])) {
 	} else {
 		$priority = 0;
 	}
-	$description = $_POST["description"]; //should be null when video is being uploaded
+	$description = htmlentities($_POST["description"]); 
 	
 	//checking if a file has been added and choosing the right query for the job
 	if (isset($fileId)) {
@@ -39,12 +39,4 @@ if (isset($_POST["submit"])) {
 
 	}
 }
-//Alerts for success & failure
-/*if (isset($_POST["submit"])) {
-	if ($success == 1) {
-		print("<div class=\"alert alert-success\"role=\"alert\">Nieuwsbericht succesvol toegevoegd</div>");
-	} elseif ($success == 0) {
-		print("<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan, het nieuwsbericht is niet toegevoegd</div>");
-	}
-}*/
 ?>
