@@ -40,6 +40,9 @@ function MessageScroll(){
     var Listlength = $("ul.list-unstyle.mw-50 > li").length;
     for(i = 0; i < Listlength; i++){
         timer0 = ListScroll(i);
+        if(timer0 === undefined){
+            timer0 = 0;
+        }
         timer1 = timer1 + timer0;
         console.log(i);
 
@@ -47,12 +50,15 @@ function MessageScroll(){
     $("html, body").animate({ scrollTop: $("#weather").offset().top}, 1000).delay(2000);                
     for(i = Listlength; i != 0; i--){
         timer0 = ListScroll(i);
+        if(timer0 === undefined){
+            timer0 = 0;
+        }
         timer1 = timer1 + timer0;
         console.log(i);
     }    
 
     console.log(timer1);
-    //setTimeout(location.reload() ,time);
+    setTimeout('location.reload()' ,(timer1 + 2000));
 }
 
 //todo remove console debug lines
@@ -74,29 +80,29 @@ function ListScroll(i, length){
 
             $("html, body").animate({ scrollTop: ($(list).offset().top - 200)},2000, function(){video.play();}).delay(vidlength);       
             
-            return vidlength;
+            return vidlength + 2000;
         }
         else if($(listitem).is("[id$='-message']")){
             var item = listitem;
             var delay = (($(".messagecontent01").text().length) / 20.83 + 2 )*50;
             $("html, body").animate({ scrollTop: ($(item).offset().top - 200)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
-            return delay;
+            return delay + 2000;
         }
         else if($(listitem).is("li[id$='-birthdayimg']")){
             var item = listitem;
             $("html, body").animate({ scrollTop: ($(item).offset().top - 200)}, 2000).delay(2000);
-            return 2000;
+            return 4000;
         }
         else if($(listitem).is("li[id$='-birthdaynoimg']")){
             var item = listitem;
             $("html, body").animate({ scrollTop: ($(item).offset().top - 200)}, 2000).delay(2000);
-            return 2000;
+            return 4000;
         }
         else if($(listitem).is("li[id$='-messageimg']")){
             var item = listitem;
             var delay = (($(".messagecontent01").text().length) / 20.83 + 2 )*50;
             $("html, body").animate({ scrollTop: ($(item).offset().top - 200)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
-            return delay;
+            return delay + 2000;
             
         }
         else if($(listitem).is("li[id$='-messagevideowithsound']")){
@@ -109,7 +115,7 @@ function ListScroll(i, length){
 
             $("html, body").animate({ scrollTop: ($(list).offset().top - 200)},2000, function(){video.play();}).delay(vidlength);       
             
-            return vidlength;
+            return vidlength + 2000;
             }
         }
 
