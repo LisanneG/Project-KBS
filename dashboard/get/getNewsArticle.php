@@ -1,15 +1,10 @@
 <?php
-
 if (isset($_GET["location_id"])) {
 	include '../include/framework.php';
-
 	$location_id = $_GET["location_id"];
-
 	$hasAtLeastOneArticle = false;
-
 	foreach (GetNewsArticles($location_id) as $row) {
 		$hasAtLeastOneArticle = true;
-
 		$news_article_id = $row["news_article_id"];
 		$title = $row["title"];
 		$category_id = $row["category_id"];
@@ -25,7 +20,6 @@ if (isset($_GET["location_id"])) {
 		//Category
 		$category_name = $row["category_name"];
 		$color = $row["background_color"];
-
 		echo "<div class=\"row\">";
 		echo "	<div class=\"col-md-12 news-section\">";
 		echo "		<p class=\"title\">$title</p>";
@@ -46,11 +40,11 @@ if (isset($_GET["location_id"])) {
 		echo "	</div>";
 		echo "</div>";
 	}
-
 	if(!$hasAtLeastOneArticle){
 		echo "<div class=\"alert alert-warning\" role=\"alert\">De gekozen locatie heeft geen nieuwsberichten</div>";
 	}
 } elseif (isset($_GET["newsManage"])) {
+	session_start();
 	include '../include/framework.php';
 	$hasAtLeastOneArticle = false;
 	$news_article_id = false;
@@ -58,9 +52,21 @@ if (isset($_GET["location_id"])) {
 		$hasAtLeastOneArticle = true;
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
+<<<<<<< HEAD
 			echo ">".substr($title, 0, 60)."...</button></td>";
 			echo "	<td>".substr($description, 0, 200)."...</td>";
 			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+=======
+			echo ">$title</button></td>";
+			echo "	<td>$description</td>";
+
+			if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
+				echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+			} else {
+				echo "	<td></td>";
+			}
+			
+>>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 			echo "</tr>";
 			
 			$news_article_id = $row["news_article_id"];
@@ -105,9 +111,21 @@ if (isset($_GET["location_id"])) {
 		}
 	}
 	echo "data-location=\"$location\"";
+<<<<<<< HEAD
 	echo ">".substr($title, 0, 60)."...</button></td>";
 	echo "	<td>".substr($description, 0, 200)."...</td>";
 	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+=======
+	echo ">$title</button></td>";
+	echo "	<td>$description</td>";
+
+	if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
+		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+	} else {
+		echo "	<td></td>";
+	}
+	
+>>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 	echo "</tr>";
 
 	if(!$hasAtLeastOneArticle){

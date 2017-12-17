@@ -50,8 +50,8 @@ INSERT INTO `category` (`category_id`, `name`, `background_color`) VALUES
 	(1, 'Verjaardag', '#AD1919'),
 	(2, 'Financieel', 'grey'),
 	(3, 'Administratie', 'green'),
-	(4, 'Wereldnieuws', 'blue'),
-	(5, 'Evenement', 'orange');
+	(4, 'Wereldnieuws', '#259488'),
+	(5, 'Evenement', '#EE9A3B');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
 -- Dumping structure for table dotcasting.file
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `file` (
   PRIMARY KEY (`file_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.file: ~7 rows (approximately)
+-- Dumping data for table dotcasting.file: ~8 rows (approximately)
 /*!40000 ALTER TABLE `file` DISABLE KEYS */;
 INSERT INTO `file` (`file_id`, `location`, `type`, `muted`) VALUES
 	(1, '/KBS/Project-KBS/bestanden/media/photo/kerst.jpg', 'photo', NULL),
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `news_article_has_location` (
   CONSTRAINT `news_article_has_location_ibfk_2` FOREIGN KEY (`news_article_id`) REFERENCES `news_article` (`news_article_id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.news_article_has_location: ~8 rows (approximately)
+-- Dumping data for table dotcasting.news_article_has_location: ~10 rows (approximately)
 /*!40000 ALTER TABLE `news_article_has_location` DISABLE KEYS */;
 INSERT INTO `news_article_has_location` (`news_article_id`, `location_id`) VALUES
 	(7, 1),
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTS `right` (
   FULLTEXT KEY `description` (`description`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
--- Dumping data for table dotcasting.right: ~3 rows (approximately)
+-- Dumping data for table dotcasting.right: ~9 rows (approximately)
 /*!40000 ALTER TABLE `right` DISABLE KEYS */;
 INSERT INTO `right` (`right_id`, `name`, `description`) VALUES
 	(1, 'Aanmaken nieuwsbericht', 'Aanmaken van een nieuwsbericht'),
@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `user_has_right` (
   CONSTRAINT `FK_persoon_has_recht_recht` FOREIGN KEY (`right_id`) REFERENCES `right` (`right_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tussentabel voor rechten en personen';
 
--- Dumping data for table dotcasting.user_has_right: ~4 rows (approximately)
+-- Dumping data for table dotcasting.user_has_right: ~9 rows (approximately)
 /*!40000 ALTER TABLE `user_has_right` DISABLE KEYS */;
 INSERT INTO `user_has_right` (`user_id`, `right_id`) VALUES
 	(6, 1),

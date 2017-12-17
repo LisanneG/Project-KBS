@@ -8,13 +8,14 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost/index.php?location='zwolle'",
+            "url": "http://localhost/index.php?location=%27zwolle%27",
             "webRoot": "${workspaceRoot}",
             "runtimeExecutable": "/usr/bin/google-chrome-stable",
             "skipFiles": [
                 "js/bootstrap.min.js",
                 "js/jquery-3.2.1.min.js",
-                "js/jquery-dateFormat.min.js"
+                "js/jquery-dateFormat.min.js",
+                "extentions::"
 
             ]
             

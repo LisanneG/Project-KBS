@@ -15,17 +15,43 @@ function GetDatabaseConnection(){
 	}
 }
 // Function to check if user is in the db with the correct email and password
-// Returns false if there isnt any result other wise it returns the results
+// Returns results if there is no result it will give a false
 function CheckIfUserExists($input_email, $input_password)
 {
 	// Preparing query
-	$query = GetDatabaseConnection()->prepare("SELECT admin FROM user WHERE email = ? AND password = ?");
+	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin FROM `user` u WHERE u.email = ? AND u.password = ? LIMIT 0,1");
 	$query->execute(array($input_email, $input_password)); //Putting in the parameters
 	$result = $query->fetch(); //Fetching it
+	
 	if($query->rowCount() > 0){		
 		return $result;
 	} else {
 		return false;
+	}
+}
+
+// Function to check if the user whos logged in has the right to do something on a certain page
+// Returns true or false
+function CheckIfUserHasRight($admin, $right_name, $user_id){
+	if($admin == 0){
+		//Building the query
+		$stringBuilder = "SELECT COUNT(uhr.user_id) ";
+		$stringBuilder .= "FROM user_has_right uhr ";
+		$stringBuilder .= "INNER JOIN `right` r ON r.right_id=uhr.right_id ";
+		$stringBuilder .= "WHERE r.name=? AND uhr.user_id=? ";
+
+		// Preparing query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		$query->execute(array($right_name, $user_id)); //Putting in the parameters
+		$result = $query->fetchAll(); //Fetching it
+
+		if($result[0][0] > 0){
+			return true;
+		} else {
+			return false;
+		}		
+	} else {
+		return true;
 	}
 }
 
@@ -76,7 +102,7 @@ function GetBirthdays($location_id){
 	$stringBuilder .= "FROM birthday b ";
 	$stringBuilder .= "INNER JOIN `user` u ON u.user_id=b.user_id ";
 	$stringBuilder .= "LEFT JOIN category c ON c.category_id=b.category_id ";
-	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=b.file_id ";	
+	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=u.file_id ";	
 	$stringBuilder .= "WHERE u.location=? ";
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -359,6 +385,24 @@ function getPriority($location_id){
 		}
 	
 }
+
+
+function checkBirthday($days){
+	if($days == 0){
+		return " is jarig!";
+	}
+	elseif($days < 0){
+		return " werd jarig!";
+	}
+	elseif($days > 0){
+		return " wordt jarig!";
+	}
+}
+
+
+
+
+
 function readDB($location_id)
 {
 	
@@ -379,11 +423,9 @@ function readDB($location_id)
 	else {
 		
 	}
-	
-	
 	foreach($mainquery as $row) {
 		
-		if($row['type'] == "afbeelding"){
+		if($row['type'] == "photo" || $row["type"] == "pdf"){
 			//nieuwbericht gewoon
 			
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" . $row['news_article_id']."-messageimg'>
@@ -416,8 +458,8 @@ function readDB($location_id)
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
-			<video class='embed-responsive-item embed-responsive-item-16by9' muted>
-			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
+			<video class='embed-responsive embed-responsive-16by9' muted>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."' class='embed-responsive-item embed-responsive-item-16by9'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
@@ -427,29 +469,30 @@ function readDB($location_id)
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
-			<video class='embed-responsive-item embed-responsive-item-16by9'>
-			<source src='". $row['location'] ."' type='video/". $videotype[1] ."'>Your browser does not support video</video>
+			<video class='embed-responsive embed-responsive-16by9'>
+			<source src='". $row['location'] ."' type='video/". $videotype[1] ."' class='embed-responsive-item embed-responsive-item-16by9'>Your browser does not support video</video>
 			<p class='mt-2'>Datum: ". date( "d-m-Y", strtotime($row['date'])) ."</p>
 			</div>");
 			print("</li>");
 		}
+		
 	}
-	$birthdayquery = $conn->prepare("SELECT f.location `date`, birthday_id, b.file_id, b.category_id, first_name FROM birthday b 
+	$birthdayquery = $conn->prepare("SELECT (DAY(NOW()) - DAY(b.date)) as days_x_birthday , birthday_id, f.location as photolocation, u.file_id as photoid,  c.background_color as bgcolor, first_name FROM birthday b 
 	LEFT JOIN user u ON b.user_id = u.user_id 
-	LEFT JOIN category c ON b.category_id = c.category_id 
-	LEFT JOIN `file` f ON b.file_id = f.file_id 
-	WHERE birthday = NOW() AND u.location = ?
+	LEFT JOIN category c ON b.category_id = c.category_id
+    LEFT JOIN file f ON u.file_id = f.file_id
+	WHERE (b.date BETWEEN DATE_SUB(NOW(), INTERVAL 3 DAY) AND DATE_ADD(NOW(), INTERVAL 3 DAY))  AND u.location = ?
 	ORDER BY first_name"); 
 	$birthdayquery->execute(array($location_id));
 	// getting birthday information
 	
 	foreach($birthdayquery as $bdrow){
 		//hou hier geen rekening met catagorie, ik ga er van uit dat dat er sowieso anders uit ziet.
-		if($bdrow['b.file_id'] == NULL){
+		if($bdrow["photoid"] == NULL){
 			//verjaardag zonder foto
-			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
+			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow["bgcolor"]."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
 			<div class='media-body mx-4 mt-4'>
-			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . " is jarig!</h3>
+			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			</li>");
 		}
@@ -457,14 +500,17 @@ function readDB($location_id)
 			//verjaardag met foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
 			<div class='media-body mx-4 mt-4'>
-			<h3 class='mt-0'> " . $bdrow['first_name'] . " is jarig!</h3>
+			<h3 class='mt-0'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
-			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['f.location'] ."' alt='Error'>                                    
+			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['photolocation'] ."' alt='Error'>                                    
 			</div>
 			</li>");
 		}
 	}
+
+	
+
 	return $location_id;
 } 
 function testspam($run){
