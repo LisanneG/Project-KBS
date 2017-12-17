@@ -1,15 +1,10 @@
 <?php
-
 if (isset($_GET["location_id"])) {
 	include '../include/framework.php';
-
 	$location_id = $_GET["location_id"];
-
 	$hasAtLeastOneArticle = false;
-
 	foreach (GetNewsArticles($location_id) as $row) {
 		$hasAtLeastOneArticle = true;
-
 		$news_article_id = $row["news_article_id"];
 		$title = $row["title"];
 		$category_id = $row["category_id"];
@@ -25,7 +20,6 @@ if (isset($_GET["location_id"])) {
 		//Category
 		$category_name = $row["category_name"];
 		$color = $row["background_color"];
-
 		echo "<div class=\"row\">";
 		echo "	<div class=\"col-md-12 news-section\">";
 		echo "		<p class=\"title\">$title</p>";
@@ -46,7 +40,6 @@ if (isset($_GET["location_id"])) {
 		echo "	</div>";
 		echo "</div>";
 	}
-
 	if(!$hasAtLeastOneArticle){
 		echo "<div class=\"alert alert-warning\" role=\"alert\">De gekozen locatie heeft geen nieuwsberichten</div>";
 	}
@@ -59,6 +52,11 @@ if (isset($_GET["location_id"])) {
 		$hasAtLeastOneArticle = true;
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
+<<<<<<< HEAD
+			echo ">".substr($title, 0, 60)."...</button></td>";
+			echo "	<td>".substr($description, 0, 200)."...</td>";
+			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+=======
 			echo ">$title</button></td>";
 			echo "	<td>$description</td>";
 
@@ -68,6 +66,7 @@ if (isset($_GET["location_id"])) {
 				echo "	<td></td>";
 			}
 			
+>>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 			echo "</tr>";
 			
 			$news_article_id = $row["news_article_id"];
@@ -75,12 +74,11 @@ if (isset($_GET["location_id"])) {
 			$category_id = $row["category_id"];
 			$file_id = $row["file_id"];
 			$date = $row["date"];
-			$display_from = $row["display_from"];
-			$display_from = substr($display_from, 0, -9);
-			$display_till = $row["display_till"];
-			$display_till = substr($display_till, 0, -9);
+			$display_from = substr($row["display_from"], 0, -9);
+			$display_till = substr($row["display_till"], 0, -9);
 			$priority = $row["priority"];
 			$description = $row["description"];
+			
 			//File
 			$file_location = $row["location"];
 			$location = $row["location_id"];
@@ -113,6 +111,11 @@ if (isset($_GET["location_id"])) {
 		}
 	}
 	echo "data-location=\"$location\"";
+<<<<<<< HEAD
+	echo ">".substr($title, 0, 60)."...</button></td>";
+	echo "	<td>".substr($description, 0, 200)."...</td>";
+	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+=======
 	echo ">$title</button></td>";
 	echo "	<td>$description</td>";
 
@@ -122,6 +125,7 @@ if (isset($_GET["location_id"])) {
 		echo "	<td></td>";
 	}
 	
+>>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 	echo "</tr>";
 
 	if(!$hasAtLeastOneArticle){

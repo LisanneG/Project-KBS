@@ -10,7 +10,7 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
         $ext = pathinfo($medium, PATHINFO_EXTENSION);
 
         if (in_array($ext, $imageList)) {
-            $type = "foto";
+            $type = "photo";
         }
         if (in_array($ext, $videoList)) {
             $type = "video";
