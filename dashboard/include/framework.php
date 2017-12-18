@@ -464,7 +464,7 @@ function readDB($location_id)
 			</div>");
 			print("</li>");
 		}
-		elseif($row['type'] == "video" && $row["muted"] == 0){
+		elseif($row['type'] == "video" && $row["muted"] == NULL){
 			$videotype = explode(".", $row['location']);
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
 			<div class='media-body mx-4 mt-4'>
