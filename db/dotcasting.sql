@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2017 at 10:54 AM
+-- Generation Time: Dec 18, 2017 at 10:58 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.11
 
@@ -22,6 +22,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `dotcasting`
 --
+CREATE DATABASE IF NOT EXISTS `dotcasting` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `dotcasting`;
 
 -- --------------------------------------------------------
 
@@ -35,6 +37,14 @@ CREATE TABLE `birthday` (
   `date` date DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `birthday`:
+--   `category_id`
+--       `category` -> `category_id`
+--   `user_id`
+--       `user` -> `user_id`
+--
 
 --
 -- Dumping data for table `birthday`
@@ -54,6 +64,10 @@ CREATE TABLE `category` (
   `name` varchar(45) NOT NULL,
   `background_color` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `category`:
+--
 
 --
 -- Dumping data for table `category`
@@ -78,6 +92,10 @@ CREATE TABLE `file` (
   `type` varchar(45) NOT NULL COMMENT 'afbeelding, video',
   `muted` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `file`:
+--
 
 --
 -- Dumping data for table `file`
@@ -109,6 +127,14 @@ CREATE TABLE `layout` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- RELATIONSHIPS FOR TABLE `layout`:
+--   `default_background`
+--       `file` -> `file_id`
+--   `logo`
+--       `file` -> `file_id`
+--
+
+--
 -- Dumping data for table `layout`
 --
 
@@ -131,6 +157,14 @@ CREATE TABLE `location` (
   `main_number` varchar(45) NOT NULL,
   `intern_number` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `location`:
+--   `layout_id`
+--       `layout` -> `layout_id`
+--   `theme_id`
+--       `theme` -> `theme_id`
+--
 
 --
 -- Dumping data for table `location`
@@ -163,6 +197,14 @@ CREATE TABLE `news_article` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- RELATIONSHIPS FOR TABLE `news_article`:
+--   `file_id`
+--       `file` -> `file_id`
+--   `category_id`
+--       `category` -> `category_id`
+--
+
+--
 -- Dumping data for table `news_article`
 --
 
@@ -182,6 +224,14 @@ CREATE TABLE `news_article_has_location` (
   `news_article_id` int(11) NOT NULL,
   `location_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `news_article_has_location`:
+--   `location_id`
+--       `location` -> `location_id`
+--   `news_article_id`
+--       `news_article` -> `news_article_id`
+--
 
 --
 -- Dumping data for table `news_article_has_location`
@@ -212,6 +262,10 @@ CREATE TABLE `right` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- RELATIONSHIPS FOR TABLE `right`:
+--
+
+--
 -- Dumping data for table `right`
 --
 
@@ -237,6 +291,12 @@ CREATE TABLE `theme` (
   `name` varchar(45) NOT NULL,
   `background_file` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- RELATIONSHIPS FOR TABLE `theme`:
+--   `background_file`
+--       `file` -> `file_id`
+--
 
 --
 -- Dumping data for table `theme`
@@ -265,6 +325,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Alle informatie van de medewerkers maar ook admins';
 
 --
+-- RELATIONSHIPS FOR TABLE `user`:
+--   `location`
+--       `location` -> `location_id`
+--   `file_id`
+--       `file` -> `file_id`
+--
+
+--
 -- Dumping data for table `user`
 --
 
@@ -283,6 +351,14 @@ CREATE TABLE `user_has_right` (
   `user_id` int(11) NOT NULL,
   `right_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='tussentabel voor rechten en personen';
+
+--
+-- RELATIONSHIPS FOR TABLE `user_has_right`:
+--   `user_id`
+--       `user` -> `user_id`
+--   `right_id`
+--       `right` -> `right_id`
+--
 
 --
 -- Dumping data for table `user_has_right`
