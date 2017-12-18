@@ -192,7 +192,7 @@ function SaveUserRights($user_id, $rights){
 		$valid = false;
 	}
 	if($valid){
-		echo "<div class=\"alert alert-success\" role=\"alert\">Het rechten zijn opgeslagen</div>";
+		echo "<div class=\"alert alert-success\" role=\"alert\">De rechten zijn opgeslagen</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}

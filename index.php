@@ -19,9 +19,18 @@
 <body>
     <header>
         <nav class="navbar fixed-top" id="top-bar">
-            <a id="date" class="navbar-brand"></a>
-            <a id="time" class="navbar-brand"></a>
-            <img id="logo" src="<?php print($logo); ?>" alt="Logo">
+            <div class="row">
+                <div class="col-md-3">
+                    <a id="date" class="navbar-brand"></a>
+                    <a id="time" class="navbar-brand"></a>
+                </div>
+                <div class="col-md-6">
+                    <div id="weather"></div>        
+                </div>
+                <div class="col-md-3 logo-section">
+                    <img id="logo" src="<?php print($logo); ?>" alt="Logo">  
+                </div>
+            </div>            
         </nav>
     </header>
 
@@ -52,8 +61,7 @@
                 ?>
                 </ul>
             </div>
-        </div>
-        <div id="weather"></div>
+        </div>        
     </div>
 
 

@@ -68,7 +68,7 @@ function SearchNewsArticle($search_words){
 		$return .= "	<td>".substr($description, 0, 150)."...</td>";
 		$return .= "	<td>".date("d-m-Y", strtotime($display_from))." t/m ".date("d-m-Y", strtotime($display_till))."</td>";
 		$return .= "	<td>$category_name</td>";
-		$return .= "	<td>" . (($type == "foto") ? "<img src=\"$location\" alt=\"$title foto\" class=\"img-thumbnail search-img\">" : "") . "</td>";
+		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"$title foto\" class=\"img-thumbnail search-img\">" : "") . "</td>";
 		$return .= "</tr>";
 	}
 	$return .= "				</tbody>";
@@ -272,7 +272,7 @@ function SearchTheme($search_words){
 		
 		$return .= "<tr>";
 		$return .= "	<td>$name</td>";
-		$return .= "	<td>" . (($type == "foto") ? "<img src=\"$location\" alt=\"Achtergrond afbeelding\" class=\"img-thumbnail search-img\">" : "") . "</td>";
+		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"Achtergrond afbeelding\" class=\"img-thumbnail search-img\">" : "") . "</td>";
 		$return .= "</tr>";
 	}
 	$return .= "				</tbody>";

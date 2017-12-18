@@ -22,7 +22,7 @@ function Checkpriority(){
     if($(".priority-message")[0]){
         $("#messagediv").removeClass("col");
         $("#messagediv").addClass("offset-4 col-8");
-        $("#weather").addClass("offset-4 col-8");
+        $("#weather").addClass("offset-2");
     }
     else{
         $("div.row").addClass("justify-content-center");
@@ -121,7 +121,7 @@ function ListScroll(i, length){
 
 
 function LoadWeather(location_name){
-	$.get("dashboard/get/getWeather.php?location_name="+location_name, function(data) {
+	$.get("dashboard/get/getWeather.php?location_name="+location_name+"&type=mainscreen", function(data) {
 		$("#weather").html(data);		
 	});
 }
