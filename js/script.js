@@ -107,11 +107,11 @@ $(document).ready(function() {
 		var news_display_from = $("#editNews #news-date-from").val();
 		var news_display_till = $("#editNews #news-date-till").val();
 		var news_category = $("#editNews #news-category").val();
-		var news_filelocation = $("#editNews #news-file").attr('medium[0]');
+		var news_filelocation = $("#editNews #news-file").attr('name', 'medium[0]');
 		$("#editNews").find("#news-location").each( function (){
-			if (){
-				
-			}
+		//	if (){
+		//		
+		//	}
 		});
 		var news_locations = $("#editNews #news-locations").val();
 
