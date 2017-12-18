@@ -505,7 +505,7 @@ function readDB($location_id)
 		if($bdrow["photoid"] == NULL){
 			//verjaardag zonder foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow["bgcolor"]."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
-			<div class='media-body mx-4 mt-4'>
+			<div class='media-body'>
 			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			</li>");
@@ -513,8 +513,8 @@ function readDB($location_id)
 		else{
 			//verjaardag met foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
-			<div class='media-body mx-4 mt-4'>
-			<h3 class='mt-0'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
+			<div class='media-body'>
+			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
 			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['photolocation'] ."' alt='Error'>                                    
