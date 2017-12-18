@@ -52,11 +52,6 @@ if (isset($_GET["location_id"])) {
 		$hasAtLeastOneArticle = true;
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
-<<<<<<< HEAD
-			echo ">".substr($title, 0, 60)."...</button></td>";
-			echo "	<td>".substr($description, 0, 200)."...</td>";
-			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
-=======
 			echo ">$title</button></td>";
 			echo "	<td>$description</td>";
 
@@ -65,8 +60,6 @@ if (isset($_GET["location_id"])) {
 			} else {
 				echo "	<td></td>";
 			}
-			
->>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 			echo "</tr>";
 			
 			$news_article_id = $row["news_article_id"];
@@ -111,11 +104,6 @@ if (isset($_GET["location_id"])) {
 		}
 	}
 	echo "data-location=\"$location\"";
-<<<<<<< HEAD
-	echo ">".substr($title, 0, 60)."...</button></td>";
-	echo "	<td>".substr($description, 0, 200)."...</td>";
-	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
-=======
 	echo ">$title</button></td>";
 	echo "	<td>$description</td>";
 
@@ -124,8 +112,6 @@ if (isset($_GET["location_id"])) {
 	} else {
 		echo "	<td></td>";
 	}
-	
->>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
 	echo "</tr>";
 
 	if(!$hasAtLeastOneArticle){
