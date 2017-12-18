@@ -155,10 +155,17 @@ $(document).ready(function() {
 		var right_description = $("#editRight #right-description").val();
 		var right_id = $("#editRight #right-id").val();
 
-		$.get("../get/right.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
-			$("#message").html(data); //Putting the message inside a div tag
-			LoadRights(); //Loading the rights again			
-		});
+		//Check if theyre not nothing
+		if(right_name != "" && right_description != ""){
+			$.get("../get/right.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
+				$("#message").html(data); //Putting the message inside a div tag
+				LoadRights(); //Loading the rights again			
+			});
+		} else {
+			$("#message").html("<div class=\"alert alert-warning\" role=\"alert\">Naam en beschrijving zijn verplicht</div>");
+		}
+
+		
 	});
 
 	//When the button is clicked to delete a right
