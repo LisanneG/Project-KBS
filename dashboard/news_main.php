@@ -161,7 +161,7 @@ if (isset($_POST["logout"])) {
 						<div class="form-group row">
 							<label class="control-label col-2 col-form-label" for="news-description">Beschrijving:</label>
 							<div class="col-10">
-								<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Voer een beschrijving in"></textarea>
+								<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Voer een beschrijving in" rows="6"></textarea>
 							</div>
 						</div>
 					</div>
