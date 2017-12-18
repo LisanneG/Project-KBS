@@ -28,7 +28,12 @@ if (isset($_GET["location_id"])) {
 		echo "				<i class=\"fa fa-ellipsis-h\" aria-hidden=\"true\"></i>";
 		echo "			</div>";
 		echo "			<div class=\"col-md-12\">";
-		echo "				<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
+		if($type == "foto") { 
+			echo "			<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
+		} elseif($type == "video") {
+			$videotype = explode(".", $location);
+			echo "			<video class=\"embed-responsive embed-responsive-16by9\" muted controls><source src=\"$location\" type=\"video/". $videotype[1] ."\" class=\"embed-responsive-item embed-responsive-item-16by9\">Your browser does not support video</video>";
+		}
 		echo "				<p>$description</p>";
 		echo "			</div>";
 		// if($type == "foto"){
