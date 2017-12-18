@@ -47,7 +47,6 @@
             
             
             readDB($location_id);
-            testspam(5);
             
             
                 ?>

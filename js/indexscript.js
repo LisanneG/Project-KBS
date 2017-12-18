@@ -46,8 +46,7 @@ function MessageScroll(){
         timer1 = timer1 + timer0;
         console.log(i);
 
-    }
-    $("html, body").animate({ scrollTop: $("#weather").offset().top}, 1000).delay(2000);                
+    }            
     for(i = Listlength; i != 0; i--){
         timer0 = ListScroll(i);
         if(timer0 === undefined){
@@ -58,7 +57,7 @@ function MessageScroll(){
     }    
 
     console.log(timer1);
-    setTimeout('location.reload()' ,(timer1 + 2000));
+    setTimeout('location.reload()' ,(timer1));
 }
 
 //todo remove console debug lines

@@ -527,18 +527,5 @@ function readDB($location_id)
 
 	return $location_id;
 } 
-function testspam($run){
-	for($i = 0; $i < $run; $i++){
-		print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
-		print("<div class='media-body mx-4 mt-4'>");      //from top to bottom really fast.
-		print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
-		print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
-		print("</div>");
-		print("<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4'>");
-		print("<img class='align-self-end img-thumbnail img-responsive' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
-		print("</div>");                                   
-		print("</li>");
-	}
-}
 /* end of screen functionality*/
 ?>
