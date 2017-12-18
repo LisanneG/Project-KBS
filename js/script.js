@@ -63,8 +63,6 @@ $(document).ready(function() {
 		}
 		modal.find("#news-date-from").val(displayFrom);
 		modal.find("#news-date-till").val(displayTill);
-		if (window.console) console.log(locations);
-		if (window.console) console.log(arrlocations);
 		modal.find("#news-location").each( function (){
 			if (isset(arrlocations)) {
 				if (arrlocations.indexOf($(this).attr('value')) != -1){
@@ -72,21 +70,14 @@ $(document).ready(function() {
 				}
 			} else {
 				if ($(this).attr('value') == locations) {
-					$(this).attr('checked', "");
+					$(this).attr('checked', "checked");
 				}
 			}
 		});
 		modal.find("#news-description").val(description);
 		modal.find("#newsarticle-id").val(id);
 	});
-	
-	$("#editNews").on("hidden.bs.modal", function (event) {
-		var modal = $(this)
-		modal.find("#news-location").each( function (){
-			$(this).removeAttr('checked');
-		});
-	});
-	
+
 	//Modal for the newsarticle removal
 	$("#modal-remove-news").on("show.bs.modal", function (event) {
 		var button = $(event.relatedTarget) // Button that triggered the modal
@@ -107,15 +98,17 @@ $(document).ready(function() {
 		var news_display_from = $("#editNews #news-date-from").val();
 		var news_display_till = $("#editNews #news-date-till").val();
 		var news_category = $("#editNews #news-category").val();
-		var news_filelocation = $("#editNews #news-file").attr('medium[0]');
+
+		var news_filelocation = $("#editNews #news-file").attr('name', 'medium[0]');
 		$("#editNews").find("#news-location").each( function (){
-			if (){
-				
-			}
+		//	if (){
+		//		
+		//	}
 		});
+
 		var news_locations = $("#editNews #news-locations").val();
 
-		$.get("../get/news_article.php?method=edit&newsarticle_id="+news_id+"&title="+news_title+"&description="+news_description+"&priority="+news_priority+"&display_from="+news_display_from+"&display_till="+news_display_till+"&category="+news_category+"&filelocation="+news_filelocation+"&locations="+news_locations, function(data) {
+		$.get("../dashboard/get/news_article.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
 			LoadNewsArticles(); //Loading the newsarticles again			
 		});

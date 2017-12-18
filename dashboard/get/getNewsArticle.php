@@ -28,14 +28,14 @@ if (isset($_GET["location_id"])) {
 		echo "				<i class=\"fa fa-ellipsis-h\" aria-hidden=\"true\"></i>";
 		echo "			</div>";
 		echo "			<div class=\"col-md-12\">";
-		echo "				<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
+		if($type == "foto") { 
+			echo "			<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
+		} elseif($type == "video") {
+			$videotype = explode(".", $location);
+			echo "			<video class=\"embed-responsive embed-responsive-16by9\" muted controls><source src=\"$location\" type=\"video/". $videotype[1] ."\" class=\"embed-responsive-item embed-responsive-item-16by9\">Your browser does not support video</video>";
+		}
 		echo "				<p>$description</p>";
 		echo "			</div>";
-		// if($type == "foto"){
-		// 	echo "			<div class=\"col-md-6 text-right\">";
-		// 	echo "				<img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
-		// 	echo "			</div>";
-		// }
 		echo "		</div>";
 		echo "	</div>";
 		echo "</div>";
@@ -52,21 +52,16 @@ if (isset($_GET["location_id"])) {
 		$hasAtLeastOneArticle = true;
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
-<<<<<<< HEAD
 			echo ">".substr($title, 0, 60)."...</button></td>";
 			echo "	<td>".substr($description, 0, 200)."...</td>";
-			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
-=======
-			echo ">$title</button></td>";
-			echo "	<td>$description</td>";
+
 
 			if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
 				echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 			} else {
 				echo "	<td></td>";
 			}
-			
->>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
+
 			echo "</tr>";
 			
 			$news_article_id = $row["news_article_id"];
@@ -102,30 +97,27 @@ if (isset($_GET["location_id"])) {
 			//File
 			$file_location = $row["location"];
 			$location = $row["location_id"];
-			echo "<tr>";
-			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
-			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
-			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
+			
+			//echo "<tr>";
+			//echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
+			//echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			//echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
 		} else {
 			$location .= "," . $row["location_id"];
 		}
 	}
 	echo "data-location=\"$location\"";
-<<<<<<< HEAD
+
 	echo ">".substr($title, 0, 60)."...</button></td>";
 	echo "	<td>".substr($description, 0, 200)."...</td>";
-	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
-=======
-	echo ">$title</button></td>";
-	echo "	<td>$description</td>";
+
 
 	if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
 		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 	} else {
 		echo "	<td></td>";
 	}
-	
->>>>>>> 6e2f9b4f6652ec2916087d208a7929b9352dd0f8
+
 	echo "</tr>";
 
 	if(!$hasAtLeastOneArticle){

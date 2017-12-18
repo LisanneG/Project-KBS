@@ -286,12 +286,20 @@ function EditRights($right_id, $input_name, $input_description){
 	}
 }
 function RemoveRights($right_id){
-	//Making the insert query
-	$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
-	//preparing the query
+	//First removing the right whos linked with the right id
+	$stringBuilder = "DELETE FROM user_has_right WHERE right_id=? ";
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	
 	if($query->execute(array($right_id))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is verwijderd</div>";
+		//Making the insert query
+		$stringBuilder = "DELETE FROM `right` WHERE right_id=? ";
+		//preparing the query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		if($query->execute(array($right_id))){
+			echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is verwijderd</div>";
+		} else {
+			echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+		}
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
