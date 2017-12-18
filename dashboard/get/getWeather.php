@@ -58,7 +58,9 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 				$avg_temp = 0;
 
 				foreach ($temps as $temp) { //Adding all the temps together
-					$avg_temp += $temp;
+					if (is_numeric($temp)){
+						$avg_temp += $temp;
+					}					
 				}
 
 				$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)

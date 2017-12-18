@@ -20,7 +20,10 @@
 .priority-box{
     position: fixed;
     z-index: 9999;
-    top: 148px;
+    margin-left: -55px;
+    padding-right: 0px;
+    margin-right: -50px;
+    margin-top: -20px;
 }
 
 /*invisible location name*/

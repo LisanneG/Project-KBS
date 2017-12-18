@@ -98,10 +98,17 @@ $(document).ready(function() {
 		var news_display_from = $("#editNews #news-date-from").val();
 		var news_display_till = $("#editNews #news-date-till").val();
 		var news_category = $("#editNews #news-category").val();
-		var news_filelocation = $("#editNews #news-file").attr('name');
+
+		var news_filelocation = $("#editNews #news-file").attr('name', 'medium[0]');
+		$("#editNews").find("#news-location").each( function (){
+		//	if (){
+		//		
+		//	}
+		});
+
 		var news_locations = $("#editNews #news-locations").val();
 
-		$.get("../get/news_article.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
+		$.get("../dashboard/get/news_article.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
 			LoadNewsArticles(); //Loading the newsarticles again			
 		});
@@ -111,7 +118,7 @@ $(document).ready(function() {
 	$("#btn-remove-news").click(function(){
 		var id = $("#modal-remove-news #news-id").val();
     	
-    	$.get("../get/news_article.php?method=remove&newsarticle_id="+id, function(data) {
+    	$.get("../dashboard/get/news_article.php?method=remove&newsarticle_id="+id, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
 			LoadNewsArticles(); //Loading the newsarticles again
 			$('#modal-remove-news').modal('hide'); //Closing the modal
