@@ -310,12 +310,18 @@ function getLocation(){
 	include 'database.php';
 	if(!(isset($_GET["location"]))){
 		print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
+		
+		if(isset($_SESSION["location_name"]) && (isset($_SESSION["location_id"]))){
+			$_GET["location"] = $_SESSION["location_name"];
+			if($_SERVER["REQUEST_URI"] == '/index.php'){
+			header("location:index.php?location=" . $_SESSION["location_name"]);
+			}
+			return $_SESSION["location_id"];
+		}
 		return NULL;
 	}
-	elseif(isset($_SESSION["location_name"]) && (isset($_SESSION["location_id"]))){
-		$_GET["location"] = $_SESSION["location_name"];
-		return $_SESSION["location_id"];
-	}
+	
+	
 	else{
 		$locationquery = $conn->prepare("SELECT location_id, `name` FROM `location` WHERE `name` = ? ");
 		$locationquery->execute(array($_GET["location"]));
