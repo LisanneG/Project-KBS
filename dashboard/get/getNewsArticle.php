@@ -53,16 +53,17 @@ if (isset($_GET["location_id"])) {
 		if ($news_article_id != $row["news_article_id"] && $news_article_id != false){
 			echo "data-location=\"$location\"";
 
+
 			echo ">".substr($title, 0, 60)."...</button></td>";
 			echo "	<td>".substr($description, 0, 200)."...</td>";
 			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+
 
 			if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
 				echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 			} else {
 				echo "	<td></td>";
 			}
-			
 
 			echo "</tr>";
 			
@@ -114,12 +115,12 @@ if (isset($_GET["location_id"])) {
 	echo "	<td>".substr($description, 0, 200)."...</td>";
 	echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 
+
 	if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
 		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
 	} else {
 		echo "	<td></td>";
 	}
-	
 
 	echo "</tr>";
 
