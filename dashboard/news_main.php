@@ -194,7 +194,7 @@ if (isset($_POST["logout"])) {
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>	 
-					<button type="button" class="btn btn-warning" id="btn-remove-news">Ja</button>	 
+					<button type="button" class="btn btn-warning" id="btn-remove-news">Ja</button>
 				</div>
 			</div>
 		</div>
