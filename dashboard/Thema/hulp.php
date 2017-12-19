@@ -17,7 +17,7 @@ function getThema() {
 }
 
 function removeTheme() {
-    $priorityquery = $conn->prepare("DELETE FROM theme WHERE theme_id = ?");
+    $priorityquery = $conn->prepare("DELETE FROM theme WHERE theme_id IN (?)");
     $priorityquery->execute(array($theme_id));
 
     //gebruik een GET of POST functie om $theme_id te gebruiken hiervoor.
@@ -30,10 +30,18 @@ function addTheme() {
 }
 
 function handler() {
-    if (isset($_POST[""])) {
-        //doe de juiste taken
-    } elseif (isset($_POST[""])) {
-        //doe de juiste taken
+    if (isset($_POST["theme_id"])) {
+        if($_POST["delete"] == true){
+            $theme_id = $_POST["theme_id"];
+            removetheme($theme_id);
+        }
+    } elseif (isset($_POST["name"])) {
+        if($_POST["add"] == true){
+
+        }
+        elseif($_POST["edit"] == true){
+
+        }
     }
 }
 

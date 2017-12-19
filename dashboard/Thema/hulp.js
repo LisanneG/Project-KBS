@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	setInterval('tableSelect()');
-	setInterval('handleSelect()');
+	setInterval('deleteSelect()');
 	setInterval('editSelect()');
 });
 
@@ -23,11 +23,29 @@ function handleSelect(){
 	var selected = $(".clicked td").first().text();
 	var selectednames = $(".clicked td").eq(1).text();
 	$("#selected-items").text(selectednames);
+	return selected;
 }
 
 
 function deleteSelect(){
+	var selected = handleSelect();
 
+	if(selected === undefined){
+		return;
+	}
+	else{
+		$("#verwijderitems").click(function(){
+			$.ajax({
+				method: "POST",
+				url: "../../Theme/index.php",
+				data: {theme_id: selected, delete: true}
+			  })
+				.done(function() {
+				  location.reload();
+				});
+			  
+		});
+	}
 }
 
 
