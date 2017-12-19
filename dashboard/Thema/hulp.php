@@ -10,6 +10,7 @@ function getThema() {
         print("<td>" . $row["theme_id"] . "</td>");
         print("<td>" . $row["theme_name"] . "</td>");
         print("<td> <img class='img-fluid' src='" . $row["image"] . "'></img></td>");
+        print("<td><button type='submit' class='btn btn-primary'  data-toggle='modal' data-target='#bijwerken'>bijwerken</button></td>");
         print("</tr>");
     }
     //voor iedere rij in de tabel toon de tabelinhoud
@@ -24,14 +25,14 @@ function removeTheme() {
 
 function addTheme() {
     include '/database.php';
-    $themequery = $conn->prepare("INSERT INTO file VALUES(?, ?, ?, ?)");
+    $themequery = $conn->prepare("INSERT INTO `file`() VALUES(?, ?, ?, ?)");
     $themequery->execute(array(NULL, NULL, "photo", NULL));
 }
 
 function handler() {
-    if (isset($_GET[""])) {
+    if (isset($_POST[""])) {
         //doe de juiste taken
-    } elseif (isset($_GET[""])) {
+    } elseif (isset($_POST[""])) {
         //doe de juiste taken
     }
 }
