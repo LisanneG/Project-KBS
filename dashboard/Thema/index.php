@@ -19,9 +19,9 @@ if (isset($_POST["logout"])) {
     <head>
         <meta charset="UTF-8">
         <title>Thema's</title>
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/dashboard/Thema/hulp.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/dashboard/Thema/hulp.css">
     </head>
     <body>
         <!-- Tabs bovenin niet maken -->
@@ -90,7 +90,8 @@ if (isset($_POST["logout"])) {
                                 <tr class="font-bold-weight">
                                     <th>#</th>
                                     <th>Naam</th>
-                                    <th>Foto</th>
+                                    <th>Afbeelding</th>
+                                    <th>Wijzigen</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -107,7 +108,7 @@ if (isset($_POST["logout"])) {
         </div>
         <div class="container-fluid ">
             <div class="row">
-                <button type="submit" class="btn btn-default"  data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
+                <button type="submit" class="btn btn-primary"  data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
                 <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#verwijderen">Verwijderen</button>
             </div>
         </div>
@@ -126,14 +127,14 @@ if (isset($_POST["logout"])) {
                     <div class="modal-body">
                         <form>
                             <div class="form-group">
-                                <label for="newthemename">Naam</label>
+                                <!--<label for="newthemename">Naam</label>-->
                                 <input type="text" class="form-control" id="newthemename" placeholder="Naam">
                             </div>
 
 
                         </form>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>
                         </form>
 
                     </div>
@@ -144,6 +145,40 @@ if (isset($_POST["logout"])) {
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="bijwerken" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addmenu">Bijwerken</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <!--<label for="newthemename">Naam</label>-->
+                                <input type="text" class="form-control" id="newthemename" placeholder="Bijwerken">
+                            </div>
+
+
+                        </form>
+
+                        <button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" method="post" type="submit">Opslaan</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
         <div class="modal fade" id="verwijderen" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -160,7 +195,7 @@ if (isset($_POST["logout"])) {
                         <h8 id="selected-items" class="pt-5"></h8>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" type="submit" method="post">Ja</button>
+                        <button type="button" class="btn btn-primary" type="submit" id='verwijderitems'>Ja</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                     </div>
                 </div>
