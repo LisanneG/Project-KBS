@@ -48,5 +48,15 @@ function deleteSelect(){
 function editSelect(){
 	$("[id^='edit']").click(function(){
 		$("#bijwerken").modal('show');
+		$(this).addClass("selected-edit");
 	});
+
+	if($(".selected-edit")[0]){
+		var selectedId = $(".selected-edit").attr("id");
+		selectedId = selectedId.split("-");
+		selectedId = selectedId[1];
+
+		$("#newtheme-edit-id").val(selectedId);
+	}
+	
 }

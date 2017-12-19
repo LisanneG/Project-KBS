@@ -162,6 +162,9 @@ if (isset($_POST["logout"])) {
                         <form>
                             <div class="form-group">
                                 <!--<label for="newthemename">Naam</label>-->
+                                <input type="hidden" id="newtheme-edit-id" value="" name="theme_id">
+                                <input type="hidden" value="1" name="edit">
+                                <label class="control-label col-2 col-form-label" for="newthemename">Naam:</label>
                                 <input type="text" class="form-control" id="newthemename" placeholder="Bijwerken">
                             </div>
 
@@ -179,8 +182,10 @@ if (isset($_POST["logout"])) {
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" method="post" type="submit">Opslaan</button>
+                    <form action="" method="POST">
+                        <button type="button" class="btn btn-primary" type="submit">Opslaan</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                    </form>
                     </div>
                 </div>
             </div>
