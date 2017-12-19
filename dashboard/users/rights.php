@@ -45,10 +45,16 @@ if (isset($_POST["logout"])) {
 
 				//Saving rights
 				if (isset($_POST["save_right"])) {
+					
 					$name = $_POST["right_name"];
 					$description = $_POST["right_description"];
 
-					SaveRights($name, $description);
+					if($name != "" && $description != ""){
+						SaveRights($name, $description);
+					} else {
+						echo "<div class=\"alert alert-warning\" role=\"alert\">Naam en beschrijving zijn verplicht</div>";
+					}				
+					
 				}
 
 			?>
@@ -186,7 +192,7 @@ if (isset($_POST["logout"])) {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Verwijdern</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Verwijderen</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

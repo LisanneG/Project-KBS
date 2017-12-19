@@ -192,7 +192,7 @@ function SaveUserRights($user_id, $rights){
 		$valid = false;
 	}
 	if($valid){
-		echo "<div class=\"alert alert-success\" role=\"alert\">Het rechten zijn opgeslagen</div>";
+		echo "<div class=\"alert alert-success\" role=\"alert\">De rechten zijn opgeslagen</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
@@ -310,12 +310,18 @@ function getLocation(){
 	include 'database.php';
 	if(!(isset($_GET["location"]))){
 		print("<div class='alert alert-danger' role='alert'><strong>Error:</strong> Geen locatie ingesteld.</div>");
+		
+		if(isset($_SESSION["location_name"]) && (isset($_SESSION["location_id"]))){
+			$_GET["location"] = $_SESSION["location_name"];
+			if($_SERVER["REQUEST_URI"] == '/index.php'){
+			header("location:index.php?location=" . $_SESSION["location_name"]);
+			}
+			return $_SESSION["location_id"];
+		}
 		return NULL;
 	}
-	elseif(isset($_SESSION["location_name"]) && (isset($_SESSION["location_id"]))){
-		$_GET["location"] = $_SESSION["location_name"];
-		return $_SESSION["location_id"];
-	}
+	
+	
 	else{
 		$locationquery = $conn->prepare("SELECT location_id, `name` FROM `location` WHERE `name` = ? ");
 		$locationquery->execute(array($_GET["location"]));
@@ -499,7 +505,7 @@ function readDB($location_id)
 		if($bdrow["photoid"] == NULL){
 			//verjaardag zonder foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow["bgcolor"]."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
-			<div class='media-body mx-4 mt-4'>
+			<div class='media-body'>
 			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			</li>");
@@ -507,8 +513,8 @@ function readDB($location_id)
 		else{
 			//verjaardag met foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
-			<div class='media-body mx-4 mt-4'>
-			<h3 class='mt-0'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
+			<div class='media-body'>
+			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
 			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['photolocation'] ."' alt='Error'>                                    
@@ -521,18 +527,5 @@ function readDB($location_id)
 
 	return $location_id;
 } 
-function testspam($run){
-	for($i = 0; $i < $run; $i++){
-		print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
-		print("<div class='media-body mx-4 mt-4'>");      //from top to bottom really fast.
-		print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
-		print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
-		print("</div>");
-		print("<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4'>");
-		print("<img class='align-self-end img-thumbnail img-responsive' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
-		print("</div>");                                   
-		print("</li>");
-	}
-}
 /* end of screen functionality*/
 ?>

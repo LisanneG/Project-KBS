@@ -22,7 +22,7 @@ function Checkpriority(){
     if($(".priority-message")[0]){
         $("#messagediv").removeClass("col");
         $("#messagediv").addClass("offset-4 col-8");
-        $("#weather").addClass("offset-4 col-8");
+        $("#weather").addClass("offset-2");
     }
     else{
         $("div.row").addClass("justify-content-center");
@@ -46,8 +46,7 @@ function MessageScroll(){
         timer1 = timer1 + timer0;
         console.log(i);
 
-    }
-    $("html, body").animate({ scrollTop: $("#weather").offset().top}, 1000).delay(2000);                
+    }            
     for(i = Listlength; i != 0; i--){
         timer0 = ListScroll(i);
         if(timer0 === undefined){
@@ -58,7 +57,7 @@ function MessageScroll(){
     }    
 
     console.log(timer1);
-    setTimeout('location.reload()' ,(timer1 + 2000));
+    setTimeout('location.reload()' ,(timer1));
 }
 
 //todo remove console debug lines
@@ -122,7 +121,7 @@ function ListScroll(i, length){
 
 
 function LoadWeather(location_name){
-	$.get("dashboard/get/getWeather.php?location_name="+location_name, function(data) {
+	$.get("dashboard/get/getWeather.php?location_name="+location_name+"&type=mainscreen", function(data) {
 		$("#weather").html(data);		
 	});
 }

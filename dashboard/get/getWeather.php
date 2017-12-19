@@ -1,7 +1,7 @@
 <?php
 $appid = "3a4b1f37b4d0db0b03ccf7d50f906471"; //Setting the api key for the api we use
 
-if (isset($_GET['location_name']) && $appid != "") { //Check if theres a location name and appid
+if (isset($_GET['location_name']) && $appid != "" && $_GET['location_name'] != "") { //Check if theres a location name and appid
 	ini_set("allow_url_fopen", 1);
 	$location_name = $_GET['location_name'];
 	$location_name = str_replace(" ", "%20", $location_name); //Replacing the space with a %20 for the url
@@ -20,7 +20,7 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 		if($obj->cod == "401"){
 			echo "<div class=\"alert alert-danger\" role=\"alert\">De gegeven API key is niet geldig</div>";
 		} else {
-			echo "<div class=\"alert alert-danger\" role=\"alert\">Het weer kon niet opgehaald worden van \"$location_name\"</div>";
+			echo "<div class=\"alert alert-danger\" role=\"alert\">Het weer kon niet opgehaald worden van \"" . $_GET['location_name'] . "\"</div>";
 		}		
 	} else {
 		$week_days = array(1 => 'Maandag', 2 => 'Dinsdag', 3 => 'Woensdag', 4 => 'Donderdag', 5 => 'Vrijdag', 6 => 'Zaterdag', 0 => 'Zondag');
@@ -46,36 +46,64 @@ if (isset($_GET['location_name']) && $appid != "") { //Check if theres a locatio
 			$output_icon[$week_day] = $icon; //Getting the last icon from a specific day
 		}
 
-		echo "<div class=\"row\">";
-		echo "	<div class=\"col-md-12 weather-section\">";
-		echo "		<p class=\"title\">Weer</p>";
-		echo "		<div class=\"row justify-content-center\">";
+		if(isset($_GET["type"]) && $_GET["type"] == "mainscreen"){									
 
-		foreach ($output_icon as $day => $icon) { //Going through the icons and getting the key as the day and value as the icon
+			echo "<div class=\"row\">";
 
-			if (isset($output_temp[$day])) { //Checking if the weekday exists inside the temp array
-				$temps = explode(";", $output_temp[$day]); //Splitting the temps by ;
-				$avg_temp = 0;
+			foreach ($output_icon as $day => $icon) { //Going through the icons and getting the key as the day and value as the icon
 
-				foreach ($temps as $temp) { //Adding all the temps together
-					if (is_numeric($temp)){
-						$avg_temp += $temp;
-					}					
+				if (isset($output_temp[$day])) { //Checking if the weekday exists inside the temp array
+					$temps = explode(";", $output_temp[$day]); //Splitting the temps by ;
+					$avg_temp = 0;
+
+					foreach ($temps as $temp) { //Adding all the temps together
+						if (is_numeric($temp)){
+							$avg_temp += $temp;
+						}					
+					}
+
+					$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)
+
+					echo "<div class=\"col-md-4 col-lg-2\">";					
+					echo "	<div class=\"temp\">".substr($day, 0, 2).": $avg_temp &deg; $icon</div>";
+					echo "</div>";
 				}
 
-				$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)
-
-				echo "<div class=\"col-md-4 col-lg-2\">";
-				echo "	<p class=\"day\">$day</p>";
-				echo "	<div class=\"temp\">$icon<br>$avg_temp &deg;</div>";
-				echo "</div>";
 			}
 
-		}
+			echo "</div>";
+		} else {
+			echo "<div class=\"row\">";
+			echo "	<div class=\"col-md-12 weather-section\">";
+			echo "		<p class=\"title\">Weer</p>";
+			echo "		<div class=\"row justify-content-center\">";
 
-		echo "		</div>";
-		echo "	</div>";
-		echo "</div>";
+			foreach ($output_icon as $day => $icon) { //Going through the icons and getting the key as the day and value as the icon
+
+				if (isset($output_temp[$day])) { //Checking if the weekday exists inside the temp array
+					$temps = explode(";", $output_temp[$day]); //Splitting the temps by ;
+					$avg_temp = 0;
+
+					foreach ($temps as $temp) { //Adding all the temps together
+						if (is_numeric($temp)){
+							$avg_temp += $temp;
+						}					
+					}
+
+					$avg_temp = number_format(($avg_temp / (count($temps) - 1)), 1); //Getting the average of the temp and - 1 because the last one is always an empty string (bcs it ends with ;)
+
+					echo "<div class=\"col-md-4 col-lg-2\">";
+					echo "	<p class=\"day\">$day</p>";
+					echo "	<div class=\"temp\">$icon<br>$avg_temp &deg;</div>";
+					echo "</div>";
+				}
+
+			}
+
+			echo "		</div>";
+			echo "	</div>";
+			echo "</div>";
+		}		
 	}	
 } else {
 
