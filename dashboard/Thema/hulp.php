@@ -9,8 +9,8 @@ function getThema() {
         print("<tr>");
         print("<td>" . $row["theme_id"] . "</td>");
         print("<td>" . $row["theme_name"] . "</td>");
-        print("<td> <img class='img-fluid' src='" . $row["image"] . "'></img></td>");
-        print("<td><button type='submit' class='btn btn-primary' id='edit-". $row["theme_id"]."'>bijwerken</button></td>");
+        print("<td> <img class='img-fluid themeimage' src='" . $row["image"] . "'></img></td>");
+        print("<td><button type='submit' class='btn btn-primary' id='edit-" . $row["theme_id"] . "'>Bijwerken</button></td>");
         print("</tr>");
     }
     //voor iedere rij in de tabel toon de tabelinhoud
