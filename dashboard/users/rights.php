@@ -45,10 +45,16 @@ if (isset($_POST["logout"])) {
 
 				//Saving rights
 				if (isset($_POST["save_right"])) {
+					
 					$name = $_POST["right_name"];
 					$description = $_POST["right_description"];
 
-					SaveRights($name, $description);
+					if($name != "" && $description != ""){
+						SaveRights($name, $description);
+					} else {
+						echo "<div class=\"alert alert-warning\" role=\"alert\">Naam en beschrijving zijn verplicht</div>";
+					}				
+					
 				}
 
 			?>
@@ -95,32 +101,32 @@ if (isset($_POST["logout"])) {
 							
 			</div>
 			
-			<!-- content of changing rights -->
-			<div class="tab-pane fade" id="nav-change-rights" role="tabpanel" aria-labelledby="nav-change-rights-tab">
-				<div class="row">					
-					<div class="col-md-12">
-						<table class="table">
-							<thead>
-								<tr>								
-									<th>Naam</th>
-									<th>Beschrijving</th>
-									<th>Delete</th>
-								</tr>
-							</thead>
-							<tbody id="rights-tbody">
-							</tbody>
-						</table>	
-					</div>					
-				</div>
-			</div>
+                            <!-- content of changing rights -->
+                            <div class="tab-pane fade" id="nav-change-rights" role="tabpanel" aria-labelledby="nav-change-rights-tab">
+                                    <div class="row">					
+                                            <div class="col-md-12">
+                                                    <table class="table">
+                                                            <thead>
+                                                                    <tr>								
+                                                                            <th>Naam</th>
+                                                                            <th>Beschrijving</th>
+                                                                            <th>Delete</th>
+                                                                    </tr>
+                                                            </thead>
+                                                            <tbody id="rights-tbody">
+                                                            </tbody>
+                                                    </table>	
+                                            </div>					
+                                    </div>
+                            </div>
 
-			<div class="row">
-				<div class="col-md-12">
-					<button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
-				</div>
-			</div>		
-		</div>
-	</section>	
+                            <div class="row">
+                                    <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
+                                    </div>
+                            </div>		
+                    </div>
+            </section>	
 
 	<!-- Modal for editing right -->
 	<div class="modal fade" id="editRight" tabindex="-1" role="dialog" aria-labelledby="editRightLabel" aria-hidden="true">
@@ -186,7 +192,7 @@ if (isset($_POST["logout"])) {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Verwijdern</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Verwijderen</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>

@@ -7,6 +7,10 @@
     background-color: white;
 }
 
+.navbar .row{width:100%;}
+.navbar .row .temp img{width: 28px;}
+.navbar .row .logo-section{text-align: right;}
+
 .priority-alert{
     color: red;
     vertical-align: bottom;
@@ -30,6 +34,7 @@
 #location_name{visibility: hidden;}
 
 /*weather section*/
+#weather{padding-top: 10px;}
 .weather-section{border: 1px solid black; padding: 45px; margin-bottom: 20px;}
 .weather-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}
 .weather-section .day{margin:0px; text-align: center;}

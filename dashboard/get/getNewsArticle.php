@@ -28,7 +28,7 @@ if (isset($_GET["location_id"])) {
 		echo "				<i class=\"fa fa-ellipsis-h\" aria-hidden=\"true\"></i>";
 		echo "			</div>";
 		echo "			<div class=\"col-md-12\">";
-		if($type == "foto") { 
+		if($type == "photo") { 
 			echo "			<div class=\"img-news\"><img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\"></div>";
 		} elseif($type == "video") {
 			$videotype = explode(".", $location);
@@ -36,11 +36,6 @@ if (isset($_GET["location_id"])) {
 		}
 		echo "				<p>$description</p>";
 		echo "			</div>";
-		// if($type == "foto"){
-		// 	echo "			<div class=\"col-md-6 text-right\">";
-		// 	echo "				<img src=\"$location\" class=\"img-thumbnail news-image\" alt=\"$title\">";
-		// 	echo "			</div>";
-		// }
 		echo "		</div>";
 		echo "	</div>";
 		echo "</div>";
