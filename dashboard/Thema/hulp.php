@@ -10,7 +10,7 @@ function getThema() {
         print("<td>" . $row["theme_id"] . "</td>");
         print("<td>" . $row["theme_name"] . "</td>");
         print("<td> <img class='img-fluid' src='" . $row["image"] . "'></img></td>");
-        print("<td><button type='submit' class='btn btn-primary'  data-toggle='modal' data-target='#bijwerken'>bijwerken</button></td>");
+        print("<td><button type='submit' class='btn btn-primary' id='edit-". $row["theme_id"]."'>bijwerken</button></td>");
         print("</tr>");
     }
     //voor iedere rij in de tabel toon de tabelinhoud
