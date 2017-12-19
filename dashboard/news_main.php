@@ -26,6 +26,13 @@ if (isset($_POST["logout"])) {
 	<?php include 'include/navbar.php'; 
 	include 'news/news_send.php';?>
 	
+	<?php if (isset($_FILES["medium"]["name"])){
+		print_r( $_FILES["medium"]);
+	}
+		
+	
+	?>
+	
 	<!-- Navigational tabs -->
 	<section id="dashboard-content" class="container-fluid">
 		<h1>Nieuwsberichten</h1>
@@ -40,6 +47,8 @@ if (isset($_POST["logout"])) {
 		
 		<!-- content of the tabs -->
 		<div class="tab-content" id="nav-tabContent">
+			
+			<div id="message"></div>
 			
 			<!-- content of "toevoegen" -->
 			<div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
@@ -111,10 +120,10 @@ if (isset($_POST["logout"])) {
 				</div>
 			</div>
 		</div>
-	</section>	
+	</section>
 
 	<!-- Modal for editing the newsarticle -->
-	<div class="modal fade" id="editNews" tabindex="-1" role="dialog" aria-labelledby="editNewsLabel" aria-hidden="true">
+	<div class="modal fade editNews" id="editNews" tabindex="-1" role="dialog" aria-labelledby="editNewsLabel" aria-hidden="true">
 		<div class="modal-dialog modal-lg" role="document">
 	    	<div class="modal-content">
 	    		<div class="modal-header">
@@ -125,6 +134,7 @@ if (isset($_POST["logout"])) {
 	      		</div>	      		
 	      		<div class="modal-body">
 					<div class="col-9">
+						<form id="form-edit-modal" action="/get/news_article.php" enctype="multipart/form-data" method="post">
 						<div class="form-group row">
 							<label class="control-label col-2 col-form-label" for="news-title">Titel:</label>
 							<div class="col-10">
@@ -134,7 +144,7 @@ if (isset($_POST["logout"])) {
 						<div class="form-group row">
 							<label class="control-label col-2 col-form-label" for="news-file">Bestand(en):</label>
 							<div class="col-10">
-								<input class="btn btn-default" id="news-file" type="file" name="medium[]">
+								<input class="btn btn-default" id="news-file" type="file" name="file">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -146,13 +156,13 @@ if (isset($_POST["logout"])) {
 						<div class="form-group row">
 							<label class="control-label col-2" for="news-date-from">Datum van:</label>
 							<div class="col-10">
-								<input type="date" id="news-date-from" name="news-date-from" required="required">
+								<input type="date" id="news-date-from" name="news-date-from">
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="control-label col-2" for="news-date-till">Datum tot:</label>
 							<div class="col-10">
-								<input type="date" id="news-date-till" name="news-date-till" required="required">
+								<input type="date" id="news-date-till" name="news-date-till">
 							</div>
 						</div>
 					
@@ -164,6 +174,7 @@ if (isset($_POST["logout"])) {
 								<textarea name="news-description" class="form-control" id="news-description" form="newsAddForm" placeholder="Voer een beschrijving in" rows="6"></textarea>
 							</div>
 						</div>
+						</form>
 					</div>
 					<div class="oldimg col-3">
 						<img id="news-file-old" src="" alt="Het huidige bestand">
@@ -178,7 +189,7 @@ if (isset($_POST["logout"])) {
 	  	</div>
 	</div>
 	
-	<!-- Modal for removing right -->
+	<!-- Modal for removing the newsarticle -->
 	<div class="modal fade" id="modal-remove-news" tabindex="-1" role="dialog" aria-labelledby="removeNewsLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm" role="document">
 			<div class="modal-content">
@@ -199,7 +210,7 @@ if (isset($_POST["logout"])) {
 			</div>
 		</div>
 	</div>
-
+	
 	<?php include 'include/footer.php'; ?>
 </body>
 </html>

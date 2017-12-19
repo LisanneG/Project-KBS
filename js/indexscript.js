@@ -57,7 +57,7 @@ function MessageScroll(){
     }    
 
     console.log(timer1);
-    setTimeout('location.reload()' ,(timer1 + 2000));
+    setTimeout('location.reload()' ,(timer1));
 }
 
 //todo remove console debug lines

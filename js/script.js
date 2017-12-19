@@ -52,30 +52,114 @@ $(document).ready(function() {
 		
 		var modal = $(this)
 		modal.find("#news-title").val(title);
-		modal.find(".oldimg img").attr('src', fileLocation);
+		modal.find(".oldimg img").prop('src', fileLocation);
 		modal.find("#news-category").each( function (){
-			if ($(this).attr('value') == category) {
-				$(this).attr('checked', "checked");
+			if ($(this).prop('value') == category) {
+				$(this).prop('checked', true);
 			}
 		});
 		if (priority != 0) {
-			modal.find("#news-priority").attr('checked', "checked");
+			modal.find("#news-priority").prop('checked', true);
 		}
 		modal.find("#news-date-from").val(displayFrom);
 		modal.find("#news-date-till").val(displayTill);
 		modal.find("#news-location").each( function (){
 			if (isset(arrlocations)) {
-				if (arrlocations.indexOf($(this).attr('value')) != -1){
-					$(this).attr('checked', "checked");
+				if (arrlocations.indexOf($(this).prop('value')) != -1){
+					$(this).prop('checked', "checked");
 				}
 			} else {
-				if ($(this).attr('value') == locations) {
-					$(this).attr('checked', "checked");
+				if ($(this).prop('value') == locations) {
+					$(this).prop('checked', "checked");
 				}
 			}
 		});
 		modal.find("#news-description").val(description);
 		modal.find("#newsarticle-id").val(id);
+		
+		$(function () {
+			$('.button-checkbox').each(function () {
+
+				// Settings
+				var $widget = $(this),
+				$button = $widget.find('button'),
+				$checkbox = $widget.find('input:checkbox'),
+				color = $button.data('color'),
+				settings = {
+					on: {
+						icon: 'fa fa-check-square-o'
+					},
+					off: {
+						icon: 'fa fa-square-o'
+					}
+				};
+
+				// Event Handlers
+				$button.on('click', function () {
+					$checkbox.prop('checked', !$checkbox.is(':checked'));
+					$checkbox.triggerHandler('change');
+					updateDisplay();
+				});
+				$checkbox.on('change', function () {
+					updateDisplay();
+				});
+
+				// Actions
+				function updateDisplay() {
+					var isChecked = $checkbox.is(':checked');
+
+					// Set the button's state
+					$button.data('state', (isChecked) ? "on" : "off");
+
+					// Set the button's icon
+					$button.find('.state-icon')
+						.removeClass()
+						.addClass('state-icon ' + settings[$button.data('state')].icon);
+
+					// Update the button's color
+					if (isChecked) {
+						$button
+							.removeClass('btn-default')
+							.addClass('btn-' + color + ' active');
+					}
+					else {
+						$button
+							.removeClass('btn-' + color + ' active')
+							.addClass('btn-default');
+					} //if (window.console) console.log(isChecked); 
+				}
+
+				// Initialization
+				function init() {
+
+					updateDisplay();
+
+					// Inject the icon if applicable
+					if ($button.find('.state-icon').length == 0) {
+						$button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+					}
+				}
+				init();
+			});
+		});
+	});
+	
+	$("#editNews").on("hidden.bs.modal", function (event) {
+		var modal = $(this)
+		//modal.find("#news-location").each( function (){
+		//	$(this).prop('checked', false);
+		//});
+		$button = modal.find('button');
+		$button.each( function(){
+			$button
+				.removeClass('btn-primary active')
+				.addClass('btn-default');
+		});
+		$checkbox = modal.find('input:checkbox');
+		$checkbox.each( function(){
+			$checkbox
+				.prop('checked', false);
+		});
 	});
 
 	//Modal for the newsarticle removal
@@ -88,6 +172,22 @@ $(document).ready(function() {
 		modal.find("#news-title").text(title);
 		modal.find("#news-id").val(id);
 	});
+	
+	//When the button is clicked to check a location
+	/*
+	$(document).on("click",".locations",function(e){
+		
+		var $widget = $(this),
+            $checkbox = $widget.find('input:checkbox');
+			
+		if ($(checkbox).is('[checked]')) {
+			// attribute exists
+			$(checkbox).removeAttr('checked');
+		} else {
+			// attribute does not exist
+			$(checkbox).attr('checked', "checked");
+		}
+	});*/
 
 	//When the button is clicked to edit a newsarticle
 	$("#save-news-edit").click(function(){
@@ -98,20 +198,55 @@ $(document).ready(function() {
 		var news_display_from = $("#editNews #news-date-from").val();
 		var news_display_till = $("#editNews #news-date-till").val();
 		var news_category = $("#editNews #news-category").val();
-
-		var news_filelocation = $("#editNews #news-file").attr('name', 'medium[0]');
+		var news_file = $("#editNews #news-file").prop('files')[0];
+		//news_file: news_file
+		var locations = "";
 		$("#editNews").find("#news-location").each( function (){
-		//	if (){
-		//		
-		//	}
+			if ($(this).is(':checked')){
+				locations = locations+","+$(this).prop('value');
+			}
 		});
-
-		var news_locations = $("#editNews #news-locations").val();
-
-		$.get("../dashboard/get/news_article.php?method=edit&right_id="+right_id+"&name="+right_name+"&description="+right_description, function(data) {
-			$("#message").html(data); //Putting the message inside a div tag
-			LoadNewsArticles(); //Loading the newsarticles again			
+		if (window.console) console.log(news_file); 
+		
+		
+		var formElement = document.querySelector("#form-edit-modal");
+		var formData = new FormData(formElement);
+		var request = new XMLHttpRequest();
+		request.open("POST", "../dashboard/get/news_article.php");
+		formData.append("method","edit");
+		formData.append("news-description",$("#news-description").prop('value'));
+		formData.append("locations",locations);
+		request.send(formData);
+		
+		
+		
+		for (var pair of formData.entries())
+		{
+			if (window.console) console.log(pair[0]+ ', '+ pair[1]); 
+		}
+		//if (window.console) console.log(formData.values()); 
+		$('#editNews').modal('hide'); //Closing the modal
+		/*
+		var formdata = new FormData();
+		formdata.append("file",news_file);
+		
+		$.ajax({
+			type: "POST",
+			url: "../dashboard/get/news_article.php",
+			data: formdata,
+			processData: false, 
+			contentType: false,
 		});
+		
+		*/
+		
+		//var news_locations = $("#editNews #news-locations").val();
+
+		//$.get("../dashboard/get/news_article.php?method=edit&newsarticle_id="+news_id+"&title="+news_title+"&description="+news_description+"&priority="+news_priority+
+		//"&display_from="+news_display_from+"&display_till="+news_display_till+"&category="+news_category+"&file="+news_file, function(data) {
+		//	$("#message").html(data); //Putting the message inside a div tag
+		//	LoadNewsArticles(); //Loading the newsarticles again			
+		//});
 	});
 
 	//When the button is clicked to delete a newsarticle
@@ -247,3 +382,93 @@ function isset () {
     }
     return true;
 }
+
+function updateDisplay($checkbox,$button) {
+	var isChecked = $checkbox.is(':checked');
+
+	// Set the button's state
+	$button.data('state', (isChecked) ? "on" : "off");
+
+	// Set the button's icon
+	$button.find('.state-icon')
+		.removeClass()
+		.addClass('state-icon ' + settings[$button.data('state')].icon);
+
+	// Update the button's color
+	if (isChecked) {
+	$button
+		.removeClass('btn-default')
+		.addClass('btn-' + color + ' active');
+	} else {
+	$button
+		.removeClass('btn-' + color + ' active')
+		.addClass('btn-default');
+	}
+}
+
+//button scripts
+$(function () {
+    $('.button-checkbox').each(function () {
+
+        // Settings
+        var $widget = $(this),
+            $button = $widget.find('button'),
+            $checkbox = $widget.find('input:checkbox'),
+            color = $button.data('color'),
+            settings = {
+                on: {
+                    icon: 'fa fa-check-square-o'
+                },
+                off: {
+                    icon: 'fa fa-square-o'
+                }
+            };
+
+        // Event Handlers
+        $button.on('click', function () {
+            $checkbox.prop('checked', !$checkbox.is(':checked'));
+            $checkbox.triggerHandler('change');
+            updateDisplay();
+        });
+        $checkbox.on('change', function () {
+            updateDisplay();
+        });
+
+        // Actions
+        function updateDisplay() {
+            var isChecked = $checkbox.is(':checked');
+
+            // Set the button's state
+            $button.data('state', (isChecked) ? "on" : "off");
+
+            // Set the button's icon
+            $button.find('.state-icon')
+                .removeClass()
+                .addClass('state-icon ' + settings[$button.data('state')].icon);
+
+            // Update the button's color
+            if (isChecked) {
+                $button
+                    .removeClass('btn-default')
+                    .addClass('btn-' + color + ' active');
+            }
+            else {
+                $button
+                    .removeClass('btn-' + color + ' active')
+                    .addClass('btn-default');
+            }
+        }
+
+        // Initialization
+        function init() {
+
+            updateDisplay();
+
+            // Inject the icon if applicable
+            if ($button.find('.state-icon').length == 0) {
+                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
+            }
+        }
+        init();
+    });
+});

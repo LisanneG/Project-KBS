@@ -101,32 +101,32 @@ if (isset($_POST["logout"])) {
 							
 			</div>
 			
-			<!-- content of changing rights -->
-			<div class="tab-pane fade" id="nav-change-rights" role="tabpanel" aria-labelledby="nav-change-rights-tab">
-				<div class="row">					
-					<div class="col-md-12">
-						<table class="table">
-							<thead>
-								<tr>								
-									<th>Naam</th>
-									<th>Beschrijving</th>
-									<th>Delete</th>
-								</tr>
-							</thead>
-							<tbody id="rights-tbody">
-							</tbody>
-						</table>	
-					</div>					
-				</div>
-			</div>
+                            <!-- content of changing rights -->
+                            <div class="tab-pane fade" id="nav-change-rights" role="tabpanel" aria-labelledby="nav-change-rights-tab">
+                                    <div class="row">					
+                                            <div class="col-md-12">
+                                                    <table class="table">
+                                                            <thead>
+                                                                    <tr>								
+                                                                            <th>Naam</th>
+                                                                            <th>Beschrijving</th>
+                                                                            <th>Delete</th>
+                                                                    </tr>
+                                                            </thead>
+                                                            <tbody id="rights-tbody">
+                                                            </tbody>
+                                                    </table>	
+                                            </div>					
+                                    </div>
+                            </div>
 
-			<div class="row">
-				<div class="col-md-12">
-					<button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
-				</div>
-			</div>		
-		</div>
-	</section>	
+                            <div class="row">
+                                    <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addRight">Recht toevoegen</button>	
+                                    </div>
+                            </div>		
+                    </div>
+            </section>	
 
 	<!-- Modal for editing right -->
 	<div class="modal fade" id="editRight" tabindex="-1" role="dialog" aria-labelledby="editRightLabel" aria-hidden="true">

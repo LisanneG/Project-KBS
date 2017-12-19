@@ -237,15 +237,22 @@ function SaveNews($input_name, $input_description){
 	}
 }
 //Function for inserting an edited newsarticle
-function EditNews($newsarticle_id, $input_title, $input_description){
-	//Making the insert query
-	$stringBuilder = "UPDATE `right` ";
-	$stringBuilder .= "SET name=?, description=? ";
-	$stringBuilder .= "WHERE right_id=? ";
+function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
+	//Making the update query											//add fileId as soon as fileuploading works
+	$stringBuilder = "UPDATE `news_article` ";
+	$stringBuilder .= "SET title=?, ";
+	$stringBuilder .= "description=?, ";
+	$stringBuilder .= "priority=?, ";
+	//$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=?, ";
+	$stringBuilder .= "display_till=?, ";
+	$stringBuilder .= "category_id=? ";
+	$stringBuilder .= "WHERE news_article_id=? ";
+	
 	
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
+	if($query->execute(array($news_title, $description, $priority, $displayFrom, $displayTill, $categoryId, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
@@ -253,7 +260,7 @@ function EditNews($newsarticle_id, $input_title, $input_description){
 }
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
-	//Making the insert query
+	//Making the delete query
 	$stringBuilder = "DELETE FROM `news_article` WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -505,7 +512,7 @@ function readDB($location_id)
 		if($bdrow["photoid"] == NULL){
 			//verjaardag zonder foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow["bgcolor"]."' id='" . $bdrow['birthday_id']. "-birthdaynoimg'>
-			<div class='media-body mx-4 mt-4'>
+			<div class='media-body'>
 			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			</li>");
@@ -513,8 +520,8 @@ function readDB($location_id)
 		else{
 			//verjaardag met foto
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
-			<div class='media-body mx-4 mt-4'>
-			<h3 class='mt-0'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
+			<div class='media-body'>
+			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
 			<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4' '>                        
 			<img class='align-self-center img-thumbnail img-responsive' src='". $bdrow['photolocation'] ."' alt='Error'>                                    
@@ -527,18 +534,5 @@ function readDB($location_id)
 
 	return $location_id;
 } 
-function testspam($run){
-	for($i = 0; $i < $run; $i++){
-		print("<li class='media mb-5 mt-5 border border-dark' id='12137-message'>"); //dummy id to trigger animation or else it will just do the normal scrolling
-		print("<div class='media-body mx-4 mt-4'>");      //from top to bottom really fast.
-		print("<h3 class='font-weight-bold mb-4'>Test title</h3>");                    
-		print("<div class='messagecontent01'><p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p></div>");
-		print("</div>");
-		print("<div class='media-object d-flex align-self-center mr-4 flex-column col-5 mt-4 mb-4'>");
-		print("<img class='align-self-end img-thumbnail img-responsive' src='https://4.bp.blogspot.com/-lYq2CzKT12k/VVR_atacIWI/AAAAAAABiwk/ZDXJa9dhUh8/s0/Convict_Lake_Autumn_View_uhd.jpg' alt='Generic placeholder image'>");
-		print("</div>");                                   
-		print("</li>");
-	}
-}
 /* end of screen functionality*/
 ?>

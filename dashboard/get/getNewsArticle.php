@@ -98,10 +98,10 @@ if (isset($_GET["location_id"])) {
 			$file_location = $row["location"];
 			$location = $row["location_id"];
 			
-			//echo "<tr>";
-			//echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
-			//echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
-			//echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
+			echo "<tr>";
+			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
+			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
 		} else {
 			$location .= "," . $row["location_id"];
 		}
