@@ -2,18 +2,25 @@
 include '../include/framework.php';
 
 $method = "";
-if (isset($_GET["method"])){
-	$method = $_GET["method"];
+if (isset($_POST["method"])){
+	$method = $_POST["method"];
 }
 
 //If all the required variables are given
-if (isset($_GET["newsarticle_id"]) && isset($_GET["title"]) && isset($_GET["description"]) && $method == "edit") {
+if (isset(/*$method == "edit"*/ $_FILES["file"]["name"])) {
 
-	$newsarticle_id = $_GET["newsarticle_id"];
-	$name = $_GET["name"];
-	$description = $_GET["description"];
+	//$newsarticle_id = $_GET["newsarticle_id"];
+	//$title = $_GET["title"];
+	//$description = $_GET["description"];
+	//$priority = 
+	//$locations = 
+	//$locations = explode
+	//$display_from = 
+	//$display_till =
+	//$filelocation = $_GET["file"];
 
-	echo EditRights($newsarticle_id, $name, $description); //Calling a function to edit it, which gives back a message if it's successful or not
+	include '../upload.php';
+	//echo EditRights($newsarticle_id, $name, $description); //Calling a function to edit it, which gives back a message if it's successful or not
 
 } elseif(isset($_GET["newsarticle_id"]) && $method == "remove") { //If only a newsarticle_id is given we'll remove it
 
