@@ -214,9 +214,18 @@ $(document).ready(function() {
 		var request = new XMLHttpRequest();
 		request.open("POST", "../dashboard/get/news_article.php");
 		formData.append("method","edit");
+		formData.append("news-description",$("#news-description").prop('value'));
+		formData.append("locations",locations);
 		request.send(formData);
 		
 		
+		
+		for (var pair of formData.entries())
+		{
+			if (window.console) console.log(pair[0]+ ', '+ pair[1]); 
+		}
+		//if (window.console) console.log(formData.values()); 
+		$('#editNews').modal('hide'); //Closing the modal
 		/*
 		var formdata = new FormData();
 		formdata.append("file",news_file);
