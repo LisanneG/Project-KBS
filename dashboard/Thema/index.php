@@ -19,9 +19,9 @@ if (isset($_POST["logout"])) {
     <head>
         <meta charset="UTF-8">
         <title>Thema's</title>
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/Project-KBS-master/dashboard/Thema/hulp.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="/Project-KBS/dashboard/Thema/hulp.css">
     </head>
     <body>
         <!-- Tabs bovenin niet maken -->
@@ -108,7 +108,7 @@ if (isset($_POST["logout"])) {
         </div>
         <div class="container-fluid ">
             <div class="row">
-                <button type="submit" class="btn btn-default"  data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
+                <button type="submit" class="btn btn-primary"  data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
                 <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#verwijderen">Verwijderen</button>
             </div>
         </div>
@@ -195,7 +195,7 @@ if (isset($_POST["logout"])) {
                         <h8 id="selected-items" class="pt-5"></h8>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" type="submit" method="post">Ja</button>
+                        <button type="button" class="btn btn-primary" type="submit" id='verwijderitems'>Ja</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                     </div>
                 </div>
