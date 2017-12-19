@@ -53,7 +53,7 @@
 	    	<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="#">Welkom: <?php echo $_SESSION["email"]; ?></a></li>
 				<li class="nav-item">
-			    	<a class="nav-link icon-settings" href="#"><i class="fa fa-cog" aria-hidden="true"></i></a>
+					<button type="button" class="nav-link icon-settings btn btn-link" data-toggle="modal" data-target="#modal-user-edit"><i class="fa fa-cog" aria-hidden="true"></i></button>			    	
 			  	</li>
 			  	<li class="nav-item">
 		  			<button type="button" class="btn" data-toggle="modal" data-target="#modal-logout">Uitloggen</button>			    	
