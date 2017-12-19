@@ -16,22 +16,29 @@ function getThema() {
     //voor iedere rij in de tabel toon de tabelinhoud
 }
 
-function removeTheme() {
-    $priorityquery = $conn->prepare("DELETE FROM theme WHERE theme_id IN (?)");
-    $priorityquery->execute(array($theme_id));
+function removeTheme($theme_id) {
+    include '../../database.php';
+    $ids = implode(',', array_fill(0, count($theme_id), '?'));
+    
+    $removequery = $conn->prepare("UPDATE `location` SET theme_id = NULL WHERE theme_id IN (". $ids .")");
+    $removequery->execute($theme_id);
+    
+    $removequery = $conn->prepare("DELETE FROM theme WHERE theme_id IN (". $ids .")");
+    $removequery->execute($theme_id);
+
 
     //gebruik een GET of POST functie om $theme_id te gebruiken hiervoor.
 }
 
 function addTheme() {
-    include '/database.php';
+    include '../../database.php';
     $themequery = $conn->prepare("INSERT INTO `file`() VALUES(?, ?, ?, ?)");
     $themequery->execute(array(NULL, NULL, "photo", NULL));
 }
 
 function handler() {
     if (isset($_POST["theme_id"])) {
-        if($_POST["delete"] == true){
+        if($_POST["delete"] == "1"){
             $theme_id = $_POST["theme_id"];
             removetheme($theme_id);
         }
@@ -45,5 +52,4 @@ function handler() {
     }
 }
 
-handler();
 ?>

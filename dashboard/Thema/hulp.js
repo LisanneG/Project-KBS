@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	setInterval('tableSelect()');
-	setInterval('deleteSelect()');
+	setInterval('deleteSelect()', 2000);
 	setInterval('editSelect()');
 });
 
@@ -30,21 +30,17 @@ function handleSelect(){
 function deleteSelect(){
 	var selected = handleSelect();
 
-	if(selected === undefined){
+	if(selected == ""){
+		$("#deletebutton").prop("disabled", true);
+		$("#deletebutton").attr("aria-disabled", true);
+
+		
 		return;
 	}
 	else{
-		$("#verwijderitems").click(function(){
-			$.ajax({
-				method: "POST",
-				url: "../../Theme/index.php",
-				data: {theme_id: selected, delete: true}
-			  })
-				.done(function() {
-				  location.reload();
-				});
-			  
-		});
+		$("#deletebutton").prop("disabled", false);
+		$("#deletebutton").attr("aria-disabled", false);
+		$("#theme-id").val(selected);
 	}
 }
 
@@ -52,5 +48,15 @@ function deleteSelect(){
 function editSelect(){
 	$("[id^='edit']").click(function(){
 		$("#bijwerken").modal('show');
+		$(this).addClass("selected-edit");
 	});
+
+	if($(".selected-edit")[0]){
+		var selectedId = $(".selected-edit").attr("id");
+		selectedId = selectedId.split("-");
+		selectedId = selectedId[1];
+
+		$("#newtheme-edit-id").val(selectedId);
+	}
+	
 }
