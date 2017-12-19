@@ -1,9 +1,11 @@
 .table-responsive{
 	max-height: 300px;
+
 }
 
-.img-fluid{
-	max-height: 300px;
-	max-width: 300px;
+.themeimage{
+	max-height: 200px;
+	width: 700px;
+
 }
 /*pas de hoogte/breedte zelf aan */

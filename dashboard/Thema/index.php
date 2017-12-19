@@ -58,7 +58,7 @@ if (isset($_POST["logout"])) {
         <script type="text/javascript" src="hulp.js"></script>
         <!-- Alles wat hierboven staat is ok. Nu de rest programmeren. -->
         <section id="dashboard-content" class="container-fluid">
-            <h1>Thema's</h1>
+
             <!--<div class="container">
                 <div class="row">
                     <div class="col-sm">
@@ -81,7 +81,9 @@ if (isset($_POST["logout"])) {
                     </div>
                 </div>
             </div>-->
+            <h1>Thema's</h1>
             <div class="container-fluid" style="border:1px solid #cecece;">
+
                 <div class="row">
 
                     <div class="table-responsive">
@@ -165,7 +167,13 @@ if (isset($_POST["logout"])) {
 
                         </form>
 
-                        <button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>
+                        <!--<button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>-->
+                        <div class="form-group row">
+                            <label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
+                            <div class="col-10">
+                                <input class="btn btn-default" id="file" type="file" name="medium[]">
+                            </div>
+                        </div>
                         </form>
 
                     </div>
