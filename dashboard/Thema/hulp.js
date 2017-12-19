@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	setInterval('tableSelect()');
-	setInterval('deleteSelect()');
+	setInterval('deleteSelect()', 2000);
 	setInterval('editSelect()');
 });
 
@@ -30,21 +30,17 @@ function handleSelect(){
 function deleteSelect(){
 	var selected = handleSelect();
 
-	if(selected === undefined){
+	if(selected == ""){
+		$("#deletebutton").prop("disabled", true);
+		$("#deletebutton").attr("aria-disabled", true);
+
+		
 		return;
 	}
 	else{
-		$("#verwijderitems").click(function(){
-			$.ajax({
-				method: "POST",
-				url: "../../Theme/index.php",
-				data: {theme_id: selected, delete: true}
-			  })
-				.done(function() {
-				  location.reload();
-				});
-			  
-		});
+		$("#deletebutton").prop("disabled", false);
+		$("#deletebutton").attr("aria-disabled", false);
+		$("#theme-id").val(selected);
 	}
 }
 
