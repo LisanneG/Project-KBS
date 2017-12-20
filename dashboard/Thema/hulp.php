@@ -29,17 +29,59 @@ function removeTheme($theme_id) {
 
     //gebruik een GET of POST functie om $theme_id te gebruiken hiervoor.
 }
-
+/*
 function addTheme() {
     include '../../database.php';
-    $themequery = $conn->prepare("INSERT INTO `file`() VALUES(?, ?, ?, ?)");
-    $themequery->execute(array(NULL, NULL, "photo", NULL));
+    
+    //do file upload
+    
+    
+    $themequery = $conn->prepare("INSERT INTO `file`(`location`,`type`, muted) VALUES(?, ?, ?)");
+    $themequery->execute(array($file_link ,"photo", NULL));
+
+    $themequery = $conn->prepare("SELECT file_id FROM `file` WHERE `location` = ?");
+    $themequery->execute(array());
+    $result = $themequery->fetch(PDO::FETCH_ASSOC);
+
+    $result = $result["file_id"];
+
+    if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
+        $themequery = $conn->prepare("INSERT INTO theme(`name`, background_file) VALUES(?, ?)");
+        $themequery =execute(array($name, $result));
+    }
+
+    
 }
+*/
+
+/*
+function editTheme($theme_id){
+    include '../../database.php';
+
+    //do file upload
+    
+    $themeeditquery = $conn->prepare("INSERT INTO `file`(`location`,`type`, muted) VALUES(?, ?, ?)");
+    $themeeditquery->execute(array($file_link ,"photo", NULL));
+
+    $themequery = $conn->prepare("SELECT file_id FROM `file` WHERE `location` = ?");
+    $themequery->execute(array());
+    $result = $themequery->fetch(PDO::FETCH_ASSOC);
+
+    $result = $result["file_id"];
+
+    if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
+        $themequery = $conn->prepare("UPDATE theme SET `name` = ? background_file = ? WHERE theme_id = ?");
+        $themequery =execute(array($name, $result, $theme_id));
+    }
+
+}
+*/
+
 
 function handler() {
     if (isset($_POST["theme_id"])) {
+        $theme_id = $_POST["theme_id"];
         if($_POST["delete"] == "1"){
-            $theme_id = $_POST["theme_id"];
             removetheme($theme_id);
         }
     } elseif (isset($_POST["name"])) {
