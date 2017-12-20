@@ -51,5 +51,6 @@ if (isset($_POST["logout"])) {
 	</section>
 
 	<?php include 'include/footer.php'; ?>
+
 </body>
 </html>
