@@ -237,15 +237,22 @@ function SaveNews($input_name, $input_description){
 	}
 }
 //Function for inserting an edited newsarticle
-function EditNews($newsarticle_id, $input_title, $input_description){
-	//Making the insert query
-	$stringBuilder = "UPDATE `right` ";
-	$stringBuilder .= "SET name=?, description=? ";
-	$stringBuilder .= "WHERE right_id=? ";
+function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
+	//Making the update query											//add fileId as soon as fileuploading works
+	$stringBuilder = "UPDATE `news_article` ";
+	$stringBuilder .= "SET title=?, ";
+	$stringBuilder .= "description=?, ";
+	$stringBuilder .= "priority=?, ";
+	//$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=?, ";
+	$stringBuilder .= "display_till=?, ";
+	$stringBuilder .= "category_id=? ";
+	$stringBuilder .= "WHERE news_article_id=? ";
+	
 	
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
+	if($query->execute(array($news_title, $description, $priority, $displayFrom, $displayTill, $categoryId, $newsarticle_id))){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
@@ -253,7 +260,7 @@ function EditNews($newsarticle_id, $input_title, $input_description){
 }
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
-	//Making the insert query
+	//Making the delete query
 	$stringBuilder = "DELETE FROM `news_article` WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
