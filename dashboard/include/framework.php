@@ -546,14 +546,14 @@ function debug_to_console($data){
 }
 
 //function for uploading file and storing info in db
-function fileUpload($_FILES){
+function fileUpload($files){
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
 	$counter = 0;
 	$lastInsertedFileId = array();
-	foreach ($_FILES["medium"]["name"] as $k => $v) {
-        $medium = str_replace(" ", "_", $_FILES["medium"]["name"][$k]);
+	foreach ($files["medium"]["name"] as $k => $v) {
+        $medium = str_replace(" ", "_", $files["medium"]["name"][$k]);
         $ext = pathinfo($medium, PATHINFO_EXTENSION);
 
         if (in_array($ext, $imageList)) {
