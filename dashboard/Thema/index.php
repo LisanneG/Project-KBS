@@ -99,6 +99,11 @@ if (isset($_POST["logout"])) {
                             <tbody>
                                 <?php
                                 include 'hulp.php';
+
+                                print_r($_POST["name"]);
+                                print_r($_POST["medium"]);
+                                print_r($_POST["add"]);
+                                print_r();
                                 getThema();
                                 handler();
                                 ?>
@@ -128,28 +133,26 @@ if (isset($_POST["logout"])) {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
                             <div class="form-group">
                                 <!--<label for="newthemename">Naam</label>-->
-                                <input type="text" class="form-control" id="newthemename" placeholder="Naam">
+                                <input type="text" class="form-control" id="newthemename" placeholder="Naam" name="name" form="form-add" required>
+                                <input type="hidden" value="1" id="bool-add" name="add" form="form-add">
                             </div>
-
-
-                        </form>
-
 
                         <div class="form-group row">
                             <label class="control-label col-2 col-form-label" for="file">Afbeelding:</label>
                             <div class="col-10">
-                                <input class="btn btn-default" id="file" type="file" name="medium[]">
+                                <input class="btn btn-default" id="file" type="file" name="medium[]" required form="form-add">
                             </div>
                         </div>
                         </form>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" method="post" type="submit">Opslaan</button>
+                        <form action="" method="POST" id="form-add">
+                        <button class="btn btn-primary" method="post" type="submit">Opslaan</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -165,31 +168,27 @@ if (isset($_POST["logout"])) {
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
                             <div class="form-group">
                                 <!--<label for="newthemename">Naam</label>-->
                                 <input type="hidden" id="newtheme-edit-id" value="" name="theme_id">
-                                <input type="hidden" value="1" name="edit">
+                                <input type="hidden" value="1" id="bool-edit" name="edit" form="form-edit">
                                 <!--<label class="control-label col-2 col-form-label" for="newthemename">Naam:</label>-->
-                                <input type="text" class="form-control" id="newthemename" placeholder="Naam">
+                                <input type="text" class="form-control" id="newthemename" placeholder="Naam" name="name" required form="form-edit">
                             </div>
 
-
-                        </form>
 
                         <!--<button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>-->
                         <div class="form-group row">
                             <label class="control-label col-2 col-form-label" for="file">Afbeelding:</label>
                             <div class="col-10">
-                                <input class="btn btn-default" id="file" type="file" name="medium[]">
+                                <input class="btn btn-default" id="file" type="file" name="medium[]" form="form-edit" required>
                             </div>
                         </div>
-                        </form>
 
                     </div>
                     <div class="modal-footer">
-                        <form action="" method="POST">
-                            <button type="button" class="btn btn-primary" type="submit">Opslaan</button>
+                        <form action="" method="POST" id="form-edit">
+                            <button class="btn btn-primary" type="submit">Opslaan</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
                         </form>
                     </div>
@@ -217,7 +216,7 @@ if (isset($_POST["logout"])) {
                     <div class="modal-footer">
                         <form method="POST" action="">
                             <input type="hidden" id="theme-id" name="theme_id[]" value="">
-                            <input type="hidden" name="delete" value="1">
+                            <input type="hidden" name="delete" id="bool-remove" value="1">
                             <button type="submit" class="btn btn-primary" id="deletebutton" >Ja</button>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                         </form>

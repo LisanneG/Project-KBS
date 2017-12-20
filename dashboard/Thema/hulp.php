@@ -29,53 +29,32 @@ function removeTheme($theme_id) {
 
     //gebruik een GET of POST functie om $theme_id te gebruiken hiervoor.
 }
-/*
-function addTheme() {
+
+function addTheme($name, $file) {
+    include '../../dashboard/include/framework.php';
     include '../../database.php';
-    
-    //do file upload
-    
-    
-    $themequery = $conn->prepare("INSERT INTO `file`(`location`,`type`, muted) VALUES(?, ?, ?)");
-    $themequery->execute(array($file_link ,"photo", NULL));
 
-    $themequery = $conn->prepare("SELECT file_id FROM `file` WHERE `location` = ?");
-    $themequery->execute(array());
-    $result = $themequery->fetch(PDO::FETCH_ASSOC);
+    $file_id = fileUpload($file);
 
-    $result = $result["file_id"];
 
-    if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
-        $themequery = $conn->prepare("INSERT INTO theme(`name`, background_file) VALUES(?, ?)");
-        $themequery =execute(array($name, $result));
-    }
+    $themequery = $conn->prepare("INSERT INTO theme(`name`, background_file) VALUES(?, ?)");
+    $themequery =execute(array($name, $file_id[0]));
 
     
 }
-*/
 
-/*
-function editTheme($theme_id){
+
+
+function editTheme($theme_id, $name, $file){
+    include '../../dashboard/include/framework.php';
     include '../../database.php';
+    $file_id = fileUpload($file);
 
-    //do file upload
-    
-    $themeeditquery = $conn->prepare("INSERT INTO `file`(`location`,`type`, muted) VALUES(?, ?, ?)");
-    $themeeditquery->execute(array($file_link ,"photo", NULL));
-
-    $themequery = $conn->prepare("SELECT file_id FROM `file` WHERE `location` = ?");
-    $themequery->execute(array());
-    $result = $themequery->fetch(PDO::FETCH_ASSOC);
-
-    $result = $result["file_id"];
-
-    if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
         $themequery = $conn->prepare("UPDATE theme SET `name` = ? background_file = ? WHERE theme_id = ?");
-        $themequery =execute(array($name, $result, $theme_id));
-    }
+        $themequery =execute(array($name, $file_id, $theme_id));
 
 }
-*/
+
 
 
 function handler() {
@@ -84,14 +63,18 @@ function handler() {
         if($_POST["delete"] == "1"){
             removetheme($theme_id);
         }
-    } elseif (isset($_POST["name"])) {
-        if($_POST["add"] == true){
-
+    } elseif (isset($_POST["name"]) && (isset($_POST["medium"]))){
+        $name = $_POST["name"];
+        $file = $_POST["medium"];
+        if($_POST["edit"] = "1" && (isset($_POST["theme_id"]))){
+            $theme_id = $_POST["theme_id"];
+            editTheme($theme_id, $name, $file);
         }
-        elseif($_POST["edit"] == true){
-
+        elseif($_POST["add"] == "1"){
+            addTheme($name, $file);
+        }
         }
     }
-}
+
 
 ?>

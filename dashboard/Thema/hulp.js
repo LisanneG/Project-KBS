@@ -41,6 +41,7 @@ function deleteSelect(){
 		$("#deletebutton").prop("disabled", false);
 		$("#deletebutton").attr("aria-disabled", false);
 		$("#theme-id").val(selected);
+		$("").val(1);
 	}
 }
 
