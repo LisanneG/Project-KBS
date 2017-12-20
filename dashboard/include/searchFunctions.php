@@ -68,7 +68,7 @@ function SearchNewsArticle($search_words){
 		$return .= "	<td>".substr($description, 0, 150)."...</td>";
 		$return .= "	<td>".date("d-m-Y", strtotime($display_from))." t/m ".date("d-m-Y", strtotime($display_till))."</td>";
 		$return .= "	<td>$category_name</td>";
-		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"$title foto\" class=\"img-thumbnail search-img\">" : "") . "</td>";
+		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"$title foto\" class=\"img-thumbnail search-img\">" : "N/A") . "</td>";
 		$return .= "</tr>";
 	}
 	$return .= "				</tbody>";
@@ -161,11 +161,12 @@ function SearchAccount($search_words){
 	$search_words = "\"$search_words\"";
 
 	//Building the query
-	$stringBuilder = "SELECT u.first_name, u.insertion, u.last_name, u.birthday, u.email, u.password, u.admin, l.name, ";
+	$stringBuilder = "SELECT u.first_name, u.insertion, u.last_name, u.birthday, u.email, u.password, u.admin, l.name, f.location AS fileLocation, f.type, ";
 	$stringBuilder .= "MATCH(u.first_name) AGAINST (? IN BOOLEAN MODE) AS relevanceFirstname, ";
 	$stringBuilder .= "MATCH(u.last_name) AGAINST (? IN BOOLEAN MODE) AS relevanceLastname, ";
 	$stringBuilder .= "MATCH(u.email) AGAINST (? IN BOOLEAN MODE) AS relevanceEmail ";
 	$stringBuilder .= "FROM `user` u ";
+	$stringBuilder .= "LEFT JOIN `file` f ON f.file_id=u.file_id ";
 	$stringBuilder .= "INNER JOIN location l ON l.location_id=u.location ";
 	$stringBuilder .= "WHERE  ";
 	$stringBuilder .= "(MATCH(u.first_name) AGAINST (? IN BOOLEAN MODE) OR MATCH(u.last_name) AGAINST (? IN BOOLEAN MODE) OR MATCH(u.email) AGAINST (? IN BOOLEAN MODE) ) ";
@@ -188,6 +189,7 @@ function SearchAccount($search_words){
 	$return .= "						<th>Email</th>";
 	$return .= "						<th>Locatie</th>";
 	$return .= "						<th>Account type</th>";
+	$return .= "						<th>Profiel foto</th>";
 	$return .= "					</tr>";	
 	$return .= "				</thead>";
 	$return .= "				<tbody>";
@@ -206,7 +208,10 @@ function SearchAccount($search_words){
 
 		$birthday = $row["birthday"];
 		$email = $row["email"];
-		$admin = $row["admin"];			
+		$admin = $row["admin"];		
+		//File
+		$file_location = $row["fileLocation"];
+		$type = $row["type"];
 		//Location
 		$location_name = $row["name"];
 		
@@ -216,6 +221,7 @@ function SearchAccount($search_words){
 		$return .= "	<td>$email</td>";
 		$return .= "	<td>$location_name</td>";
 		$return .= "	<td>" . (($admin == 0) ? "Medewerker" : "Beheerder") . "</td>";
+		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$file_location\" alt=\"$name profiel foto\" class=\"img-thumbnail search-img\">" : "N/A") . "</td>";
 		$return .= "</tr>";
 	}
 	$return .= "				</tbody>";
@@ -272,7 +278,7 @@ function SearchTheme($search_words){
 		
 		$return .= "<tr>";
 		$return .= "	<td>$name</td>";
-		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"Achtergrond afbeelding\" class=\"img-thumbnail search-img\">" : "") . "</td>";
+		$return .= "	<td>" . (($type == "photo") ? "<img src=\"$location\" alt=\"Achtergrond afbeelding\" class=\"img-thumbnail search-img\">" : "N/A") . "</td>";
 		$return .= "</tr>";
 	}
 	$return .= "				</tbody>";
