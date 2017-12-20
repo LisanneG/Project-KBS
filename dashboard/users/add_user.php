@@ -28,7 +28,7 @@ if (isset($_POST["logout"])) {
 <?php include '../include/navbar.php'; ?>
 <div class="container">
 	<h1>Account toevoegen</h1>
-	<form class="form-horizontal" action="add_user.php" method="post">
+	<form class="form-horizontal" action="manage_accounts.php" method="post">
 		<div class="form-group">
 		<div class="row">
 			<div class="col">
@@ -80,30 +80,7 @@ if (isset($_POST["logout"])) {
 		</div>
 	</form>
 </div>
-<?php 
-	try{
-		// Setting up the info for the database
-		$host = "localhost";
-		$username = "root";
-		$password = "";
-		$db = "dotcasting";
 
-		// Trying to get a connection
-		$conn = new PDO("mysql:dbname=$db;host=$host", $username, $password);
-	}
-	catch(PDOException $ex){
-		// If for some reason the connection can't be made, it will give an error and stop with everything else
-		die("<div class='alert alert-danger' role='alert'><strong>Error:</strong> kan geen verbinding maken</div>");
-	}
-
-if (isset($_POST["submit"])){
-	$sql = "INSERT INTO user(first_name, insertion, last_name, birthday, email, password, admin, location) VALUES (?,?,?,?,?,?,?,?)";
-	$stmt = $conn->prepare($sql);
-	$stmt->execute(array($_POST["Voornaam"], $_POST["Tussenvoegsel"], $_POST["Achternaam"], $_POST["Geboortedatum"], $_POST["Email"], $_POST["Wachtwoord"], $_POST["Admin"], $_POST["Locatie"]));
- 
-}
-
-?>
 
 
 	<?php include '../include/footer.php'; ?>

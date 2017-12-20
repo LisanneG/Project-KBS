@@ -5,9 +5,9 @@ $method = "";
 if (isset($_POST["method"])){
 	$method = $_POST["method"];
 }
-
+echo "boo";
 //If all the required variables are given
-if (isset(/*$method == "edit"*/ $_FILES["file"]["name"])) {
+if ($method == "edit" /*$_FILES["file"]["name"]*/) {
 														//fix the stuff for files as soon as that works!
 	$newsarticle_id = $_POST["newsarticle_id"];
 	$news_title = htmlentities($_POST["news-title"]);
@@ -23,16 +23,18 @@ if (isset(/*$method == "edit"*/ $_FILES["file"]["name"])) {
 	$description = htmlentities($_POST["news-description"]); 
 	$locations = $_POST["locations"];
 	
-	//$newsarticle_id = $_GET["newsarticle_id"];
-	//$title = $_GET["title"];
-	//$description = $_GET["description"];
-	//$priority = 
-	//$locations = 
-	//$locations = explode
-	//$display_from = 
-	//$display_till =
-	//$filelocation = $_GET["file"];
-
+	
+	/*
+	$newsarticle_id = $_GET["newsarticle_id"];
+	$title = $_GET["title"];
+	$description = $_GET["description"];
+	$priority = 
+	$locations = 
+	$locations = explode
+	$display_from = 
+	$display_till =
+	$filelocation = $_GET["file"];
+	*/
 	//include '../upload.php';
 	echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description); //Calling a function to edit it, which gives back a message if it's successful or not
 
