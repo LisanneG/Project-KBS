@@ -19,9 +19,9 @@ if (isset($_POST["logout"])) {
     <head>
         <meta charset="UTF-8">
         <title>Thema's</title>
-        <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="/dashboard/Thema/hulp.css">
+        <link rel="stylesheet" type="text/css" href="../../css/style.css">
+        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../dashboard/Thema/hulp.css">
     </head>
     <body>
         <!-- Tabs bovenin niet maken -->
@@ -137,7 +137,13 @@ if (isset($_POST["logout"])) {
 
                         </form>
 
-                        <button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>
+
+                        <div class="form-group row">
+                            <label class="control-label col-2 col-form-label" for="file">Afbeelding:</label>
+                            <div class="col-10">
+                                <input class="btn btn-default" id="file" type="file" name="medium[]">
+                            </div>
+                        </div>
                         </form>
 
                     </div>
@@ -164,8 +170,8 @@ if (isset($_POST["logout"])) {
                                 <!--<label for="newthemename">Naam</label>-->
                                 <input type="hidden" id="newtheme-edit-id" value="" name="theme_id">
                                 <input type="hidden" value="1" name="edit">
-                                <label class="control-label col-2 col-form-label" for="newthemename">Naam:</label>
-                                <input type="text" class="form-control" id="newthemename" placeholder="Bijwerken">
+                                <!--<label class="control-label col-2 col-form-label" for="newthemename">Naam:</label>-->
+                                <input type="text" class="form-control" id="newthemename" placeholder="Naam">
                             </div>
 
 
@@ -173,7 +179,7 @@ if (isset($_POST["logout"])) {
 
                         <!--<button type="submit" class="btn btn-primary">Afbeelding toevoegen</button>-->
                         <div class="form-group row">
-                            <label class="control-label col-2 col-form-label" for="file">Bestand(en):</label>
+                            <label class="control-label col-2 col-form-label" for="file">Afbeelding:</label>
                             <div class="col-10">
                                 <input class="btn btn-default" id="file" type="file" name="medium[]">
                             </div>
@@ -182,10 +188,10 @@ if (isset($_POST["logout"])) {
 
                     </div>
                     <div class="modal-footer">
-                    <form action="" method="POST">
-                        <button type="button" class="btn btn-primary" type="submit">Opslaan</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
-                    </form>
+                        <form action="" method="POST">
+                            <button type="button" class="btn btn-primary" type="submit">Opslaan</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                        </form>
                     </div>
                 </div>
             </div>
