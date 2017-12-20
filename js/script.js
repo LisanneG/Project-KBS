@@ -193,7 +193,7 @@ $(document).ready(function() {
 	$("#save-news-edit").click(function(){
 		var news_title = $("#editNews #news-title").val();
 		var news_description = $("#editNews #news-description").val();
-		var news_id = $("#editNews #news-id").val();
+		var news_id = $("#editNews #newsarticle-id").val();
 		var news_priority = $("#editNews #news-priority").val();
 		var news_display_from = $("#editNews #news-date-from").val();
 		var news_display_till = $("#editNews #news-date-till").val();
@@ -207,19 +207,20 @@ $(document).ready(function() {
 			}
 		});
 		if (window.console) console.log(news_file); 
-		
+		var file = document.getElementById('news-file').files[0];
 		
 		var formElement = document.querySelector("#form-edit-modal");
 		var formData = new FormData(formElement);
 		var request = new XMLHttpRequest();
-		request.open("POST", "../dashboard/get/news_article.php");
+		request.open("POST", "http://localhost/KBS/Project-KBS/dashboard/get/news_article.php", false);
 		formData.append("method","edit");
 		formData.append("news-description",$("#news-description").prop('value'));
 		formData.append("locations",locations);
+		formData.append("newsarticle_id",news_id);
 		request.send(formData);
 		
 		
-		
+		if (window.console) console.log(request.response); 
 		for (var pair of formData.entries())
 		{
 			if (window.console) console.log(pair[0]+ ', '+ pair[1]); 
