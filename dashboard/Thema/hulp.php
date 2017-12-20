@@ -29,13 +29,30 @@ function removeTheme($theme_id) {
 
     //gebruik een GET of POST functie om $theme_id te gebruiken hiervoor.
 }
-
+/*
 function addTheme() {
     include '../../database.php';
-    $themequery = $conn->prepare("INSERT INTO `file`() VALUES(?, ?, ?, ?)");
-    $themequery->execute(array(NULL, NULL, "photo", NULL));
-}
+    
+    //do fileupload
+    
+    
+    $themequery = $conn->prepare("INSERT INTO `file`(`location`,`type`, muted) VALUES(?, ?, ?)");
+    $themequery->execute(array($file_link ,"photo", NULL));
 
+    $themequery = $conn->prepare("SELECT file_id FROM `file` WHERE `location` = ?");
+    $themequery->execute(array());
+    $result = $themequery->fetch(PDO::FETCH_ASSOC);
+
+    $result = $result["file_id"];
+
+    if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
+        $themequery = $conn->prepare("INSERT INTO theme(`name`, background_file) VALUES(?, ?)");
+        $themequery =execute(array($name, $result));
+    }
+
+    
+}
+*/
 function handler() {
     if (isset($_POST["theme_id"])) {
         if($_POST["delete"] == "1"){
