@@ -197,45 +197,7 @@ function SaveUserRights($user_id, $rights){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
 }
-//Function for inserting a new file
-function SaveFile($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for updating association between file and newsarticle
-function EditFile($newsarticle_id, $input_title, $input_description){
-	//Making the insert query
-	$stringBuilder = "UPDATE `right` ";
-	$stringBuilder .= "SET name=?, description=? ";
-	$stringBuilder .= "WHERE right_id=? ";
-	
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for inserting a new newsarticle
-function SaveNews($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
+
 //Function for inserting an edited newsarticle
 function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
 	//Making the update query											//add fileId as soon as fileuploading works
