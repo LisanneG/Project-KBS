@@ -112,8 +112,16 @@ include '../include/header.php';
 											echo "<td>$background_color</td>";
 											echo "<td><img src=\"$background_location\" class=\"img-thumbnail layout-img\"></td>";
 											echo "<td><img src=\"$logo_location\" class=\"img-thumbnail layout-img\"></td>";
-											echo "<td><button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#modal-edit-layout\" data-id=\"$layout_id\" data-font=\"$font\" data-fontcolor=\"$font_color\" data-backgroundcolor=\"$background_color\" data-defaultbackground=\"$default_background\" data-logo=\"$logo\" data-backgroundlocation=\"$background_location\" data-logolocation=\"$logo_location\">Bewerken</td>";
-											echo "<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-layout\" data-id=\"$layout_id\">Verwijderen</td>";
+											echo "<td>";
+											if(CheckIfUserHasRight($_SESSION["admin"], "Bewerken opmaak", $_SESSION["user_id"])){
+												echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#modal-edit-layout\" data-id=\"$layout_id\" data-font=\"$font\" data-fontcolor=\"$font_color\" data-backgroundcolor=\"$background_color\" data-defaultbackground=\"$default_background\" data-logo=\"$logo\" data-backgroundlocation=\"$background_location\" data-logolocation=\"$logo_location\">Bewerken";
+											}
+											echo "</td>";
+											echo "<td>";
+											if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen opmaak", $_SESSION["user_id"])){
+												echo "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-layout\" data-id=\"$layout_id\">Verwijderen";
+											}
+											echo "</td>";
 										}
 									?>
 								</tr>
@@ -123,11 +131,13 @@ include '../include/header.php';
 				</div>
 			</div>
 
+			<?php if(CheckIfUserHasRight($_SESSION["admin"], "Aanmaken opmaak", $_SESSION["user_id"])){ ?>
 			<div class="row">
 				<div class="col-md-12">
 					<button type="button" class="btn btn-primary btn-right-add" data-toggle="modal" data-target="#addLayout">Opmaak toevoegen</button>    
 				</div>
 			</div>
+			<?php }?>
 	</section>
 
 	<!-- Modal for editing layout -->
