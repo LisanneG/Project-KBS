@@ -307,26 +307,33 @@ function SaveUserRights($user_id, $rights){
 }
 
 //Function for inserting an edited newsarticle
-function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
+function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations, $fileId = NULL){
 	//Making the update query											//add fileId as soon as fileuploading works
 	$stringBuilder = "UPDATE news_article ";
-	$stringBuilder .= "SET title='$news_title', ";
-	$stringBuilder .= "description='$description', ";
-	$stringBuilder .= "priority='$priority', ";
-	//$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from='$displayFrom', ";
-	$stringBuilder .= "display_till='$displayTill', ";
-	$stringBuilder .= "category_id='$categoryId' ";
-	$stringBuilder .= "WHERE news_article_id='$newsarticle_id' ";
-	print($stringBuilder);
-	print($news_title.$description.$priority.$displayFrom.$displayTill.$categoryId.$newsarticle_id);
+	$stringBuilder .= "SET title=?, ";
+	$stringBuilder .= "description=?, ";
+	$stringBuilder .= "priority=?, ";
+	$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=?, ";
+	$stringBuilder .= "display_till=?, ";
+	$stringBuilder .= "category_id=? ";
+	$stringBuilder .= "WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute()){
+	$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
+	$lastInsertId = GetDatabaseConnection()->lastInsertId();
+	
+	print_r($lastInsertId);
+	
+	$locationsArr = explode(",", $locations);
+	print_r($locationsArr);
+	
+	
+	/*if($query->execute()){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
+	}*/
 }
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
@@ -674,7 +681,15 @@ function fileUpload(){
 function fileRemove($fileId){
 	include '../database.php';
 	
-	$stmt = $conn->prepare("DELETE FROM file WHERE ")
+	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
+	$row = $stmt->fetch();
+	
+	$filelocation = $stmt["location"];
+	unlink($filelocation);
+	
+	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
 }
 
 

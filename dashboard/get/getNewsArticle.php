@@ -64,40 +64,40 @@ if (isset($_GET["location_id"])) {
 			$news_article_id = $row["news_article_id"];
 			$title = $row["title"];
 			$category_id = $row["category_id"];
-			$file_id = $row["file_id"];
 			$date = $row["date"];
 			$display_from = substr($row["display_from"], 0, -9);
 			$display_till = substr($row["display_till"], 0, -9);
 			$priority = $row["priority"];
 			$description = $row["description"];
-			
+			$location = $row["location_id"];
 			//File
 			$file_location = $row["location"];
-			$location = $row["location_id"];
+			$type = $row["type"];
+			$file_id = $row["file_id"];
+			
 			echo "<tr>";
 			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
-			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-id=\"$file_id\" data-file-location=\"$file_location\" data-file-type=\"$type\" ";
 			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
 
 		} elseif ($news_article_id != $row["news_article_id"]) {
 			$news_article_id = $row["news_article_id"];
 			$title = $row["title"];
 			$category_id = $row["category_id"];
-			$file_id = $row["file_id"];
 			$date = $row["date"];
-			$display_from = $row["display_from"];
-			$display_from = substr($display_from, 0, -9);
-			$display_till = $row["display_till"];
-			$display_till = substr($display_till, 0, -9);
+			$display_from = substr($row["display_from"], 0, -9);
+			$display_till = substr($row["display_till"], 0, -9);
 			$priority = $row["priority"];
 			$description = $row["description"];
+			$location = $row["location_id"];
 			//File
 			$file_location = $row["location"];
-			$location = $row["location_id"];
+			$type = $row["type"];
+			$file_id = $row["file_id"];
 			
 			echo "<tr>";
 			echo "	<td><button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#editNews\" ";
-			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-location=\"$file_location\" ";
+			echo "data-id=\"$news_article_id\" data-title=\"$title\" data-description=\"$description\" data-category-id=\"$category_id\" data-file-id=\"$file_id\" data-file-location=\"$file_location\" data-file-type=\"$type\" ";
 			echo "data-priority=\"$priority\" data-display-from=\"$display_from\" data-display-till=\"$display_till\" ";
 		} else {
 			$location .= "," . $row["location_id"];

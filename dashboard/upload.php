@@ -1,6 +1,5 @@
 <?php
 if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
-	include '../upload.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");

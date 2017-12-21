@@ -1,9 +1,9 @@
 <?php
 if (isset($_POST["submit"])) {
-	$news_title = htmlentities($_POST["title"]);
+	$news_title = htmlentities($_POST["title"], ENT_QUOTES);
 	$categoryId = $_POST["news-category"];
+
 	
-	$fileId = $lastInsertedFileId[0];
 	
 	$displayFrom = $_POST["date-from"];
 	$displayTill = $_POST["date-till"];
@@ -12,10 +12,11 @@ if (isset($_POST["submit"])) {
 	} else {
 		$priority = 0;
 	}
-	$description = htmlentities($_POST["description"]); 
+	$description = htmlentities($_POST["description"], ENT_QUOTES); 
 	
 	//checking if a file has been added and choosing the right query for the job
-	if (isset($fileId)) {
+	if (isset($lastInsertedFileId)) {
+		$fileId = $lastInsertedFileId[0];
 		// inserting newsarticle w/ file into db
 		$stmt = $conn->prepare("INSERT INTO news_article (title, category_id, file_id, display_from, display_till, priority, description) VALUES (?,?,?,?,?,?,?)");
 		$stmt->execute(array($news_title, $categoryId, $fileId, $displayFrom, $displayTill, $priority, $description));

@@ -5,8 +5,7 @@ $method = "";
 if (isset($_POST["method"])){
 	$method = $_POST["method"];
 }
-echo $method;
-echo "boo";
+
 //If all the required variables are given
 if ($method == "edit") {
 	
@@ -26,12 +25,13 @@ if ($method == "edit") {
 	} else {
 		$priority = 0;
 	}
-	$description = htmlentities($_POST["news-description"]); 
+	$description = htmlentities($_POST["news-description"], ENT_QUOTES); 
 	$locations = $_POST["locations"];
-	if isset($fileId){
-		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description); //Calling a function to edit it, which gives back a message if it's successful or not
+	
+	if (isset($fileId)){
+		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
 	} else {
-		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description); //Calling a function to edit it, which gives back a message if it's successful or not
+		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
 	}
 } elseif(isset($_GET["newsarticle_id"]) && $method == "remove") { //If only a newsarticle_id is given we'll remove it
 
