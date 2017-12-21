@@ -607,18 +607,9 @@ function readDB($location_id)
 /* end of screen functionality*/
 
 
-function debug_to_console($data){
-    $output = $data;
-    if (is_array($output)){
-        $output = implode(',', $output);
-	}
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
-}
-
 //function for uploading file and storing info in db
-
 function fileUpload(){
-	include '../../database.php';
+	include '../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
@@ -678,5 +669,13 @@ function fileUpload(){
     }
 	return $lastInsertedFileId;
 }
+
+//function for removing file
+function fileRemove($fileId){
+	include '../database.php';
+	
+	$stmt = $conn->prepare("DELETE FROM file WHERE ")
+}
+
 
 ?>
