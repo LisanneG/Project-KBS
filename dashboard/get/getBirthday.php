@@ -36,8 +36,13 @@ if (isset($_GET["location_id"])) {
 		echo "<div class=\"row\">";
 		echo "	<div class=\"col-md-12 birthday-section\">";
 		echo "		<p class=\"title\">Verjaardag</p>";
-		echo "		<div class=\"row\">";		
-		echo "			<div class=\"col-md-12\">";
+		echo "		<div class=\"row\">";				
+		if($location != ""){
+			echo "			<div class=\"col-md-2\">";
+			echo "				<img src=\"$location\" alt=\"$full_name\" class=\"img-thumbnail birthday-img\">";
+			echo "			</div>";
+		}
+		echo "			<div class=\"col-md-1" . (($location != "") ? "0" : "2") . "\">";
 		echo "				<p>$full_name ($birthday)</p>";
 		echo "			</div>";
 		echo "		</div>";
