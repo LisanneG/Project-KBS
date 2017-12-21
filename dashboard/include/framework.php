@@ -365,11 +365,11 @@ function getTheme($location_id){
 	if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
 		print("<style>");
 		if($themeresult["isTheme"] == NULL){
-		print("body {background-image: 'url(". $themeresult["background-layout"] .")'; font-family: ". $themeresult["font"] .";}");
+		print("body {background-image: url('". $themeresult["background-layout"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		else {
-			print("body {background-image: 'url(". $themeresult["background-theme"] .")'; font-family: ". $themeresult["font"] .";}");
+			print("body {background-image: url('". $themeresult["background-theme"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		
