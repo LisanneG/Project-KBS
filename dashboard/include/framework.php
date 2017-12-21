@@ -114,7 +114,7 @@ function GetBirthdays($location_id){
 // Returns the results
 function GetLayout(){
 	//Building the query
-	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
+	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, l.default_background, l.logo, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
 	$stringBuilder .= "FROM layout l ";
 	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
 	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
@@ -150,24 +150,25 @@ function RemoveLayout($layout_id){
 		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];
 
 		if (unlink($default_background_location) && unlink($logo_location)){ //Removing the files
-			$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
-			//preparing the query
-			$query = GetDatabaseConnection()->prepare($stringBuilder);
-
-			$query->execute(array($default_background));
-			//$query->execute(array($logo));
-
-			echo "$default_background, $logo";
-
 			//Making the delete query
 			$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
 			//preparing the query
 			$query = GetDatabaseConnection()->prepare($stringBuilder);
 			if($query->execute(array($layout_id))){
-				echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
+
+				$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+				//preparing the query
+				$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+				if($query->execute(array($default_background)) && $query->execute(array($logo))){
+					echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
+				} else {
+					echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+				}
+				
 			} else {
 				echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-			}			
+			}
 		} else {
 			echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
 		}
@@ -188,7 +189,55 @@ function AddLayout($font, $font_color, $background_color, $default_background, $
 	}
 }
 
-function uploadSingleFile($file){
+
+// Function to edit a layout
+// Returns a message if it succeded or not
+function EditLayout($layout_id, $font, $font_color, $background_color, $default_background, $logo){
+	//Making the delete query
+	if($default_background != "" && $logo != ""){
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $logo, $layout_id);
+	} elseif ($default_background != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $layout_id);
+	} elseif ($logo != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $logo, $layout_id);
+	} else {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $layout_id);
+	}
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute($values)){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+// Function to check if theres already a layout in the db
+// Returns true or false
+function LayoutAlreadyExists(){
+	//Building the query
+	$stringBuilder = "SELECT COUNT(layout_id) ";
+	$stringBuilder .= "FROM layout ";	
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	if($result[0][0] > 0){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Function to add a single file
+function UploadSingleFile($file){
 	//The available extentions for the pics
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	
@@ -216,7 +265,23 @@ function uploadSingleFile($file){
 		}
     } else {
     	return 0;
-    }	
+    }
+}
+
+//Function to remove a single file
+function RemoveSingleFile($file_id, $file_location){
+	$file_location = $_SERVER["DOCUMENT_ROOT"] . $file_location;
+
+	if (unlink($file_location)){			
+		$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+		//preparing the query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		if($query->execute(array($file_id))){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 // Function to get the company logo from the layout

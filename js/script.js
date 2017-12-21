@@ -319,12 +319,37 @@ $(document).ready(function() {
 
 	//Modal for the layout remove
 	$("#modal-remove-layout").on("show.bs.modal", function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var id = button.data("id") // Extract info from data-id attribute
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
 		
-		var modal = $(this)
+		var modal = $(this);
 		modal.find("#layout_id").val(id);
 	});
+
+	//Modal for the layout edit
+	$("#modal-edit-layout").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
+		var font = button.data("font");
+		var fontcolor = button.data("fontcolor");
+		var backgroundcolor = button.data("backgroundcolor");
+		var default_background = button.data("defaultbackground");
+		var logo = button.data("logo");
+		var backgroundlocation = button.data("backgroundlocation");
+		var logolocation = button.data("logolocation");
+		
+		var modal = $(this)
+		modal.find("#edit_layout_id").val(id);
+		modal.find("#edit_layout_font").val(font)
+		modal.find("#edit_layout_font_color").val(fontcolor)
+		modal.find("#edit_layout_background_color").val(backgroundcolor)
+		modal.find("#edit_layout_default_background").attr("src",backgroundlocation);
+		modal.find("#edit_layout_logo").attr("src",logolocation);
+		modal.find("#edit_default_background").val(default_background);
+		modal.find("#edit_logo").val(logo);
+		modal.find("#edit_logo_location").val(logolocation);
+		modal.find("#edit_background_location").val(backgroundlocation);
+	});	
 });
 
 function LoadWeather(location_name){
