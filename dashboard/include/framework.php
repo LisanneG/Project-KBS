@@ -306,66 +306,35 @@ function SaveUserRights($user_id, $rights){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
 }
-//Function for inserting a new file
-function SaveFile($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for updating association between file and newsarticle
-function EditFile($newsarticle_id, $input_title, $input_description){
-	//Making the insert query
-	$stringBuilder = "UPDATE `right` ";
-	$stringBuilder .= "SET name=?, description=? ";
-	$stringBuilder .= "WHERE right_id=? ";
-	
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for inserting a new newsarticle
-function SaveNews($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
+
 //Function for inserting an edited newsarticle
-function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
+function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations, $fileId = NULL){
 	//Making the update query											//add fileId as soon as fileuploading works
 	$stringBuilder = "UPDATE news_article ";
-	$stringBuilder .= "SET title='$news_title', ";
-	$stringBuilder .= "description='$description', ";
-	$stringBuilder .= "priority='$priority', ";
-	//$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from='$displayFrom', ";
-	$stringBuilder .= "display_till='$displayTill', ";
-	$stringBuilder .= "category_id='$categoryId' ";
-	$stringBuilder .= "WHERE news_article_id='$newsarticle_id' ";
-	print($stringBuilder);
-	print($news_title.$description.$priority.$displayFrom.$displayTill.$categoryId.$newsarticle_id);
+	$stringBuilder .= "SET title=?, ";
+	$stringBuilder .= "description=?, ";
+	$stringBuilder .= "priority=?, ";
+	$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=?, ";
+	$stringBuilder .= "display_till=?, ";
+	$stringBuilder .= "category_id=? ";
+	$stringBuilder .= "WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute()){
+	$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
+	$lastInsertId = GetDatabaseConnection()->lastInsertId();
+	
+	print_r($lastInsertId);
+	
+	$locationsArr = explode(",", $locations);
+	print_r($locationsArr);
+	
+	
+	/*if($query->execute()){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
+	}*/
 }
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
@@ -646,18 +615,9 @@ function readDB($location_id)
 /* end of screen functionality*/
 
 
-function debug_to_console($data){
-    $output = $data;
-    if (is_array($output)){
-        $output = implode(',', $output);
-	}
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
-}
-
 //function for uploading file and storing info in db
-
 function fileUpload(){
-	include '../../database.php';
+	include '../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
@@ -677,8 +637,8 @@ function fileUpload(){
 			$type = "pdf";
 		}
 		
+		if($type == "photo"){
 		//4 random numbers before filename for identification
-		
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
@@ -687,35 +647,33 @@ function fileUpload(){
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
-			if ($type == "pdf") {
-				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				$server_save_file = "/bestanden/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				// create Imagick object
-				$imagick = new Imagick();
-				$imagick->setResolution(150, 150);
-				// Reads image from PDF
-				$imagick->readImage("{$url}[0]");
-				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
-				// copy file to new folder and select that file
-				$imagick->setImageFormat('jpg');
-				$imagick->writeImages($save_file, false);
-				
-				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-				$stmt->execute(array($server_save_file, "foto"));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
-				
-			} else {
 				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
 				$stmt->execute(array($server_url, $type));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
+				$lastInsertedFileId[0] = $conn->lastInsertId();
 			}
-			
+			return $lastInsertedFileId;
 		}
-		$counter ++;
-    }
-	return $lastInsertedFileId;
+		elseif(!($type == "photo")){
+			return false;
+		}
+	}
+	}
+	
+
+//function for removing file
+function fileRemove($fileId){
+	include '../database.php';
+	
+	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
+	$row = $stmt->fetch();
+	
+	$filelocation = $stmt["location"];
+	unlink($filelocation);
+	
+	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
 }
+
 
 ?>

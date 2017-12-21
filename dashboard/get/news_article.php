@@ -5,12 +5,17 @@ $method = "";
 if (isset($_POST["method"])){
 	$method = $_POST["method"];
 }
-echo "boo";
+
 //If all the required variables are given
-if ($method == "edit" /*$_FILES["file"]["name"]*/) {
-														//fix the stuff for files as soon as that works!
+if ($method == "edit") {
+	
+	print_r($_FILES["file"]);
+	//include '../upload.php';
+	
+	
+	//fix the stuff for files as soon as that works!
 	$newsarticle_id = $_POST["newsarticle_id"];
-	$news_title = htmlentities($_POST["news-title"]);
+	$news_title = htmlspecialchars($_POST["news-title"], ENT_QUOTES);
 	$categoryId = $_POST["news-category"];
 	//$fileId = $lastInsertedFileId[0];
 	$displayFrom = $_POST["news-date-from"];
@@ -20,24 +25,14 @@ if ($method == "edit" /*$_FILES["file"]["name"]*/) {
 	} else {
 		$priority = 0;
 	}
-	$description = htmlentities($_POST["news-description"]); 
+	$description = htmlentities($_POST["news-description"], ENT_QUOTES); 
 	$locations = $_POST["locations"];
 	
-	
-	/*
-	$newsarticle_id = $_GET["newsarticle_id"];
-	$title = $_GET["title"];
-	$description = $_GET["description"];
-	$priority = 
-	$locations = 
-	$locations = explode
-	$display_from = 
-	$display_till =
-	$filelocation = $_GET["file"];
-	*/
-	//include '../upload.php';
-	echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description); //Calling a function to edit it, which gives back a message if it's successful or not
-
+	if (isset($fileId)){
+		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
+	} else {
+		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
+	}
 } elseif(isset($_GET["newsarticle_id"]) && $method == "remove") { //If only a newsarticle_id is given we'll remove it
 
 	$newsarticle_id = $_GET["newsarticle_id"];
