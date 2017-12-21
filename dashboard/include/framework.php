@@ -131,36 +131,45 @@ function GetLayout(){
 // Returns a message if it succeeded or not
 function RemoveLayout($layout_id){
 	//Making a query to get the location of the file	
-	$stringBuilder = "SELECT default_background, logo FROM layout ";
+	$stringbuilder = "SELECT l.default_background, fdb.location AS backgroundLocation, l.logo, flogo.location AS logoLocation ";
+	$stringbuilder .= "FROM layout l ";
+	$stringbuilder .= "INNER JOIN `file` fdb ON fdb.file_id=l.default_background ";
+	$stringbuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.default_background ";
+	$stringbuilder .= "WHERE l.layout_id=? ";
 	
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	$query->execute(array($user_id)); //Putting in the parameters
+	$query->execute(array($layout_id)); //Putting in the parameters
 	$result = $query->fetchAll(); //Fetching it
 
 	foreach ($result as $row) {
 		//Putting the name together
-		$default_background_location = $_SERVER["DOCUMENT_ROOT"] . $row["location"];
-		$file_id = $row["file_id"];
+		$default_background = $row["default_background"];
+		$default_background_location = $_SERVER["DOCUMENT_ROOT"] . $row["backgroundLocation"];
+		$logo = $row["logo"];
+		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];		
 
-		if (unlink($file_location)){
+		if (unlink($default_background_location) && unlink($logo_location)){ //Removing the files
+			$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+			//preparing the query
+			$query = GetDatabaseConnection()->prepare($stringBuilder);
 
+			if($query->execute(array($default_background)) && $query->execute(array($logo))){
+				//Making the delete query
+				$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
+				//preparing the query
+				$query = GetDatabaseConnection()->prepare($stringBuilder);
+				if($query->execute(array($layout_id))){
+					echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
+				} else {
+					echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+				}
+			} else {
+				echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
+			}
+		} else {
+			echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
 		}
-
-	}
-
-
-	//if (unlink($file_location)){
-
-
-	//Making the delete query
-	$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($layout_id))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
 
