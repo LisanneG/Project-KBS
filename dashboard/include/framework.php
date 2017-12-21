@@ -546,14 +546,16 @@ function debug_to_console($data){
 }
 
 //function for uploading file and storing info in db
-function fileUpload($files){
+
+function fileUpload(){
+	include '../../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
 	$counter = 0;
 	$lastInsertedFileId = array();
-	foreach ($files["medium"]["name"] as $k => $v) {
-        $medium = str_replace(" ", "_", $files["medium"]["name"][$k]);
+	foreach ($_FILES["medium"]["name"] as $k => $v) {
+        $medium = str_replace(" ", "_", $_FILES["medium"]["name"][$k]);
         $ext = pathinfo($medium, PATHINFO_EXTENSION);
 
         if (in_array($ext, $imageList)) {
@@ -571,15 +573,15 @@ function fileUpload($files){
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
-		$server_url = "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
-		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
+		$server_url = "/bestanden/media/" . $type . "/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/bestanden/media/" . $type . "/" . $prename . $medium;
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
 			if ($type == "pdf") {
-				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/foto/" . $prename . $medium;
+				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/media/foto/" . $prename . $medium;
 				$save_file = substr($save_file, 0, -3) . "jpg";
-				$server_save_file = "/KBS/Project-KBS/bestanden/media/foto/" . $prename . $medium;
+				$server_save_file = "/bestanden/media/foto/" . $prename . $medium;
 				$save_file = substr($save_file, 0, -3) . "jpg";
 				// create Imagick object
 				$imagick = new Imagick();

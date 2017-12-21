@@ -5,19 +5,22 @@ $(document).ready(function(){
 });
 
 function tableSelect(){
-	var table = $("#theme-table tbody > tr");
-		if(!(table.hasClass("clicked"))){
-			table.click(function(){
-			table.addClass("table-primary clicked");
-		});
+	
+	var checkbox = $("[id^='checkbox']");
+	$("input").on('click', function(){
+		if(checkbox.is(":checked")){
+		var selecteditem = checkbox.attr("id");
+		selecteditem = 	selecteditem.split("-");
+		$("tr#row-" + selecteditem[1]).addClass("table-primary clicked");
 		}
 		else{
-			table.click(function(){
-			table.removeClass("table-primary clicked");
-		});
+			var selecteditem = checkbox.attr("id");
+			selecteditem = selecteditem.split("-");
+			$("tr#row-" + selecteditem[1]).removeClass("table-primary clicked");
 		}
-	
-}
+	});
+}	
+
 
 function handleSelect(){
 	var selected = $(".clicked td").first().text();
@@ -41,7 +44,6 @@ function deleteSelect(){
 		$("#deletebutton").prop("disabled", false);
 		$("#deletebutton").attr("aria-disabled", false);
 		$("#theme-id").val(selected);
-		$("").val(1);
 	}
 }
 
