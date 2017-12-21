@@ -314,6 +314,8 @@ $(document).ready(function() {
 			$('#modal-remove-right').modal('hide'); //Closing the modal
 		});
 	});	
+	
+	
 });
 
 function LoadWeather(location_name){
