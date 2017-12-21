@@ -110,6 +110,114 @@ function GetBirthdays($location_id){
 	$result = $query->fetchAll(); //Fetching it
 	return $result;
 }
+// Function to get the layout
+// Returns the results
+function GetLayout(){
+	//Building the query
+	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
+	$stringBuilder .= "FROM layout l ";
+	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
+	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
+	$stringBuilder .= "ORDER BY l.layout_id DESC ";
+	$stringBuilder .= "LIMIT 0,1 ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array()); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+	return $result;
+}
+// Function to remove a specific layout
+// Returns a message if it succeeded or not
+function RemoveLayout($layout_id){
+	//Making a query to get the location of the file	
+	$stringbuilder = "SELECT l.default_background, fdb.location AS backgroundLocation, l.logo, flogo.location AS logoLocation ";
+	$stringbuilder .= "FROM layout l ";
+	$stringbuilder .= "INNER JOIN `file` fdb ON fdb.file_id=l.default_background ";
+	$stringbuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.default_background ";
+	$stringbuilder .= "WHERE l.layout_id=? ";
+	
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array($layout_id)); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	foreach ($result as $row) {
+		//Putting the name together
+		$default_background = $row["default_background"];
+		$default_background_location = $_SERVER["DOCUMENT_ROOT"] . $row["backgroundLocation"];
+		$logo = $row["logo"];
+		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];		
+
+		if (unlink($default_background_location) && unlink($logo_location)){ //Removing the files
+			$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+			//preparing the query
+			$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+			if($query->execute(array($default_background)) && $query->execute(array($logo))){
+				//Making the delete query
+				$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
+				//preparing the query
+				$query = GetDatabaseConnection()->prepare($stringBuilder);
+				if($query->execute(array($layout_id))){
+					echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
+				} else {
+					echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+				}
+			} else {
+				echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
+			}
+		} else {
+			echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
+		}
+	}
+}
+
+// Function to remove a specific layout
+// Returns a message if it succeeded or not
+function AddLayout($font, $font_color, $background_color, $default_background, $logo){
+	//Making the delete query
+	$stringBuilder = "INSERT INTO layout (font, font_color, background_color, default_background, logo) VALUES (?,?,?,?,?)";
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute(array($font, $font_color, $background_color, $default_background, $logo))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is toegevoegd</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+function uploadSingleFile($file){
+	//The available extentions for the pics
+	$imageList = array("png", "jpeg", "jpg", "gif");
+	
+    $medium = str_replace(" ", "_", $file["name"]);
+    $ext = pathinfo($medium, PATHINFO_EXTENSION);
+
+    if (in_array($ext, $imageList)) {
+        //4 random numbers before filename for identification		
+		$digits = 4;
+		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+		
+		$server_url = "/KBS/Project-KBS/bestanden/media/photo/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/photo/" . $prename . $medium;	
+		
+	    if (move_uploaded_file($file["tmp_name"], $url)) {
+	    	$temp_conn = GetDatabaseConnection();
+
+			$stmt = $temp_conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
+			$stmt->execute(array($server_url, "photo"));
+			$file_id = $temp_conn->lastInsertId();
+
+			return $file_id;
+		} else {
+			return 0;
+		}
+    } else {
+    	return 0;
+    }	
+}
+
 // Function to get the company logo from the layout
 // Returns location from file
 function GetLogo(){
@@ -327,11 +435,11 @@ function getTheme($location_id){
 	if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
 		print("<style>");
 		if($themeresult["isTheme"] == NULL){
-		print("body {background-image: '". $themeresult["background-layout"] ."'; font: ". $themeresult["font"] .";}");
+		print("body {background-image: url('". $themeresult["background-layout"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		else {
-			print("body {background-image: '". $themeresult["background-theme"] ."'; font: ". $themeresult["font"] .";}");
+			print("body {background-image: url('". $themeresult["background-theme"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		

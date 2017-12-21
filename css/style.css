@@ -51,6 +51,9 @@
 .birthday-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}
 .birthday-section .birthday-img{max-width: 100px;}
 
+/*Layout section*/
+.layout-section .layout-img{max-width: 100px;}
+
 /* Navigation tabs (news_manage) */
 h3.navtabs{padding-top: 15px; margin-bottom: 25px;}
 

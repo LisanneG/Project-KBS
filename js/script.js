@@ -316,6 +316,15 @@ $(document).ready(function() {
 			$('#modal-remove-right').modal('hide'); //Closing the modal
 		});
 	});	
+
+	//Modal for the layout remove
+	$("#modal-remove-layout").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget) // Button that triggered the modal
+		var id = button.data("id") // Extract info from data-id attribute
+		
+		var modal = $(this)
+		modal.find("#layout_id").val(id);
+	});
 });
 
 function LoadWeather(location_name){
