@@ -1,5 +1,6 @@
 <?php
 if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
+	include '../upload.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
@@ -57,13 +58,13 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 		}
 		$counter ++;
     }
-} elseif (isset($_FILES["file"]["name"]) /*&& $method == "edit"*/) {
+} elseif (isset($_FILES["file"]["name"]) && $method == "edit") {
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
 	$counter = 0;
 	$lastInsertedFileId = array();
-	print($_FILES["file"]);
+	print_r($_FILES["file"]);
 	foreach ($_FILES["file"]["name"] as $k => $v) {
         $medium = str_replace(" ", "_", $_FILES["file"]["name"][$k]);
         $ext = pathinfo($medium, PATHINFO_EXTENSION);
