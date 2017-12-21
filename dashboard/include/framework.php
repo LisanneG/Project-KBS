@@ -568,8 +568,8 @@ function fileUpload(){
 			$type = "pdf";
 		}
 		
+		if($type == "photo"){
 		//4 random numbers before filename for identification
-		
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
@@ -578,35 +578,17 @@ function fileUpload(){
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
-			if ($type == "pdf") {
-				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				$server_save_file = "/bestanden/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				// create Imagick object
-				$imagick = new Imagick();
-				$imagick->setResolution(150, 150);
-				// Reads image from PDF
-				$imagick->readImage("{$url}[0]");
-				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
-				// copy file to new folder and select that file
-				$imagick->setImageFormat('jpg');
-				$imagick->writeImages($save_file, false);
-				
-				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-				$stmt->execute(array($server_save_file, "foto"));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
-				
-			} else {
 				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
 				$stmt->execute(array($server_url, $type));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
+				$lastInsertedFileId[0] = $conn->lastInsertId();
 			}
-			
+			return $lastInsertedFileId;
 		}
-		$counter ++;
-    }
-	return $lastInsertedFileId;
-}
+		elseif(!($type == "photo")){
+			return false;
+		}
+	}
+	}
+	
 
 ?>
