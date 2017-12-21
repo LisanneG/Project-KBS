@@ -11,7 +11,7 @@
 			        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beheer</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>
-			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/location/location_add.php">Locaties</a>			        	
+			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/location/location_main.php">Locaties</a>			        	
 			    	</div>
 				</li>
 				<?php if (isset($_SESSION["admin"]) && $_SESSION["admin"] == "1") { ?>			

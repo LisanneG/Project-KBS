@@ -42,7 +42,7 @@ if (isset($_POST["logout"])) {
  <!-- content of the tab 1 -->
         <div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
  	<h3>Locatie toevoegen</h3>
-        <form method="post" action="location_add.php">
+        <form method="post" action="location_main.php">
         	<div class="form-group">
                     <div class="col">
                             <input type="text" class="form-control" placeholder="Plaats" name="Plaats">
@@ -112,8 +112,8 @@ if (isset($_POST["logout"])) {
                                                                                         <td>".$location['intern_number'] ."</td>
                                                                                         <td>".$location['layout_id'] ."</td>
                                                                                         <td>".$location['theme_id'] ."</td>
-                                                                                        <td><a href='../location/location_add.php?user_id=". $location["location_id"]."' class='btn btn-info btn-md'>Update</a></td>
-                                                                                        <td><a href='../location/location_add.php?user_id1=". $location["location_id"]."' class='btn btn-info btn-md' name='delete'>Verwijderen</a></td>
+                                                                                        <td><a href='../location/location_edit.php?user_id=". $location["location_id"]."' class='btn btn-info btn-md'>Update</a></td>
+                                                                                        <td><a href='../location/location_remove.php?user_id1=". $location["location_id"]."' class='btn btn-info btn-md' name='delete'>Verwijderen</a></td>
                                                                                     ");
                                                                                     echo("</tr>");
                                                                                     }
@@ -132,14 +132,12 @@ if (isset($_POST["logout"])) {
 
         
 <?php 
-
 if (isset($_POST["submit"])){
 	$sql = "INSERT INTO location (layout_id, name, address, postal_code, main_number) VALUES (?,?,?,?,?)";
 	$stmt = GetDatabaseConnection()->prepare($sql);
 	$stmt->execute(array("1", $_POST["Plaats"], $_POST["Adres"], $_POST["Postcode"], $_POST["Hoofdnummer"]));
  
 }
-
 ?>   
     
     
