@@ -51,7 +51,7 @@
 				</form>	      		      	
 	    	</ul>	    
 	    	<ul class="navbar-nav">
-				<li class="nav-item welcome-message">Welkom: <?php echo $_SESSION["email"]; ?></li>
+				<li class="nav-item welcome-message"><?php echo $_SESSION["email"]; ?></li>
 				<li class="nav-item">
 					<button type="button" class="nav-link icon-settings btn btn-link" data-toggle="modal" data-target="#modal-user-edit"><i class="fa fa-cog" aria-hidden="true"></i></button>			    	
 			  	</li>
