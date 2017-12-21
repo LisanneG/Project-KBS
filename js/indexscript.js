@@ -44,7 +44,6 @@ function MessageScroll(){
             timer0 = 0;
         }
         timer1 = timer1 + timer0;
-        console.log(i);
 
     }            
     for(i = Listlength; i != 0; i--){
@@ -53,14 +52,13 @@ function MessageScroll(){
             timer0 = 0;
         }
         timer1 = timer1 + timer0;
-        console.log(i);
     }    
 
-    console.log(timer1);
+    if(!($(".alert.alert-info")[0])){
     setTimeout('location.reload()' ,(timer1));
+    }
 }
 
-//todo remove console debug lines
 
 function ListScroll(i, length){
     //speed is avg 250 words-per-minute

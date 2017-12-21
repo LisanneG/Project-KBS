@@ -1,25 +1,9 @@
 $(document).ready(function(){
-	setInterval('tableSelect()');
-	setInterval('deleteSelect()', 2000);
+	setInterval('deleteSelect()');
 	setInterval('editSelect()');
+	setInterval('cancelSelect()');
 });
 
-function tableSelect(){
-	
-	var checkbox = $("[id^='checkbox']");
-	$("input").on('click', function(){
-		if(checkbox.is(":checked")){
-		var selecteditem = checkbox.attr("id");
-		selecteditem = 	selecteditem.split("-");
-		$("tr#row-" + selecteditem[1]).addClass("table-primary clicked");
-		}
-		else{
-			var selecteditem = checkbox.attr("id");
-			selecteditem = selecteditem.split("-");
-			$("tr#row-" + selecteditem[1]).removeClass("table-primary clicked");
-		}
-	});
-}	
 
 
 function handleSelect(){
@@ -31,19 +15,24 @@ function handleSelect(){
 
 
 function deleteSelect(){
-	var selected = handleSelect();
 
-	if(selected == ""){
-		$("#deletebutton").prop("disabled", true);
-		$("#deletebutton").attr("aria-disabled", true);
 
-		
-		return;
-	}
-	else{
-		$("#deletebutton").prop("disabled", false);
-		$("#deletebutton").attr("aria-disabled", false);
-		$("#theme-id").val(selected);
+	$("[id^='remove']").click(function(){
+		$("#verwijderen").modal('show');
+		$(this).addClass("selected-remove");
+	});
+
+	if($(".selected-remove")[0]){
+		var selectedId = $(".selected-remove").attr("id");
+		selectedId = selectedId.split("-");
+		selectedId = selectedId[1];
+
+
+		$("#theme-id").val(selectedId);
+
+		var selectedName = $(".selected-remove").parent().siblings().eq(1).text();
+		$("#selected-items-del").text(selectedName);
+
 	}
 }
 
@@ -61,5 +50,34 @@ function editSelect(){
 
 		$("#newtheme-edit-id").val(selectedId);
 	}
-	
+}
+
+
+function cancelSelect(){
+	$(".close").click(function(){
+		if($(".selected-remove")[0]){
+			$(".selected-remove").removeClass("selected-remove");
+			$("#selected-items-del").text("");
+			$("#theme-id").val("");
+			
+			
+		}
+		else if($(".selected-edit")[0]){
+			$(".selected-edit").removeClass("selected-edit");
+			$("#newtheme-edit-id").val("");
+		}
+	});
+	$(".cancelbtn0").click(function(){
+		if($(".selected-remove")[0]){
+			$(".selected-remove").removeClass("selected-remove");
+			$("#selected-items-del").text("");
+			$("#theme-id").val("");
+			
+			
+		}
+		else if($(".selected-edit")[0]){
+			$(".selected-edit").removeClass("selected-edit");
+			$("#newtheme-edit-id").val("");
+		}
+	});
 }

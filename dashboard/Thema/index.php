@@ -93,27 +93,26 @@ if (isset($_POST["logout"])) {
                         <table class="table table-custom" id="theme-table">
                             <thead>
                                 <tr class="font-bold-weight">
-                                    <th>Selecteren</th>
                                     <th>#</th>
                                     <th>Naam</th>
                                     <th>Afbeelding</th>
                                     <th>Wijzigen</th>
-                                </tr>
+                                    <th>Verwijderen</th>
                             </thead>
                             <tbody>
                                 <?php
                                 function getThema() {
                                     include '../../database.php';
                                 
-                                    $themequery = $conn->prepare("SELECT t.name as 'theme_name', theme_id, f.location as 'image' FROM theme t LEFT JOIN file f on t.background_file = f.file_id"); //SQL QUERY
+                                    $themequery = $conn->prepare("SELECT t.name as 'theme_name', theme_id, f.location as 'image' FROM theme t LEFT JOIN file f on t.background_file = f.file_id ORDER BY theme_id"); //SQL QUERY
                                     $themequery->execute();
                                     foreach ($themequery as $row) {
                                         print("<tr id='row-".$row["theme_id"]."'>");
-                                        print("<td><input type='checkbox' id='checkboxid-". $row["theme_id"] ."'></td>");
                                         print("<td>" . $row["theme_id"] . "</td>");
                                         print("<td>" . $row["theme_name"] . "</td>");
                                         print("<td> <img class='img-fluid themeimage' src='" . $row["image"] . "'></img></td>");
                                         print("<td><button type='submit' class='btn btn-primary' id='edit-" . $row["theme_id"] . "'>Bijwerken</button></td>");
+                                        print("<td><button type='submit' class='btn btn-danger' id='remove-" . $row["theme_id"] . "'>Verwijderen</button>");
                                         print("</tr>");
                                     }
                                     //voor iedere rij in de tabel toon de tabelinhoud
@@ -130,8 +129,7 @@ if (isset($_POST["logout"])) {
             </div>
             <div class="container-fluid ">
                 <div class="row">
-                    <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
-                    <button type="submit" class="btn btn-danger" data-toggle="modal" data-target="#verwijderen">Verwijderen</button>
+                    <button type="submit" class="btn btn-primary mt-3" data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
                 </div>
             </div>
 
@@ -164,7 +162,7 @@ if (isset($_POST["logout"])) {
                         <div class="modal-footer">
                             <form action="/dashboard/Thema/hulp.php" method="POST" id="form-add" enctype="multipart/form-data">
                                 <button class="btn btn-primary" method="post" type="submit">Opslaan</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                                <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
                         </div>
                     </div>
@@ -183,7 +181,7 @@ if (isset($_POST["logout"])) {
                         <div class="modal-body">
                             <div class="form-group">
                                 <!--<label for="newthemename">Naam</label>-->
-                                <input type="hidden" id="newtheme-edit-id" value="" name="theme_id">
+                                <input type="hidden" id="newtheme-edit-id" value="" name="theme_id" form="form-edit">
                                 <input type="hidden" value="1" id="bool-edit" name="edit" form="form-edit">
                                 <!--<label class="control-label col-2 col-form-label" for="newthemename">Naam:</label>-->
                                 <input type="text" class="form-control" id="newthemename" placeholder="Naam" name="name" required form="form-edit">
@@ -202,7 +200,7 @@ if (isset($_POST["logout"])) {
                         <div class="modal-footer">
                             <form action="/dashboard/Thema/hulp.php" method="POST" id="form-edit" enctype="multipart/form-data">
                                 <button class="btn btn-primary" type="submit">Opslaan</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuleren</button>
+                                <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
                         </div>
                     </div>
@@ -224,14 +222,14 @@ if (isset($_POST["logout"])) {
                         <div class="modal-body">
                             <h7 class="font-weight-bold">Weet u zeker dat u deze items wilt verwijderen?</h7>
                             <br>
-                            <h8 id="selected-items" class="pt-5"></h8>
+                            <h8 id="selected-items-del" class="pt-5"></h8>
                         </div>
                         <div class="modal-footer">
                             <form method="POST" action="/dashboard/Thema/hulp.php">
-                                <input type="hidden" id="theme-id" name="theme_id[]" value="">
+                                <input type="hidden" id="theme-id" name="theme_id" value="">
                                 <input type="hidden" name="delete" id="bool-remove" value="1">
                                 <button type="submit" class="btn btn-primary" id="deletebutton">Ja</button>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                                <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Nee</button>
                             </form>
                         </div>
                     </div>
