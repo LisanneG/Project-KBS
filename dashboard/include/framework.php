@@ -682,7 +682,7 @@ function readDB($location_id)
 
 //function for uploading file and storing info in db
 function fileUpload(){
-	include '../database.php';
+	include '../../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
@@ -727,14 +727,17 @@ function fileUpload(){
 
 //function for removing file
 function fileRemove($fileId){
-	include '../database.php';
+	include '../../database.php';
 	
 	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
-	$row = $stmt->fetch();
+	$filelocation = $stmt->fetch(PDO::FETCH_ASSOC);
 	
-	$filelocation = $stmt["location"];
-	unlink($filelocation);
+	$filesystem = '../..' . $filelocation["location"];
+
+
+	
+	unlink($filesystem);
 	
 	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
