@@ -5,20 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "chrome",
+            "name": "Listen for XDebug",
+            "type": "php",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost/index.php?location=%27zwolle%27",
-            "webRoot": "${workspaceRoot}",
-            "runtimeExecutable": "/usr/bin/google-chrome-stable",
-            "skipFiles": [
-                "js/bootstrap.min.js",
-                "js/jquery-3.2.1.min.js",
-                "js/jquery-dateFormat.min.js",
-                "extentions::"
-
-            ]
-            
+            "port": 9000
+        },
+        {
+            "name": "Launch currently open script",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9000
         }
     ]
 }

@@ -1,19 +1,8 @@
 <?php
-session_start();
 include 'include/framework.php';
+include 'include/header.php';
 include '../database.php';
 include 'upload.php';
-if(!isset($_SESSION["email"])){
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
-
-if (isset($_POST["logout"])) {
-	session_destroy(); //Removing the login session
-
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">

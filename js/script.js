@@ -66,11 +66,11 @@ $(document).ready(function() {
 		modal.find("#news-location").each( function (){
 			if (isset(arrlocations)) {
 				if (arrlocations.indexOf($(this).prop('value')) != -1){
-					$(this).prop('checked', "checked");
+					$(this).prop('checked', true);
 				}
 			} else {
 				if ($(this).prop('value') == locations) {
-					$(this).prop('checked', "checked");
+					$(this).prop('checked', true);
 				}
 			}
 		});
@@ -143,7 +143,7 @@ $(document).ready(function() {
 			});
 		});
 	});
-	
+
 	$("#editNews").on("hidden.bs.modal", function (event) {
 		var modal = $(this)
 		//modal.find("#news-location").each( function (){
@@ -225,6 +225,9 @@ $(document).ready(function() {
 		{
 			if (window.console) console.log(pair[0]+ ', '+ pair[1]); 
 		}
+		console.log(formData.get('file'));
+		LoadNewsArticles(); //Loading the newsarticles again			
+
 		//if (window.console) console.log(formData.values()); 
 		$('#editNews').modal('hide'); //Closing the modal
 		/*
@@ -246,7 +249,6 @@ $(document).ready(function() {
 		//$.get("../dashboard/get/news_article.php?method=edit&newsarticle_id="+news_id+"&title="+news_title+"&description="+news_description+"&priority="+news_priority+
 		//"&display_from="+news_display_from+"&display_till="+news_display_till+"&category="+news_category+"&file="+news_file, function(data) {
 		//	$("#message").html(data); //Putting the message inside a div tag
-		//	LoadNewsArticles(); //Loading the newsarticles again			
 		//});
 	});
 
@@ -314,8 +316,45 @@ $(document).ready(function() {
 			$('#modal-remove-right').modal('hide'); //Closing the modal
 		});
 	});	
+<<<<<<< HEAD
 	
 	
+=======
+
+	//Modal for the layout remove
+	$("#modal-remove-layout").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
+		
+		var modal = $(this);
+		modal.find("#layout_id").val(id);
+	});
+
+	//Modal for the layout edit
+	$("#modal-edit-layout").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
+		var font = button.data("font");
+		var fontcolor = button.data("fontcolor");
+		var backgroundcolor = button.data("backgroundcolor");
+		var default_background = button.data("defaultbackground");
+		var logo = button.data("logo");
+		var backgroundlocation = button.data("backgroundlocation");
+		var logolocation = button.data("logolocation");
+		
+		var modal = $(this)
+		modal.find("#edit_layout_id").val(id);
+		modal.find("#edit_layout_font").val(font)
+		modal.find("#edit_layout_font_color").val(fontcolor)
+		modal.find("#edit_layout_background_color").val(backgroundcolor)
+		modal.find("#edit_layout_default_background").attr("src",backgroundlocation);
+		modal.find("#edit_layout_logo").attr("src",logolocation);
+		modal.find("#edit_default_background").val(default_background);
+		modal.find("#edit_logo").val(logo);
+		modal.find("#edit_logo_location").val(logolocation);
+		modal.find("#edit_background_location").val(backgroundlocation);
+	});	
+>>>>>>> 10578cd86dc47209d9141de7e4c33b27f63a421b
 });
 
 function LoadWeather(location_name){
@@ -384,29 +423,6 @@ function isset () {
         i++;
     }
     return true;
-}
-
-function updateDisplay($checkbox,$button) {
-	var isChecked = $checkbox.is(':checked');
-
-	// Set the button's state
-	$button.data('state', (isChecked) ? "on" : "off");
-
-	// Set the button's icon
-	$button.find('.state-icon')
-		.removeClass()
-		.addClass('state-icon ' + settings[$button.data('state')].icon);
-
-	// Update the button's color
-	if (isChecked) {
-	$button
-		.removeClass('btn-default')
-		.addClass('btn-' + color + ' active');
-	} else {
-	$button
-		.removeClass('btn-' + color + ' active')
-		.addClass('btn-default');
-	}
 }
 
 //button scripts
