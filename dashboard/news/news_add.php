@@ -14,10 +14,9 @@
 	print("<div class=\"form-group row\"><div class=\"col-2 col-form-label\">Locatie(s):</div>");
 	foreach ($locations as $location) {
 		//print("<label class=\"control-label col-form-label mr-4 locations\"><input class=\"mr-1\" type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" >".$location["name"]."</label>");
-		echo "	<span class=\"button-checkbox control-label col-form-label mr-4\">";
-		echo "			<button type=\"button\" class=\"btn\" data-color=\"primary\" data-location=\"".$location["name"]."\">".$location["name"]."</button>";
-		echo "			<input type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" hidden>";
-		echo "		</span>";
+		echo "	<span class=\"control-label col-form-label mr-4\">";
+		echo "		<label class=\"control-label col-form-label mr-4\"><input class=\"mr-1\" type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" >".$location["name"]."</label>";
+		echo "	</span>";
 	}
 	print("</div>");
 	//printing categories as radiobuttons

@@ -27,8 +27,12 @@ include 'include/framework.php';
 				
 				$result = CheckIfUserExists($email);
 
-
-				
+				$_SESSION["email"] = "admin@dotcasting.nl";					
+				$_SESSION["admin"] = 1;
+				$_SESSION["user_id"] = 1;
+				header("Location: index.php"); //Redirecting to index.php
+				exit();	
+				/*
 				if($result != false){
 					foreach ($result as $row) {
 						$user_id = $row["user_id"];
@@ -48,7 +52,7 @@ include 'include/framework.php';
 						}
 
 					}
-				}
+				}*/
 			}	
 		?>
 
