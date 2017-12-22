@@ -517,7 +517,7 @@ function getTheme($location_id){
 	if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
 		print("<style>");
 		if($themeresult["isTheme"] == NULL){
-		print("body {background-image: url('". $themeresult["background-layout"] ."'); font-family: ". $themeresult["font"] .";}");
+			print("body {background-image: url('". $themeresult["background-layout"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		else {
@@ -565,10 +565,10 @@ function checkBirthday($days){
 		return " is jarig!";
 	}
 	elseif($days < 0){
-		return " werd jarig!";
-	}
-	elseif($days > 0){
 		return " wordt jarig!";
+	}
+	elseif($days > 0){		
+		return " is jarig geworden!";
 	}
 }
 
@@ -650,11 +650,11 @@ function readDB($location_id)
 		}
 		
 	}
-	$birthdayquery = $conn->prepare("SELECT (DAY(NOW()) - DAY(b.date)) as days_x_birthday , birthday_id, f.location as photolocation, u.file_id as photoid,  c.background_color as bgcolor, first_name FROM birthday b 
+	$birthdayquery = $conn->prepare("SELECT (DAY(NOW()) - DAY(u.birthday)) as days_x_birthday , birthday_id, f.location as photolocation, u.file_id as photoid,  c.background_color as bgcolor, first_name FROM birthday b 
 	LEFT JOIN user u ON b.user_id = u.user_id 
 	LEFT JOIN category c ON b.category_id = c.category_id
     LEFT JOIN file f ON u.file_id = f.file_id
-	WHERE (b.date BETWEEN DATE_SUB(NOW(), INTERVAL 3 DAY) AND DATE_ADD(NOW(), INTERVAL 3 DAY))  AND u.location = ?
+	WHERE u.location = ?
 	ORDER BY first_name"); 
 	$birthdayquery->execute(array($location_id));
 	// getting birthday information
@@ -671,7 +671,7 @@ function readDB($location_id)
 		}
 		else{
 			//verjaardag met foto
-			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['color']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
+			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $bdrow['bgcolor']."' id='" . $bdrow['birthday_id']. "-birthdayimg'>
 			<div class='media-body'>
 			<h3 class='mx-5 my-5'> " . $bdrow['first_name'] . checkBirthday($bdrow["days_x_birthday"]) ."</h3>
 			</div>
