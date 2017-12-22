@@ -16,18 +16,13 @@ function GetDatabaseConnection(){
 }
 // Function to check if user is in the db with the correct email and password
 // Returns results if there is no result it will give a false
-function CheckIfUserExists($input_email, $input_password)
+function CheckIfUserExists($input_email)
 {
 	// Preparing query
-	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin FROM `user` u WHERE u.email = ? AND u.password = ? LIMIT 0,1");
-	$query->execute(array($input_email, $input_password)); //Putting in the parameters
-	$result = $query->fetch(); //Fetching it
-	
-	if($query->rowCount() > 0){		
-		return $result;
-	} else {
-		return false;
-	}
+	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin, u.password FROM `user` u WHERE u.email = ? ");
+	$query->execute(array($input_email));
+	$result = $query->fetchAll(); //Fetching it
+	return $result;
 }
 
 // Function to check if the user whos logged in has the right to do something on a certain page
@@ -744,11 +739,9 @@ function fileRemove($fileId){
 }
 
 function hashPassword($password){
-				$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
-				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
-				$hashed_password = crypt($password, $iv);            
-				return $hashed_password;
-	
-	
+	$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+	$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+	$hashed_password = crypt($password, $iv);            
+	return $hashed_password;
 }
 ?>

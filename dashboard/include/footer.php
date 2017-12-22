@@ -87,14 +87,16 @@
 								</div>
 								<div class="form-group">
 									<label for="right-description" class="form-control-label">Wachtwoord:</label>
-									<div class="row">
-										<div class="col-md-8">
-											<input type="text" class="form-control" name="user_password">		
+									<form method="POST">
+										<div class="row">
+											<div class="col-md-8">
+												<input type="password" class="form-control" name="user_password">		
+											</div>
+											<div class="col-md-4">
+												<input type="submit" class="form-control" name="change_pass" value="Veranderen">
+											</div>
 										</div>
-										<div class="col-md-4">
-											<input type="submit" class="form-control" name="change_pass" value="Veranderen">
-										</div>
-									</div>																			
+									</form>																			
 								</div>									
 								<div class="form-group">
 									<label for="right-description" class="form-control-label">Profiel foto:</label>
@@ -132,6 +134,27 @@
 </div>
 
 <?php
+
+//when the change password button is clicked
+if (isset($_POST["change_pass"])) {
+	$password = $_POST["user_password"];
+	$user_id = $_SESSION["user_id"];
+
+	//Creating a hashed password
+	$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+	$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+	$hashed_password = crypt($password, $iv);
+
+	//Making the insert query for the user
+	$stringBuilder = "UPDATE `user` SET password=? WHERE user_id=? ";
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute(array($hashed_password, $user_id))){
+		echo "<div class=\"container-fluid\"><div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Wachtwoord is gewijzigd</div></div>";
+	} else {
+		echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";				
+	}
+}
 
 //When the submit button for changing/adding a pic is clicked
 if (isset($_POST["change_pic"])) {	
