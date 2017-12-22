@@ -45,22 +45,22 @@ if (isset($_POST["logout"])) {
         <form method="post" action="location_main.php">
         	<div class="form-group">
                     <div class="col">
-                            <input type="text" class="form-control" placeholder="Plaats" name="Plaats">
+                            <input type="text" class="form-control" placeholder="Plaats" name="name">
                     </div>
 		</div>	
                 <div class="form-group">
                     <div class="row">
 			<div class="col">
-				<input type="text" class="form-control" placeholder="Adres" name="Adres">
+				<input type="text" class="form-control" placeholder="Adres" name="address">
 			</div>
 			<div class="col">
-				<input type="text" class="form-control" placeholder="Postcode" name="Postcode">
+				<input type="text" class="form-control" placeholder="Postcode" name="postal_code">
 			</div>
                     </div>
                 </div>
 		<div class="form-group">
                     <div class="col">
-                            <input type="text" class="form-control" placeholder="Hoofdnummer" name="Hoofdnummer">
+                            <input type="text" class="form-control" placeholder="Hoofdnummer" name="main_number">
                     </div>
 		</div>	            
 <!--		<div class="form-group">
@@ -112,8 +112,8 @@ if (isset($_POST["logout"])) {
                                                                                         <td>".$location['intern_number'] ."</td>
                                                                                         <td>".$location['layout_id'] ."</td>
                                                                                         <td>".$location['theme_id'] ."</td>
-                                                                                        <td><a href='../location/location_edit.php?user_id=". $location["location_id"]."' class='btn btn-info btn-md'>Update</a></td>
-                                                                                        <td><a href='../location/location_remove.php?user_id1=". $location["location_id"]."' class='btn btn-info btn-md' name='delete'>Verwijderen</a></td>
+                                                                                        <td><a href='../location/location_edit.php?location_id=". $location["location_id"]."' class='btn btn-info btn-md'>Update</a></td>
+                                                                                        <td><a href='../location/location_remove.php?location_id=". $location["location_id"]."' class='btn btn-info btn-md' name='delete'>Verwijderen</a></td>
                                                                                     ");
                                                                                     echo("</tr>");
                                                                                     }

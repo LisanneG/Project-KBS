@@ -1,18 +1,8 @@
 <?php
-session_start();
+
 include '../include/framework.php';
+include '../include/header.php';
 
-if(!isset($_SESSION["email"])){
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
-
-if (isset($_POST["logout"])) {
-	session_destroy(); //Removing the login session
-        
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
 ?>
 
 <!DOCTYPE html>
@@ -31,26 +21,36 @@ if (isset($_POST["logout"])) {
 
             
 <!-- content of the tabs -->
-
+<?php
+		$string = ("SELECT * FROM location WHERE name=" . $name);
+		$query = GetDatabaseConnection()->prepare($string);
+		$query->execute();
+		if ($row = $query->fetch()) {
+			$name = $row ["name"];
+			$addres = $row ["address"];
+			$postal_code = $row ["postal_code"];
+			$main_number = $row ["main_number"];
+		}		
+?>
         <form method="post" action="location_main.php">
         	<div class="form-group">
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="Plaats" name="Plaats" value=" <?= $location_id ?>">
+                        <input type="text" class="form-control" placeholder="Plaats" name="name" value=" <?= $name ?>">
                     </div>
 		</div>	
                 <div class="form-group">
                     <div class="row">
 			<div class="col">
-				<input type="text" class="form-control" placeholder="Adres" name="Adres"value=" <?= $address ?>">
+				<input type="text" class="form-control" placeholder="Adres" name="address"value=" <?= $address ?>">
 			</div>
 			<div class="col">
-				<input type="text" class="form-control" placeholder="Postcode" name="Postcode"value=" <?= $postal_code ?>">
+				<input type="text" class="form-control" placeholder="Postcode" name="postal_code"value=" <?= $postal_code ?>">
 			</div>
                     </div>
                 </div>
 		<div class="form-group">
                     <div class="col">
-                            <input type="text" class="form-control" placeholder="Hoofdnummer" name="Hoofdnummer"value=" <?= $main_number ?>">
+                            <input type="text" class="form-control" placeholder="Hoofdnummer" name="main_number"value=" <?= $main_number ?>">
                     </div>
 		</div>	            
 <!--		<div class="form-group">
@@ -60,7 +60,7 @@ if (isset($_POST["logout"])) {
 		</div>	    -->
 		<div class="form-group">
 			<div class="col">
-                            <input type="submit" class="btn btn-primary" name="submit" value="Toevoegen">
+                            <input type="submit" class="btn btn-primary" name="submit" value="wijzigingen opslaan">
 			</div>
                 </div>
         </form>

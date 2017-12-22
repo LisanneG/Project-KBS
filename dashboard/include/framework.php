@@ -110,6 +110,180 @@ function GetBirthdays($location_id){
 	$result = $query->fetchAll(); //Fetching it
 	return $result;
 }
+// Function to get the layout
+// Returns the results
+function GetLayout(){
+	//Building the query
+	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, l.default_background, l.logo, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
+	$stringBuilder .= "FROM layout l ";
+	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
+	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
+	$stringBuilder .= "ORDER BY l.layout_id DESC ";
+	$stringBuilder .= "LIMIT 0,1 ";
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array()); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+	return $result;
+}
+// Function to remove a specific layout
+// Returns a message if it succeeded or not
+function RemoveLayout($layout_id){
+	//Making a query to get the location of the file	
+	$stringBuilder = "SELECT l.default_background, fdb.location AS backgroundLocation, l.logo, flogo.location AS logoLocation ";
+	$stringBuilder .= "FROM layout l ";
+	$stringBuilder .= "INNER JOIN `file` fdb ON fdb.file_id=l.default_background ";
+	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
+	$stringBuilder .= "WHERE l.layout_id=? ";
+	
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array($layout_id)); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	foreach ($result as $row) {
+		//Putting the name together
+		$default_background = $row["default_background"];
+		$default_background_location = $_SERVER["DOCUMENT_ROOT"] . $row["backgroundLocation"];
+		$logo = $row["logo"];
+		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];
+
+		if (unlink($default_background_location) && unlink($logo_location)){ //Removing the files
+			//Making the delete query
+			$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
+			//preparing the query
+			$query = GetDatabaseConnection()->prepare($stringBuilder);
+			if($query->execute(array($layout_id))){
+
+				$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+				//preparing the query
+				$query = GetDatabaseConnection()->prepare($stringBuilder);
+
+				if($query->execute(array($default_background)) && $query->execute(array($logo))){
+					echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
+				} else {
+					echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+				}
+				
+			} else {
+				echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+			}
+		} else {
+			echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
+		}
+	}
+}
+
+// Function to remove a specific layout
+// Returns a message if it succeeded or not
+function AddLayout($font, $font_color, $background_color, $default_background, $logo){
+	//Making the delete query
+	$stringBuilder = "INSERT INTO layout (font, font_color, background_color, default_background, logo) VALUES (?,?,?,?,?)";
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute(array($font, $font_color, $background_color, $default_background, $logo))){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is toegevoegd</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+
+// Function to edit a layout
+// Returns a message if it succeded or not
+function EditLayout($layout_id, $font, $font_color, $background_color, $default_background, $logo){
+	//Making the delete query
+	if($default_background != "" && $logo != ""){
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $logo, $layout_id);
+	} elseif ($default_background != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $layout_id);
+	} elseif ($logo != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $logo, $layout_id);
+	} else {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $layout_id);
+	}
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute($values)){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+// Function to check if theres already a layout in the db
+// Returns true or false
+function LayoutAlreadyExists(){
+	//Building the query
+	$stringBuilder = "SELECT COUNT(layout_id) ";
+	$stringBuilder .= "FROM layout ";	
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	if($result[0][0] > 0){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Function to add a single file
+function UploadSingleFile($file){
+	//The available extentions for the pics
+	$imageList = array("png", "jpeg", "jpg", "gif");
+	
+    $medium = str_replace(" ", "_", $file["name"]);
+    $ext = pathinfo($medium, PATHINFO_EXTENSION);
+
+    if (in_array($ext, $imageList)) {
+        //4 random numbers before filename for identification		
+		$digits = 4;
+		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
+		
+		$server_url = "/KBS/Project-KBS/bestanden/media/photo/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/photo/" . $prename . $medium;	
+		
+	    if (move_uploaded_file($file["tmp_name"], $url)) {
+	    	$temp_conn = GetDatabaseConnection();
+
+			$stmt = $temp_conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
+			$stmt->execute(array($server_url, "photo"));
+			$file_id = $temp_conn->lastInsertId();
+
+			return $file_id;
+		} else {
+			return 0;
+		}
+    } else {
+    	return 0;
+    }
+}
+
+//Function to remove a single file
+function RemoveSingleFile($file_id, $file_location){
+	$file_location = $_SERVER["DOCUMENT_ROOT"] . $file_location;
+
+	if (unlink($file_location)){			
+		$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+		//preparing the query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		if($query->execute(array($file_id))){
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 // Function to get the company logo from the layout
 // Returns location from file
 function GetLogo(){
@@ -197,66 +371,35 @@ function SaveUserRights($user_id, $rights){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fouts gegaan</div>";
 	}
 }
-//Function for inserting a new file
-function SaveFile($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for updating association between file and newsarticle
-function EditFile($newsarticle_id, $input_title, $input_description){
-	//Making the insert query
-	$stringBuilder = "UPDATE `right` ";
-	$stringBuilder .= "SET name=?, description=? ";
-	$stringBuilder .= "WHERE right_id=? ";
-	
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_title, $input_description, $newsarticle_id))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwbericht is bijgewerkt</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
-//Function for inserting a new newsarticle
-function SaveNews($input_name, $input_description){
-	//Making the insert query
-	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
-	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($input_name, $input_description))){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het recht is opgeslagen</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
-}
+
 //Function for inserting an edited newsarticle
-function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description){
+function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations, $fileId = NULL){
 	//Making the update query											//add fileId as soon as fileuploading works
 	$stringBuilder = "UPDATE news_article ";
-	$stringBuilder .= "SET title='$news_title', ";
-	$stringBuilder .= "description='$description', ";
-	$stringBuilder .= "priority='$priority', ";
-	//$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from='$displayFrom', ";
-	$stringBuilder .= "display_till='$displayTill', ";
-	$stringBuilder .= "category_id='$categoryId' ";
-	$stringBuilder .= "WHERE news_article_id='$newsarticle_id' ";
-	print($stringBuilder);
-	print($news_title.$description.$priority.$displayFrom.$displayTill.$categoryId.$newsarticle_id);
+	$stringBuilder .= "SET title=?, ";
+	$stringBuilder .= "description=?, ";
+	$stringBuilder .= "priority=?, ";
+	$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=?, ";
+	$stringBuilder .= "display_till=?, ";
+	$stringBuilder .= "category_id=? ";
+	$stringBuilder .= "WHERE news_article_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute()){
+	$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
+	$lastInsertId = GetDatabaseConnection()->lastInsertId();
+	
+	print_r($lastInsertId);
+	
+	$locationsArr = explode(",", $locations);
+	print_r($locationsArr);
+	
+	
+	/*if($query->execute()){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}
+	}*/
 }
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
@@ -365,11 +508,11 @@ function getTheme($location_id){
 	if(($themequery->rowCount() > 0) && ($themequery->rowCount() < 2)){
 		print("<style>");
 		if($themeresult["isTheme"] == NULL){
-		print("body {background-image: '". $themeresult["background-layout"] ."'; font: ". $themeresult["font"] .";}");
+		print("body {background-image: url('". $themeresult["background-layout"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		else {
-			print("body {background-image: '". $themeresult["background-theme"] ."'; font: ". $themeresult["font"] .";}");
+			print("body {background-image: url('". $themeresult["background-theme"] ."'); font-family: ". $themeresult["font"] .";}");
 		}
 		
 		
@@ -537,16 +680,7 @@ function readDB($location_id)
 /* end of screen functionality*/
 
 
-function debug_to_console($data){
-    $output = $data;
-    if (is_array($output)){
-        $output = implode(',', $output);
-	}
-    echo "<script>console.log( 'Debug Objects: " . $output . "' );</script>";
-}
-
 //function for uploading file and storing info in db
-
 function fileUpload(){
 	include '../../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
@@ -568,8 +702,8 @@ function fileUpload(){
 			$type = "pdf";
 		}
 		
+		if($type == "photo"){
 		//4 random numbers before filename for identification
-		
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
@@ -578,35 +712,46 @@ function fileUpload(){
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
-			if ($type == "pdf") {
-				$save_file = $_SERVER["DOCUMENT_ROOT"] . "/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				$server_save_file = "/bestanden/media/foto/" . $prename . $medium;
-				$save_file = substr($save_file, 0, -3) . "jpg";
-				// create Imagick object
-				$imagick = new Imagick();
-				$imagick->setResolution(150, 150);
-				// Reads image from PDF
-				$imagick->readImage("{$url}[0]");
-				// Writes an image or image sequence Example- converted-0.jpg, converted-1.jpg
-				// copy file to new folder and select that file
-				$imagick->setImageFormat('jpg');
-				$imagick->writeImages($save_file, false);
-				
-				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
-				$stmt->execute(array($server_save_file, "foto"));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
-				
-			} else {
 				$stmt = $conn->prepare("INSERT INTO file (location, type) VALUES (?,?)");
 				$stmt->execute(array($server_url, $type));
-				$lastInsertedFileId[$counter] = $conn->lastInsertId();
+				$lastInsertedFileId[0] = $conn->lastInsertId();
 			}
-			
+			return $lastInsertedFileId;
 		}
-		$counter ++;
-    }
-	return $lastInsertedFileId;
+		elseif(!($type == "photo")){
+			return false;
+		}
+	}
+	}
+	
+
+//function for removing file
+function fileRemove($fileId){
+	include '../../database.php';
+	
+	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
+	$filelocation = $stmt->fetch(PDO::FETCH_ASSOC);
+	
+	$filesystem = '../..' . $filelocation["location"];
+
+
+	
+	unlink($filesystem);
+	
+	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
+	$stmt->execute(array($fileId));
 }
+
+
+function hashPassword($password){
+				$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+				$hashed_password = crypt($password, $iv);            
+				return $hashed_password;
+	
+	
+}
+
 
 ?>

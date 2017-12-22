@@ -1,3 +1,5 @@
+body{background-repeat: repeat-y;background-size: 100% auto;}
+
 #logo{
     height: 60px;
     width: 200px;

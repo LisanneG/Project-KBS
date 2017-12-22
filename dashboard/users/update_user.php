@@ -1,18 +1,7 @@
 <?php
-session_start();
 include '../include/framework.php';
+include '../include/header.php';
 
-if(!isset($_SESSION["email"])){
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
-
-if (isset($_POST["logout"])) {
-	session_destroy(); //Removing the login session
-
-	header("Location: login.php"); //Redirecting to login.php
-	exit();
-}
 ?>
 <!DOCTYPE html>
 
@@ -56,14 +45,14 @@ if (isset($_POST["logout"])) {
 		location=?
 		WHERE user_id=?"
 		);
-	
+	/*
 	if(isset($_POST["Updaten"]))	{
 		$stmt = GetDatabaseConnection()->prepare($sql);
 		
 		if ($stmt->execute(array($_POST["voornaam"], $_POST["tussenvoegsel"], $_POST["achternaam"], $_POST["verjaardag"], $_POST["email"], $_POST["wachtwoord"], $_POST["admin"], $_POST["locatie"], $user_id))){
 			print("<div class=\"alert alert-success\"role=\"alert\">Medewerker succesvol bewerkt</div>");
 		}
-	}
+	}*/
 
 		
 		$string = ("SELECT * FROM user WHERE user_id=" . $user_id);
@@ -82,7 +71,7 @@ if (isset($_POST["logout"])) {
 			}
 		?>
 
-		
+	<div class="container-fluid" style="border: 1px solid #cecece;"	>
 	 <form class='form-horizontal' action='manage_accounts.php' method='post'>
 	 	<div class='form-group'>
 	 	<div class='row'>
@@ -136,6 +125,7 @@ if (isset($_POST["logout"])) {
 	 		</div>
 	 	</div>
 	 </form>
+	 </div>
 	 </div>
 
 

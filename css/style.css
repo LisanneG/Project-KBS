@@ -33,6 +33,7 @@
 .news-section{border: 1px solid black; padding-top: 8px; margin-bottom: 20px;margin-top: 20px;}
 .news-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px; overflow: hidden; height: 40px;}
 .news-section .img-news{float: right; max-width: 300px; margin: 10px;}
+.news-section .text-news{padding-top: 15px;}
 @media screen and (max-width: 600px) {
 	.img-news{display: none;}
 }
@@ -48,6 +49,10 @@
 #birthdays{margin-left: 10px;}
 .birthday-section{border: 1px solid black; padding-top: 30px; margin-bottom: 20px;}
 .birthday-section .title{display: inline-block; position: absolute; top: -17px; background: #fff; padding: 0 10px 0 10px; font-size: 22px;}
+.birthday-section .birthday-img{max-width: 100px;}
+
+/*Layout section*/
+.layout-section .layout-img{max-width: 100px;}
 
 /* Navigation tabs (news_manage) */
 h3.navtabs{padding-top: 15px; margin-bottom: 25px;}

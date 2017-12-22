@@ -23,7 +23,9 @@ include 'include/framework.php';
 				//Collecting the email and password inputs
 				$email = $_POST["email"];
 				$password = $_POST["password"];	
-
+				
+				$hashed_password = hashPassword($password);
+				
 				$result = CheckIfUserExists($email, $password);
 
 				if($result != false){
