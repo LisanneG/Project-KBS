@@ -316,6 +316,10 @@ $(document).ready(function() {
 			$('#modal-remove-right').modal('hide'); //Closing the modal
 		});
 	});	
+<<<<<<< HEAD
+	
+	
+=======
 
 	//Modal for the layout remove
 	$("#modal-remove-layout").on("show.bs.modal", function (event) {
@@ -350,6 +354,7 @@ $(document).ready(function() {
 		modal.find("#edit_logo_location").val(logolocation);
 		modal.find("#edit_background_location").val(backgroundlocation);
 	});	
+>>>>>>> 10578cd86dc47209d9141de7e4c33b27f63a421b
 });
 
 function LoadWeather(location_name){

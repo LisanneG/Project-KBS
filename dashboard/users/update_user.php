@@ -45,14 +45,14 @@ include '../include/header.php';
 		location=?
 		WHERE user_id=?"
 		);
-	
+	/*
 	if(isset($_POST["Updaten"]))	{
 		$stmt = GetDatabaseConnection()->prepare($sql);
 		
 		if ($stmt->execute(array($_POST["voornaam"], $_POST["tussenvoegsel"], $_POST["achternaam"], $_POST["verjaardag"], $_POST["email"], $_POST["wachtwoord"], $_POST["admin"], $_POST["locatie"], $user_id))){
 			print("<div class=\"alert alert-success\"role=\"alert\">Medewerker succesvol bewerkt</div>");
 		}
-	}
+	}*/
 
 		
 		$string = ("SELECT * FROM user WHERE user_id=" . $user_id);
@@ -71,7 +71,7 @@ include '../include/header.php';
 			}
 		?>
 
-		
+	<div class="container-fluid" style="border: 1px solid #cecece;"	>
 	 <form class='form-horizontal' action='manage_accounts.php' method='post'>
 	 	<div class='form-group'>
 	 	<div class='row'>
@@ -125,6 +125,7 @@ include '../include/header.php';
 	 		</div>
 	 	</div>
 	 </form>
+	 </div>
 	 </div>
 
 

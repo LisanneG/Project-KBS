@@ -743,5 +743,16 @@ function fileRemove($fileId){
 	$stmt->execute(array($fileId));
 }
 
+<<<<<<< HEAD
+function hashPassword($password){
+				$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
+				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
+				$hashed_password = crypt($password, $iv);            
+				return $hashed_password;
+	
+	
+}
+=======
+>>>>>>> 10578cd86dc47209d9141de7e4c33b27f63a421b
 
 ?>
