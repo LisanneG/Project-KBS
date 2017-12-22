@@ -628,7 +628,7 @@ function readDB($location_id)
 		}
 		elseif($row['type'] == "video" && $row["muted"] == 1){
 			$videotype = explode(".", $row['location']);
-			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideo'>
+			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] ."-messagevideowithnosound'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
 			<video class='embed-responsive embed-responsive-16by9' muted>
@@ -639,7 +639,7 @@ function readDB($location_id)
 		}
 		elseif($row['type'] == "video" && $row["muted"] == 0){
 			$videotype = explode(".", $row['location']);
-			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
+			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideo'>
 			<div class='media-body mx-4 mt-4'>
 			<h3 class='font-weight-bold mb-4'>". $row['title'] ."</h3>
 			<video class='embed-responsive embed-responsive-16by9'>
@@ -761,8 +761,12 @@ function fileRemove($fileId){
 
 
 
+
+
+
 function hashPassword($password){
 	return password_hash($password, PASSWORD_DEFAULT);
 }
+
 
 ?>
