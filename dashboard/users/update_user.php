@@ -88,7 +88,7 @@ include '../include/header.php';
 	 	</div>
 	 	<div class='form-group'>
 	 		<div class='col'>
-	 			<input type='date' class='form-control' placeholder='verjaardag' name='verjaardag'value="<?= $verjaardag ?>">
+	 			<input type='date' class='form-control' placeholder='verjaardag' name='verjaardag'value="<?= $geboortedatum ?>">
 	 		</div>
 	 	</div>
 	 	<div class='form-group'>
@@ -104,16 +104,86 @@ include '../include/header.php';
 	 	<div class='form-group'>
 	 			<lable class='control-label col-sm-2'>Admin:</lable>
 	 		<div class='col'>
-	 			<input type='checkbox' name='admin'value="<?= $admin ?>">
+	 			<?php
+				if( $admin == 1){
+				print	"<input type='checkbox' name='admin' checked>";
+				}else{
+				print	"<input type='checkbox' name='admin'>";
+					
+				} ?>
 	 		</div>
 	 	</div>
 	 	<div class='form-group'>
 	 		<div class='col'>
 	 			<Select class='custom-select' placeholder='Locatie' name='locatie'>
-	 			<option selected>Kies locatie</option>
-	 			<option value='1'>Zwolle</option>
-	 			<option value='2'>Meppel</option>
-	 			<option value='3'>Groningen</option>
+				<?php
+				if ($locatie == 1){
+				print  "<option>Kies locatie</option>
+						<option selected value='1'>Zwolle</option>
+						<option value='2'>Nunspeet</option>
+						<option value='3'>Nieuwleusen</option>
+						<option value='4'>Den Haag</option>
+						<option value='5'>Amsterdam</option>
+						<option value='6'>Hoogeveen</option>";
+				}elseif($locatie == 2){
+				print  "<option>Kies locatie</option>
+						<option value='1'>Zwolle</option>
+						<option selected value='2'>Nunspeet</option>
+						<option value='3'>Nieuwleusen</option>
+						<option value='4'>Den Haag</option>
+						<option value='5'>Amsterdam</option>
+						<option value='6'>Hoogeveen</option>";
+								
+				
+				}elseif($locatie == 3){
+					print  "<option>Kies locatie</option>
+							<option value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option selected value='3'>Nieuwleusen</option>
+							<option value='4'>Den Haag</option>
+							<option value='5'>Amsterdam</option>
+							<option value='6'>Hoogeveen</option>";
+					
+				}elseif($locatie == 4){
+					print  "<option>Kies locatie</option>
+							<option value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option value='3'>Nieuwleusen</option>
+							<option selected value='4'>Den Haag</option>
+							<option value='5'>Amsterdam</option>
+							<option value='6'>Hoogeveen</option>";
+					
+				}elseif($locatie == 5){
+					print  "<option>Kies locatie</option>
+							<option value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option value='3'>Nieuwleusen</option>
+							<option value='4'>Den Haag</option>
+							<option selected value='5'>Amsterdam</option>
+							<option value='6'>Hoogeveen</option>";
+					
+				}elseif($locatie == 6){
+					print  "<option>Kies locatie</option>
+							<option value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option value='3'>Nieuwleusen</option>
+							<option value='4'>Den Haag</option>
+							<option value='5'>Amsterdam</option>
+							<option selected value='6'>Hoogeveen</option>";
+					
+				}else{
+					print  "<option selected>Kies locatie</option>
+							<option selected value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option value='3'>Nieuwleusen</option>
+							<option value='4'>Den Haag</option>
+							<option value='5'>Amsterdam</option>
+							<option value='6'>Hoogeveen</option>";
+				
+				}
+				
+				
+				?>
 	 			</select>
 	 	</div>
 	 	</br>
