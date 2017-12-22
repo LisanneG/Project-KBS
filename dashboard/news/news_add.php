@@ -16,7 +16,7 @@
 		//print("<label class=\"control-label col-form-label mr-4 locations\"><input class=\"mr-1\" type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" >".$location["name"]."</label>");
 		echo "	<span class=\"button-checkbox control-label col-form-label mr-4\">";
 		echo "			<button type=\"button\" class=\"btn\" data-color=\"primary\" data-location=\"".$location["name"]."\">".$location["name"]."</button>";
-		echo "			<input type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" hidden />";
+		echo "			<input type=\"checkbox\" value=".$location["location_id"]." id=\"news-location\" name=\"location[]\" hidden>";
 		echo "		</span>";
 	}
 	print("</div>");
