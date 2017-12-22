@@ -16,18 +16,13 @@ function GetDatabaseConnection(){
 }
 // Function to check if user is in the db with the correct email and password
 // Returns results if there is no result it will give a false
-function CheckIfUserExists($input_email, $input_password)
+function CheckIfUserExists($input_email)
 {
 	// Preparing query
-	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin FROM `user` u WHERE u.email = ? AND u.password = ? LIMIT 0,1");
-	$query->execute(array($input_email, $input_password)); //Putting in the parameters
-	$result = $query->fetch(); //Fetching it
-	
-	if($query->rowCount() > 0){		
-		return $result;
-	} else {
-		return false;
-	}
+	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin, u.password FROM `user` u WHERE u.email = ? ");
+	$query->execute(array($input_email));
+	$result = $query->fetchAll(); //Fetching it
+	return $result;
 }
 
 // Function to check if the user whos logged in has the right to do something on a certain page
@@ -114,12 +109,11 @@ function GetBirthdays($location_id){
 // Returns the results
 function GetLayout(){
 	//Building the query
-	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
+	$stringBuilder = "SELECT l.layout_id, l.font, l.font_color, l.background_color, l.default_background, l.logo, fbg.location AS backgroundLocation, flogo.location AS logoLocation ";
 	$stringBuilder .= "FROM layout l ";
 	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
 	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
-	$stringBuilder .= "ORDER BY l.layout_id DESC ";
-	$stringBuilder .= "LIMIT 0,1 ";
+	$stringBuilder .= "ORDER BY l.layout_id DESC ";	
 
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -131,11 +125,11 @@ function GetLayout(){
 // Returns a message if it succeeded or not
 function RemoveLayout($layout_id){
 	//Making a query to get the location of the file	
-	$stringbuilder = "SELECT l.default_background, fdb.location AS backgroundLocation, l.logo, flogo.location AS logoLocation ";
-	$stringbuilder .= "FROM layout l ";
-	$stringbuilder .= "INNER JOIN `file` fdb ON fdb.file_id=l.default_background ";
-	$stringbuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.default_background ";
-	$stringbuilder .= "WHERE l.layout_id=? ";
+	$stringBuilder = "SELECT l.default_background, fdb.location AS backgroundLocation, l.logo, flogo.location AS logoLocation ";
+	$stringBuilder .= "FROM layout l ";
+	$stringBuilder .= "INNER JOIN `file` fdb ON fdb.file_id=l.default_background ";
+	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
+	$stringBuilder .= "WHERE l.layout_id=? ";
 	
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -147,25 +141,27 @@ function RemoveLayout($layout_id){
 		$default_background = $row["default_background"];
 		$default_background_location = $_SERVER["DOCUMENT_ROOT"] . $row["backgroundLocation"];
 		$logo = $row["logo"];
-		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];		
+		$logo_location = $_SERVER["DOCUMENT_ROOT"] . $row["logoLocation"];
 
 		if (unlink($default_background_location) && unlink($logo_location)){ //Removing the files
-			$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+			//Making the delete query
+			$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
 			//preparing the query
 			$query = GetDatabaseConnection()->prepare($stringBuilder);
+			if($query->execute(array($layout_id))){
 
-			if($query->execute(array($default_background)) && $query->execute(array($logo))){
-				//Making the delete query
-				$stringBuilder = "DELETE FROM layout WHERE layout_id=? ";
+				$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
 				//preparing the query
 				$query = GetDatabaseConnection()->prepare($stringBuilder);
-				if($query->execute(array($layout_id))){
+
+				if($query->execute(array($default_background)) && $query->execute(array($logo))){
 					echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is verwijderd</div>";
 				} else {
 					echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 				}
+				
 			} else {
-				echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
+				echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 			}
 		} else {
 			echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";
@@ -187,7 +183,56 @@ function AddLayout($font, $font_color, $background_color, $default_background, $
 	}
 }
 
-function uploadSingleFile($file){
+
+// Function to edit a layout
+// Returns a message if it succeded or not
+function EditLayout($layout_id, $font, $font_color, $background_color, $default_background, $logo){
+	//Making the delete query
+	if($default_background != "" && $logo != ""){
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $logo, $layout_id);
+	} elseif ($default_background != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, default_background=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $default_background, $layout_id);
+	} elseif ($logo != "") {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=?, logo=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $logo, $layout_id);
+	} else {
+		$stringBuilder = "UPDATE layout SET font=?, font_color=?, background_color=? WHERE layout_id=?";
+		$values = array($font, $font_color, $background_color, $layout_id);
+	}
+
+	//preparing the query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	if($query->execute($values)){
+		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>De opmaak is bijgewerkt</div>";
+	} else {
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	}
+}
+
+// Function to check if theres already a layout in the db
+// Returns true or false
+function LocationUsesLayout($layout_id){
+	//Building the query
+	$stringBuilder = "SELECT COUNT(location_id) ";
+	$stringBuilder .= "FROM location ";
+	$stringBuilder .= "WHERE layout_id=? ";	
+
+	// Preparing query
+	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query->execute(array($layout_id)); //Putting in the parameters
+	$result = $query->fetchAll(); //Fetching it
+
+	if($result[0][0] > 0){
+		return true;
+	} else {
+		return false;
+	}
+}
+
+//Function to add a single file
+function UploadSingleFile($file){
 	//The available extentions for the pics
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	
@@ -215,7 +260,23 @@ function uploadSingleFile($file){
 		}
     } else {
     	return 0;
-    }	
+    }
+}
+
+//Function to remove a single file
+function RemoveSingleFile($file_id, $file_location){
+	$file_location = $_SERVER["DOCUMENT_ROOT"] . $file_location;
+
+	if (unlink($file_location)){			
+		$stringBuilder = "DELETE FROM `file` WHERE file_id=? ";
+		//preparing the query
+		$query = GetDatabaseConnection()->prepare($stringBuilder);
+		if($query->execute(array($file_id))){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 
 // Function to get the company logo from the layout
@@ -630,7 +691,7 @@ function readDB($location_id)
 
 //function for uploading file and storing info in db
 function fileUpload(){
-	include '../database.php';
+	include '../../database.php';
 	$imageList = array("png", "jpeg", "jpg", "gif");
 	$videoList = array("mp4", "avi");
 	$pdfList = array("pdf");
@@ -655,8 +716,8 @@ function fileUpload(){
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
-		$server_url = "/bestanden/media/" . $type . "/" . $prename . $medium;
-		$url = $_SERVER["DOCUMENT_ROOT"] . "/bestanden/media/" . $type . "/" . $prename . $medium;
+		$server_url = "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
@@ -675,18 +736,33 @@ function fileUpload(){
 
 //function for removing file
 function fileRemove($fileId){
-	include '../database.php';
+	include '../../database.php';
 	
 	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
-	$row = $stmt->fetch();
+	$filelocation = $stmt->fetch(PDO::FETCH_ASSOC);
 	
-	$filelocation = $stmt["location"];
-	unlink($filelocation);
+	$filesystem = '../..' . $filelocation["location"];
+
+
+	
+	unlink($filesystem);
 	
 	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
 }
 
+
+
+
+
+
+
+
+
+
+function hashPassword($password){
+	return password_hash($password, PASSWORD_DEFAULT);
+}
 
 ?>
