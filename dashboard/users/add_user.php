@@ -14,7 +14,8 @@ include '../include/header.php';
 </head>
 <body>
 <?php include '../include/navbar.php'; ?>
-<div class="container">
+<section id="dashboard-content" class="container-fluid">
+
 	<h1>Account toevoegen</h1>
 	<form class="form-horizontal" action="manage_accounts.php" method="post">
 		<div class="form-group">
@@ -54,10 +55,13 @@ include '../include/header.php';
 		<div class="form-group">
 			<div class="col">
 				<Select class="custom-select" placeholder="Locatie" name="Locatie" required>
-				<option selected>Kies locatie</option>
-				<option value="1">Zwolle</option>
-				<option value="2">Meppel</option>
-				<option value="3">Groningen</option>
+							<option selected>Kies locatie</option>
+							<option value='1'>Zwolle</option>
+							<option value='2'>Nunspeet</option>
+							<option value='3'>Nieuwleusen</option>
+							<option value='4'>Den Haag</option>
+							<option value='5'>Amsterdam</option>
+							<option value='6'>Hoogeveen</option>
 				</select>
 		</div>
 		</br>
@@ -67,7 +71,7 @@ include '../include/header.php';
 			</div>
 		</div>
 	</form>
-</div>
+<
 
 
 

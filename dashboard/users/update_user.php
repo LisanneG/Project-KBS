@@ -64,7 +64,6 @@ include '../include/header.php';
 			$achternaam = $row["last_name"];
 			$geboortedatum = $row["birthday"];
 			$email = $row["email"];
-			$wachtwoord = $row["password"];
 			$admin = $row["admin"];
 			$locatie = $row["location"];
 		}
@@ -94,11 +93,6 @@ include '../include/header.php';
 	 	<div class='form-group'>
 	 		<div class='col'>
 	 			<input type='text' class='form-control' placeholder='Email' name='email'value="<?= $email ?>">
-	 		</div>
-	 	</div>
-	 	<div class='form-group'>
-	 		<div class='col'>
-	 			<input type='password' class='form-control' Placeholder='Wachtwoord' name='wachtwoord'value="<?= $wachtwoord ?>">
 	 		</div>
 	 	</div>
 	 	<div class='form-group'>
@@ -173,7 +167,7 @@ include '../include/header.php';
 					
 				}else{
 					print  "<option selected>Kies locatie</option>
-							<option selected value='1'>Zwolle</option>
+							<option value='1'>Zwolle</option>
 							<option value='2'>Nunspeet</option>
 							<option value='3'>Nieuwleusen</option>
 							<option value='4'>Den Haag</option>
