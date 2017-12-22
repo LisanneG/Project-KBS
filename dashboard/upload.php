@@ -5,6 +5,7 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 	$pdfList = array("pdf");
 	$counter = 0;
 	$lastInsertedFileId = array();
+	$type = "";
 	foreach ($_FILES["medium"]["name"] as $k => $v) {
         $medium = str_replace(" ", "_", $_FILES["medium"]["name"][$k]);
         $ext = pathinfo($medium, PATHINFO_EXTENSION);

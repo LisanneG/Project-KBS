@@ -18,33 +18,38 @@ include 'include/framework.php';
 			</div>
 		</div>
 
-		<?php 						
+		<?php 
+			// Set session variables
 			if (isset($_POST["submit"])) {
 				//Collecting the email and password inputs
 				$email = $_POST["email"];
-				$password = $_POST["password"];	
+				$input_password = $_POST["password"];	
+				
+				$result = CheckIfUserExists($email);
 
-				$result = CheckIfUserExists($email, $password);
 
+				
 				if($result != false){
+					foreach ($result as $row) {
+						$user_id = $row["user_id"];
+						$admin = $row["admin"];
+						$password = $row["password"];
 
-					if (isset($result[0]) && isset($result[1])) {
-						// Getting the right variables
-						$user_id = $result[0];
-						$admin = $result[1];						
-						
-						// Set session variables
-						$_SESSION["email"] = $email;					
-						$_SESSION["admin"] = $admin;
-						$_SESSION["user_id"] = $user_id;
+						if (hash_equals($password, crypt($input_password, $password))) {
+							// Set session variables
+							$_SESSION["email"] = $email;					
+							$_SESSION["admin"] = $admin;
+							$_SESSION["user_id"] = $user_id;
+
+							header("Location: index.php"); //Redirecting to index.php
+							exit();	
+						} else {
+							echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
+						}
+
 					}
-
-					header("Location: index.php"); //Redirecting to index.php
-					exit();	
-				} else {
-					echo "<div class='alert alert-danger' role='alert'>Verkeerd wachtwoord of e-mail</div>";
 				}
-			}			
+			}	
 		?>
 
 		<form method="POST">			

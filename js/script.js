@@ -76,72 +76,6 @@ $(document).ready(function() {
 		});
 		modal.find("#news-description").val(description);
 		modal.find("#newsarticle-id").val(id);
-		
-		$(function () {
-			$('.button-checkbox').each(function () {
-
-				// Settings
-				var $widget = $(this),
-				$button = $widget.find('button'),
-				$checkbox = $widget.find('input:checkbox'),
-				color = $button.data('color'),
-				settings = {
-					on: {
-						icon: 'fa fa-check-square-o'
-					},
-					off: {
-						icon: 'fa fa-square-o'
-					}
-				};
-
-				// Event Handlers
-				$button.on('click', function () {
-					$checkbox.prop('checked', !$checkbox.is(':checked'));
-					$checkbox.triggerHandler('change');
-					updateDisplay();
-				});
-				$checkbox.on('change', function () {
-					updateDisplay();
-				});
-
-				// Actions
-				function updateDisplay() {
-					var isChecked = $checkbox.is(':checked');
-
-					// Set the button's state
-					$button.data('state', (isChecked) ? "on" : "off");
-
-					// Set the button's icon
-					$button.find('.state-icon')
-						.removeClass()
-						.addClass('state-icon ' + settings[$button.data('state')].icon);
-
-					// Update the button's color
-					if (isChecked) {
-						$button
-							.removeClass('btn-default')
-							.addClass('btn-' + color + ' active');
-					}
-					else {
-						$button
-							.removeClass('btn-' + color + ' active')
-							.addClass('btn-default');
-					} //if (window.console) console.log(isChecked); 
-				}
-
-				// Initialization
-				function init() {
-
-					updateDisplay();
-
-					// Inject the icon if applicable
-					if ($button.find('.state-icon').length == 0) {
-						$button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-					}
-				}
-				init();
-			});
-		});
 	});
 
 	$("#editNews").on("hidden.bs.modal", function (event) {
@@ -255,7 +189,7 @@ $(document).ready(function() {
 	//When the button is clicked to delete a newsarticle
 	$("#btn-remove-news").click(function(){
 		var id = $("#modal-remove-news #news-id").val();
-    	
+    	console.log(id);
     	$.get("../dashboard/get/news_article.php?method=remove&newsarticle_id="+id, function(data) {
 			$("#message").html(data); //Putting the message inside a div tag
 			LoadNewsArticles(); //Loading the newsarticles again
@@ -319,12 +253,37 @@ $(document).ready(function() {
 
 	//Modal for the layout remove
 	$("#modal-remove-layout").on("show.bs.modal", function (event) {
-		var button = $(event.relatedTarget) // Button that triggered the modal
-		var id = button.data("id") // Extract info from data-id attribute
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
 		
-		var modal = $(this)
+		var modal = $(this);
 		modal.find("#layout_id").val(id);
 	});
+
+	//Modal for the layout edit
+	$("#modal-edit-layout").on("show.bs.modal", function (event) {
+		var button = $(event.relatedTarget); // Button that triggered the modal
+		var id = button.data("id"); // Extract info from data-id attribute
+		var font = button.data("font");
+		var fontcolor = button.data("fontcolor");
+		var backgroundcolor = button.data("backgroundcolor");
+		var default_background = button.data("defaultbackground");
+		var logo = button.data("logo");
+		var backgroundlocation = button.data("backgroundlocation");
+		var logolocation = button.data("logolocation");
+		
+		var modal = $(this)
+		modal.find("#edit_layout_id").val(id);
+		modal.find("#edit_layout_font").val(font)
+		modal.find("#edit_layout_font_color").val(fontcolor)
+		modal.find("#edit_layout_background_color").val(backgroundcolor)
+		modal.find("#edit_layout_default_background").attr("src",backgroundlocation);
+		modal.find("#edit_layout_logo").attr("src",logolocation);
+		modal.find("#edit_default_background").val(default_background);
+		modal.find("#edit_logo").val(logo);
+		modal.find("#edit_logo_location").val(logolocation);
+		modal.find("#edit_background_location").val(backgroundlocation);
+	});	
 });
 
 function LoadWeather(location_name){
@@ -394,70 +353,3 @@ function isset () {
     }
     return true;
 }
-
-//button scripts
-$(function () {
-    $('.button-checkbox').each(function () {
-
-        // Settings
-        var $widget = $(this),
-            $button = $widget.find('button'),
-            $checkbox = $widget.find('input:checkbox'),
-            color = $button.data('color'),
-            settings = {
-                on: {
-                    icon: 'fa fa-check-square-o'
-                },
-                off: {
-                    icon: 'fa fa-square-o'
-                }
-            };
-
-        // Event Handlers
-        $button.on('click', function () {
-            $checkbox.prop('checked', !$checkbox.is(':checked'));
-            $checkbox.triggerHandler('change');
-            updateDisplay();
-        });
-        $checkbox.on('change', function () {
-            updateDisplay();
-        });
-
-        // Actions
-        function updateDisplay() {
-            var isChecked = $checkbox.is(':checked');
-
-            // Set the button's state
-            $button.data('state', (isChecked) ? "on" : "off");
-
-            // Set the button's icon
-            $button.find('.state-icon')
-                .removeClass()
-                .addClass('state-icon ' + settings[$button.data('state')].icon);
-
-            // Update the button's color
-            if (isChecked) {
-                $button
-                    .removeClass('btn-default')
-                    .addClass('btn-' + color + ' active');
-            }
-            else {
-                $button
-                    .removeClass('btn-' + color + ' active')
-                    .addClass('btn-default');
-            }
-        }
-
-        // Initialization
-        function init() {
-
-            updateDisplay();
-
-            // Inject the icon if applicable
-            if ($button.find('.state-icon').length == 0) {
-                $button.prepend('<i class="state-icon ' + settings[$button.data('state')].icon + '"></i> ');
-            }
-        }
-        init();
-    });
-});

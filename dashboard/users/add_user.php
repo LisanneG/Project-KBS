@@ -53,7 +53,7 @@ include '../include/header.php';
 		</div>
 		<div class="form-group">
 			<div class="col">
-				<Select class="custom-select" placeholder="Locatie" name="Locatie">
+				<Select class="custom-select" placeholder="Locatie" name="Locatie" required>
 				<option selected>Kies locatie</option>
 				<option value="1">Zwolle</option>
 				<option value="2">Meppel</option>
