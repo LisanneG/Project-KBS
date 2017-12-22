@@ -39,6 +39,7 @@ include 'upload.php';
 			
 			<div id="message"></div>
 			
+			<?php if(CheckIfUserHasRight($_SESSION["admin"], "Aanmaken nieuwsbericht", $_SESSION["user_id"])){ ?>
 			<!-- content of "toevoegen" -->
 			<div class="tab-pane fade show active" id="nav-toevoegen" role="tabpanel" aria-labelledby="nav-toevoegen-tab">
 				<h3 class="navtabs">Nieuw bericht</h3>
@@ -89,6 +90,7 @@ include 'upload.php';
 					</div>
 				</form>
 			</div>
+			<?php } ?>
 			
 			<!-- content of "wijzigen" -->
 			<div class="tab-pane fade" id="nav-wijzigen" role="tabpanel" aria-labelledby="nav-wijzigen-tab">
