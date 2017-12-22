@@ -1,18 +1,6 @@
 <?php
-session_start();
 include '../include/framework.php';
-
-if (!isset($_SESSION["email"])) {
-    header("Location: ../login.php"); //Redirecting to login.php
-    exit();
-}
-
-if (isset($_POST["logout"])) {
-    session_destroy(); //Removing the login session
-
-    header("Location: ../login.php"); //Redirecting to login.php
-    exit();
-}
+include '../include/header.php';
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -111,8 +99,12 @@ if (isset($_POST["logout"])) {
                                         print("<td>" . $row["theme_id"] . "</td>");
                                         print("<td>" . $row["theme_name"] . "</td>");
                                         print("<td> <img class='img-fluid themeimage' src='" . $row["image"] . "'></img></td>");
-                                        print("<td><button type='submit' class='btn btn-primary' id='edit-" . $row["theme_id"] . "'>Bijwerken</button></td>");
-                                        print("<td><button type='submit' class='btn btn-danger' id='remove-" . $row["theme_id"] . "'>Verwijderen</button>");
+                                        if(CheckIfUserHasRight($_SESSION["admin"], "Bewerken thema", $_SESSION["user_id"])){
+                                            print("<td><button type='submit' class='btn btn-primary' id='edit-" . $row["theme_id"] . "'>Bijwerken</button></td>");
+                                        }
+                                        if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen thema", $_SESSION["user_id"])){
+                                            print("<td><button type='submit' class='btn btn-danger' id='remove-" . $row["theme_id"] . "'>Verwijderen</button>");
+                                        }
                                         print("</tr>");
                                     }
                                     //voor iedere rij in de tabel toon de tabelinhoud
@@ -127,11 +119,14 @@ if (isset($_POST["logout"])) {
             </div>
 
             </div>
+
+            <?php if(CheckIfUserHasRight($_SESSION["admin"], "Aanmaken thema", $_SESSION["user_id"])){ ?>
             <div class="container-fluid ">
                 <div class="row">
                     <button type="submit" class="btn btn-primary mt-3" data-toggle="modal" data-target="#toevoegen">Toevoegen</button>
                 </div>
             </div>
+            <?php } ?>
 
 
 

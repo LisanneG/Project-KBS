@@ -118,8 +118,7 @@ function GetLayout(){
 	$stringBuilder .= "FROM layout l ";
 	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
 	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
-	$stringBuilder .= "ORDER BY l.layout_id DESC ";
-	$stringBuilder .= "LIMIT 0,1 ";
+	$stringBuilder .= "ORDER BY l.layout_id DESC ";	
 
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -219,14 +218,15 @@ function EditLayout($layout_id, $font, $font_color, $background_color, $default_
 
 // Function to check if theres already a layout in the db
 // Returns true or false
-function LayoutAlreadyExists(){
+function LocationUsesLayout($layout_id){
 	//Building the query
-	$stringBuilder = "SELECT COUNT(layout_id) ";
-	$stringBuilder .= "FROM layout ";	
+	$stringBuilder = "SELECT COUNT(location_id) ";
+	$stringBuilder .= "FROM location ";
+	$stringBuilder .= "WHERE layout_id=? ";	
 
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	$query->execute(); //Putting in the parameters
+	$query->execute(array($layout_id)); //Putting in the parameters
 	$result = $query->fetchAll(); //Fetching it
 
 	if($result[0][0] > 0){
@@ -743,6 +743,15 @@ function fileRemove($fileId){
 	$stmt->execute(array($fileId));
 }
 
+
+
+
+
+
+
+
+
+
 function hashPassword($password){
 				$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
 				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
@@ -751,6 +760,5 @@ function hashPassword($password){
 	
 	
 }
-
 
 ?>
