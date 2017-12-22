@@ -386,11 +386,13 @@ function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $disp
 	$stringBuilder .= "description='$description', ";
 	$stringBuilder .= "priority=$priority, ";
 	$stringBuilder .= "file_id=$fileId, "; 									//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from=$displayFrom, ";
-	$stringBuilder .= "display_till=$displayTill, ";
+	$stringBuilder .= "display_from='$displayFrom', ";
+	$stringBuilder .= "display_till='$displayTill', ";
 	$stringBuilder .= "category_id=$categoryId ";
-	$stringBuilder .= "WHERE news_article_id=$newsarticle_id ";
+	$stringBuilder .= "WHERE news_article_id=$newsarticle_id";
 
+	print($stringBuilder);
+	
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
 	//$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
@@ -731,42 +733,25 @@ function fileUpload(){
 			return false;
 		}
 	}
-	}
-	
+}
 
 //function for removing file
 function fileRemove($fileId){
 	include '../../database.php';
-	
+
 	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
 	$filelocation = $stmt->fetch(PDO::FETCH_ASSOC);
-	
-	$filesystem = '../..' . $filelocation["location"];
+	$filelocation = $_SERVER["DOCUMENT_ROOT"] . $filelocation;
 
-
-	
 	unlink($filesystem);
-	
+
 	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 function hashPassword($password){
 	return password_hash($password, PASSWORD_DEFAULT);
 }
-
-
 ?>
