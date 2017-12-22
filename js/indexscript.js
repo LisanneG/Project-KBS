@@ -55,7 +55,7 @@ function MessageScroll(){
     }    
 
     ///if(!($(".alert.alert-info")[0])){
-    setTimeout('location.reload()' ,(timer1));
+    setTimeout('location.reload(rue)' ,(timer1));
     //}
 }
 
