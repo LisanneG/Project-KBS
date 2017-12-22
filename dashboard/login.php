@@ -27,6 +27,8 @@ include 'include/framework.php';
 				
 				$result = CheckIfUserExists($email);
 
+
+				
 				if($result != false){
 					foreach ($result as $row) {
 						$user_id = $row["user_id"];
@@ -47,7 +49,7 @@ include 'include/framework.php';
 
 					}
 				}
-			}			
+			}	
 		?>
 
 		<form method="POST">			
