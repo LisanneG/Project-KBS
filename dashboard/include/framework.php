@@ -702,8 +702,8 @@ function fileUpload(){
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
-		$server_url = "/bestanden/media/" . $type . "/" . $prename . $medium;
-		$url = $_SERVER["DOCUMENT_ROOT"] . "/bestanden/media/" . $type . "/" . $prename . $medium;
+		$server_url = "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {

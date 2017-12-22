@@ -8,15 +8,13 @@ include '../include/header.php';
     <head>
         <meta charset="UTF-8">
         <title>Thema's</title>
-        <link rel="stylesheet" type="text/css" href="../../css/style.css">
-        <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+        <?php include '../include/css.php'; ?>
         <link rel="stylesheet" type="text/css" href="../../dashboard/Thema/hulp.css">
     </head>
 
     <body>
         <!-- Tabs bovenin niet maken -->
         <?php include '../include/navbar.php'; ?>
-        <img src="../../img/dotsolutions-logo.png" alt="dotsolutions logo" class="img-fluid dotsolutions_logo">
 
         <!-- Modal for logging out -->
         <div class="modal fade" id="modal-logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -40,12 +38,7 @@ include '../include/header.php';
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript" src="../../js/jquery-3.2.1.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
-            crossorigin="anonymous"></script>
-        <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="../../js/script.js"></script>
+        
         <script type="text/javascript" src="hulp.js"></script>
         <!-- Alles wat hierboven staat is ok. Nu de rest programmeren. -->
         <section id="dashboard-content" class="container-fluid">
@@ -155,7 +148,7 @@ include '../include/header.php';
 
                         </div>
                         <div class="modal-footer">
-                            <form action="/dashboard/theme/hulp.php" method="POST" id="form-add" enctype="multipart/form-data">
+                            <form action="/KBS/Project-KBS/dashboard/theme/hulp.php" method="POST" id="form-add" enctype="multipart/form-data">
                                 <button class="btn btn-primary" method="post" type="submit">Opslaan</button>
                                 <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
@@ -193,7 +186,7 @@ include '../include/header.php';
 
                         </div>
                         <div class="modal-footer">
-                            <form action="/dashboard/theme/hulp.php" method="POST" id="form-edit" enctype="multipart/form-data">
+                            <form action="/KBS/Project-KBS/dashboard/theme/hulp.php" method="POST" id="form-edit" enctype="multipart/form-data">
                                 <button class="btn btn-primary" type="submit">Opslaan</button>
                                 <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
@@ -220,7 +213,7 @@ include '../include/header.php';
                             <h8 id="selected-items-del" class="pt-5"></h8>
                         </div>
                         <div class="modal-footer">
-                            <form method="POST" action="/dashboard/theme/hulp.php">
+                            <form method="POST" action="/KBS/Project-KBS/dashboard/theme/hulp.php">
                                 <input type="hidden" id="theme-id" name="theme_id" value="">
                                 <input type="hidden" name="delete" id="bool-remove" value="1">
                                 <button type="submit" class="btn btn-primary" id="deletebutton">Ja</button>
@@ -231,6 +224,7 @@ include '../include/header.php';
                 </div>
             </div>
 
+    <?php include '../include/footer.php'; ?>
 
 
 

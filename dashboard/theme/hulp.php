@@ -69,7 +69,7 @@ function handler() {
     }
      
     if (isset($_POST["name"]) && (isset($_FILES["medium"]))){
-         if(isset($_POST["edit"])){
+        if(isset($_POST["edit"])){
             $theme_id = $_POST["theme_id"];
             editTheme($theme_id, $_POST["name"]);
         }
@@ -77,7 +77,7 @@ function handler() {
             addTheme($_POST["name"]);
         }
     }
-    header("Location: {$_SERVER['HTTP_REFERER']}");
+    header("Location: /KBS/Project-KBS/dashboard/theme/");
     exit;
 }
 
