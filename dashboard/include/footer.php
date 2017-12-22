@@ -137,19 +137,14 @@
 
 //when the change password button is clicked
 if (isset($_POST["change_pass"])) {
-	$password = $_POST["user_password"];
-	$user_id = $_SESSION["user_id"];
-
-	//Creating a hashed password
-	$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
-	$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
-	$hashed_password = crypt($password, $iv);
+	$password = password_hash($_POST["user_password"], PASSWORD_DEFAULT);
+	$user_id = $_SESSION["user_id"];	
 
 	//Making the insert query for the user
 	$stringBuilder = "UPDATE `user` SET password=? WHERE user_id=? ";
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	if($query->execute(array($hashed_password, $user_id))){
+	if($query->execute(array($password, $user_id))){
 		echo "<div class=\"container-fluid\"><div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Wachtwoord is gewijzigd</div></div>";
 	} else {
 		echo "<div class=\"container-fluid\"><div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div></div>";				

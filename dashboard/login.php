@@ -18,7 +18,8 @@ include 'include/framework.php';
 			</div>
 		</div>
 
-		<?php 						
+		<?php 
+		// Set session variables
 			if (isset($_POST["submit"])) {
 				//Collecting the email and password inputs
 				$email = $_POST["email"];
