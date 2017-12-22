@@ -54,9 +54,9 @@ function MessageScroll(){
         timer1 = timer1 + timer0;
     }    
 
-    ///if(!($(".alert.alert-info")[0])){
-    setTimeout('location.reload(rue)' ,(timer1));
-    //}
+    if(!($(".alert.alert-info")[0])){
+        setTimeout('location.reload(true)' ,(timer1));
+    }
 }
 
 
@@ -75,30 +75,30 @@ function ListScroll(i, length){
             var vidlength = (video.duration) * 1000 + 5000;
             console.log(vidlength);
 
-            $("html, body").animate({ scrollTop: ($(list).offset().top - 100)},2000, function(){video.play();}).delay(vidlength);       
+            $("html, body").animate({ scrollTop: ($(list).offset().top - 300)},2000, function(){video.play();}).delay(vidlength);       
             
             return vidlength + 2000;
         }
         else if($(listitem).is("[id$='-message']")){
             var item = listitem;
             var delay = (($(".messagecontent01").text().length) / 20.83 + 2 )*50;
-            $("html, body").animate({ scrollTop: ($(item).offset().top - 100)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
+            $("html, body").animate({ scrollTop: ($(item).offset().top - 300)}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
             return delay + 2000;
         }
         else if($(listitem).is("li[id$='-birthdayimg']")){
             var item = listitem;
-            $("html, body").animate({ scrollTop: ($(item).offset().top - 100)}, 2000).delay(2000);
+            $("html, body").animate({ scrollTop: ($(item).offset().top - 300)}, 2000).delay(2000);
             return 4000;
         }
         else if($(listitem).is("li[id$='-birthdaynoimg']")){
             var item = listitem;
-            $("html, body").animate({ scrollTop: ($(item).offset().top - 100)}, 2000).delay(2000);
+            $("html, body").animate({ scrollTop: ($(item).offset().top - 300)}, 2000).delay(2000);
             return 4000;
         }
         else if($(listitem).is("li[id$='-messageimg']")){
             var item = listitem;
             var delay = (($(".messagecontent01").text().length) / 20.83 + 2 )*50;
-            $("html, body").animate({ scrollTop: ($(item).offset().top) - 100}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
+            $("html, body").animate({ scrollTop: ($(item).offset().top) - 300}, 2000).delay((($(".messagecontent01").text().length) / 20.83 + 2 )*50);
             return delay + 2000;
             
         }
@@ -110,7 +110,7 @@ function ListScroll(i, length){
             var vidlength = (video.duration) * 1000 + 5000;
             console.log(vidlength);
 
-            $("html, body").animate({ scrollTop: ($(list).offset().top - 100)},2000, function(){video.play();}).delay(vidlength);       
+            $("html, body").animate({ scrollTop: ($(list).offset().top - 300)},2000, function(){video.play();}).delay(vidlength);       
             
             return vidlength + 2000;
             }
