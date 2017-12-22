@@ -47,7 +47,7 @@ include '../include/header.php';
 		$achternaam = $_POST["achternaam"];
 		$verjaardag = $_POST["verjaardag"];
 		$email = $_POST["email"];
-		$wachtwoord = $_POST["wachtwoord"];
+		$wachtwoord = hashPassword($_POST["wachtwoord"]);
 		$locatie = $_POST["locatie"];
 			if (isset($_POST["admin"])){
 		$admin = 1;

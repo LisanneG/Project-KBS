@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST["submit"])) {
-	$news_title = htmlentities($_POST["title"], ENT_QUOTES);
+	$news_title = htmlspecialchars($_POST["title"], ENT_QUOTES);
 	$categoryId = $_POST["news-category"];
 
 	
@@ -12,7 +12,7 @@ if (isset($_POST["submit"])) {
 	} else {
 		$priority = 0;
 	}
-	$description = htmlentities($_POST["description"], ENT_QUOTES); 
+	$description = htmlspecialchars($_POST["description"], ENT_QUOTES); 
 	
 	//checking if a file has been added and choosing the right query for the job
 	if (isset($lastInsertedFileId)) {

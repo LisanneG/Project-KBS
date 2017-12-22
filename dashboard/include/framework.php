@@ -16,18 +16,13 @@ function GetDatabaseConnection(){
 }
 // Function to check if user is in the db with the correct email and password
 // Returns results if there is no result it will give a false
-function CheckIfUserExists($input_email, $input_password)
+function CheckIfUserExists($input_email)
 {
 	// Preparing query
-	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin FROM `user` u WHERE u.email = ? AND u.password = ? LIMIT 0,1");
-	$query->execute(array($input_email, $input_password)); //Putting in the parameters
-	$result = $query->fetch(); //Fetching it
-	
-	if($query->rowCount() > 0){		
-		return $result;
-	} else {
-		return false;
-	}
+	$query = GetDatabaseConnection()->prepare("SELECT u.user_id, u.admin, u.password FROM `user` u WHERE u.email = ? ");
+	$query->execute(array($input_email));
+	$result = $query->fetchAll(); //Fetching it
+	return $result;
 }
 
 // Function to check if the user whos logged in has the right to do something on a certain page
@@ -118,8 +113,7 @@ function GetLayout(){
 	$stringBuilder .= "FROM layout l ";
 	$stringBuilder .= "INNER JOIN `file` fbg ON fbg.file_id=l.default_background ";
 	$stringBuilder .= "INNER JOIN `file` flogo ON flogo.file_id=l.logo ";
-	$stringBuilder .= "ORDER BY l.layout_id DESC ";
-	$stringBuilder .= "LIMIT 0,1 ";
+	$stringBuilder .= "ORDER BY l.layout_id DESC ";	
 
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
@@ -219,14 +213,15 @@ function EditLayout($layout_id, $font, $font_color, $background_color, $default_
 
 // Function to check if theres already a layout in the db
 // Returns true or false
-function LayoutAlreadyExists(){
+function LocationUsesLayout($layout_id){
 	//Building the query
-	$stringBuilder = "SELECT COUNT(layout_id) ";
-	$stringBuilder .= "FROM layout ";	
+	$stringBuilder = "SELECT COUNT(location_id) ";
+	$stringBuilder .= "FROM location ";
+	$stringBuilder .= "WHERE layout_id=? ";	
 
 	// Preparing query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	$query->execute(); //Putting in the parameters
+	$query->execute(array($layout_id)); //Putting in the parameters
 	$result = $query->fetchAll(); //Fetching it
 
 	if($result[0][0] > 0){
@@ -375,32 +370,46 @@ function SaveUserRights($user_id, $rights){
 //Function for inserting an edited newsarticle
 function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations, $fileId = NULL){
 	//Making the update query											//add fileId as soon as fileuploading works
+	/*
 	$stringBuilder = "UPDATE news_article ";
 	$stringBuilder .= "SET title=?, ";
 	$stringBuilder .= "description=?, ";
 	$stringBuilder .= "priority=?, ";
-	$stringBuilder .= "file_id=?, "; 					//verander dit as soon as fileId shit works
+	$stringBuilder .= "file_id=?, "; 									//verander dit as soon as fileId shit works
 	$stringBuilder .= "display_from=?, ";
 	$stringBuilder .= "display_till=?, ";
 	$stringBuilder .= "category_id=? ";
 	$stringBuilder .= "WHERE news_article_id=? ";
+	*/
+	$stringBuilder = "UPDATE news_article ";
+	$stringBuilder .= "SET title='$news_title', ";
+	$stringBuilder .= "description='$description', ";
+	$stringBuilder .= "priority=$priority, ";
+	$stringBuilder .= "file_id=$fileId, "; 									//verander dit as soon as fileId shit works
+	$stringBuilder .= "display_from=$displayFrom, ";
+	$stringBuilder .= "display_till=$displayTill, ";
+	$stringBuilder .= "category_id=$categoryId ";
+	$stringBuilder .= "WHERE news_article_id=$newsarticle_id ";
+
 	//preparing the query
 	$query = GetDatabaseConnection()->prepare($stringBuilder);
-	$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
+	//$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
+	$query->execute();
 	$lastInsertId = GetDatabaseConnection()->lastInsertId();
-	
+
 	print_r($lastInsertId);
-	
+
 	$locationsArr = explode(",", $locations);
 	print_r($locationsArr);
 	
-	
+
 	/*if($query->execute()){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
 	} else {
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}*/
 }
+
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
 	//Making the delete query
@@ -628,7 +637,7 @@ function readDB($location_id)
 			</div>");
 			print("</li>");
 		}
-		elseif($row['type'] == "video" && $row["muted"] == NULL){
+		elseif($row['type'] == "video" && $row["muted"] == 0){
 			$videotype = explode(".", $row['location']);
 			print("<li class='media mb-5 mt-5 border border-dark' style='background-color: ". $row['background_color']."' id='" .$row['news_article_id'] . "-messagevideowithsound'>
 			<div class='media-body mx-4 mt-4'>
@@ -707,8 +716,8 @@ function fileUpload(){
 		$digits = 4;
 		$prename = str_pad(rand(0, pow(10, $digits)-1), $digits, '0', STR_PAD_LEFT);
 		
-		$server_url = "/bestanden/media/" . $type . "/" . $prename . $medium;
-		$url = $_SERVER["DOCUMENT_ROOT"] . "/bestanden/media/" . $type . "/" . $prename . $medium;
+		$server_url = "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
+		$url = $_SERVER["DOCUMENT_ROOT"] . "/KBS/Project-KBS/bestanden/media/" . $type . "/" . $prename . $medium;
 		//$url = "/bestanden/media/" . $type . "/" . $medium;
 		
         if (move_uploaded_file($_FILES["medium"]["tmp_name"][$k], $url)) {
@@ -744,13 +753,19 @@ function fileRemove($fileId){
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
 function hashPassword($password){
-				$size = mcrypt_get_iv_size(MCRYPT_CAST_256, MCRYPT_MODE_CFB);
-				$iv = mcrypt_create_iv($size, MCRYPT_DEV_RANDOM);
-				$hashed_password = crypt($password, $iv);            
-				return $hashed_password;
-	
-	
+	return password_hash($password, PASSWORD_DEFAULT);
 }
 
 

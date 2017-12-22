@@ -20,27 +20,28 @@ include '../include/header.php';
 				if (isset($_POST["remove_layout"])) {
 					$layout_id = $_POST["layout_id"];
 					
-					RemoveLayout($layout_id);
+					if(!LocationUsesLayout($layout_id)){
+						RemoveLayout($layout_id);
+					} else {
+						echo "<div class=\"alert alert-warning\" role=\"alert\">De gekozen opmaak kan niet verwijderd worden omdat deze gebruikt word door een (of meerdere) locatie(s)</div>";
+					}
+					
 				}
 
 				//Adding a layout
 				if (isset($_POST["add_layout"])) {
-					//A check to see if theres already a layout
-					if(LayoutAlreadyExists()){
-						$font = $_POST["layout_font"];
-						$font_color = $_POST["layout_font_color"];
-						$background_color = $_POST["layout_background_color"];
-						$default_background = UploadSingleFile($_FILES["layout_default_background"]);
-						$logo = UploadSingleFile($_FILES["layout_logo"]);
+					//A check to see if theres already a layout					
+					$font = $_POST["layout_font"];
+					$font_color = $_POST["layout_font_color"];
+					$background_color = $_POST["layout_background_color"];
+					$default_background = UploadSingleFile($_FILES["layout_default_background"]);
+					$logo = UploadSingleFile($_FILES["layout_logo"]);
 
-						if ($font != "" && $font_color != "" && $background_color != "" && $default_background != "" && $logo != ""){
-							AddLayout($font, $font_color, $background_color, $default_background, $logo);	
-						} else {
-							echo "<div class=\"alert alert-warning\" role=\"alert\">Alle velden zijn verplicht</div>";
-						}	
+					if ($font != "" && $font_color != "" && $background_color != "" && $default_background != "" && $logo != ""){
+						AddLayout($font, $font_color, $background_color, $default_background, $logo);	
 					} else {
-						echo "<div class=\"alert alert-warning\" role=\"alert\">Er kan maar een layout worden toegevoegd</div>";
-					}
+						echo "<div class=\"alert alert-warning\" role=\"alert\">Alle velden zijn verplicht</div>";
+					}	
 				}
 
 				//Editing a layout
@@ -94,37 +95,37 @@ include '../include/header.php';
 									<th></th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<?php
-										foreach (GetLayout() as $row) {
-											$layout_id = $row["layout_id"];
-											$font = $row["font"];
-											$font_color = $row["font_color"];
-											$background_color = $row["background_color"];
-											$default_background = $row["default_background"];
-											$logo = $row["logo"];
-											$background_location = $row["backgroundLocation"];
-											$logo_location = $row["logoLocation"];
+							<tbody>								
+								<?php
+									foreach (GetLayout() as $row) {
+										$layout_id = $row["layout_id"];
+										$font = $row["font"];
+										$font_color = $row["font_color"];
+										$background_color = $row["background_color"];
+										$default_background = $row["default_background"];
+										$logo = $row["logo"];
+										$background_location = $row["backgroundLocation"];
+										$logo_location = $row["logoLocation"];
 
-											echo "<td>$font</td>";
-											echo "<td>$font_color</td>";
-											echo "<td>$background_color</td>";
-											echo "<td><img src=\"$background_location\" class=\"img-thumbnail layout-img\"></td>";
-											echo "<td><img src=\"$logo_location\" class=\"img-thumbnail layout-img\"></td>";
-											echo "<td>";
-											if(CheckIfUserHasRight($_SESSION["admin"], "Bewerken opmaak", $_SESSION["user_id"])){
-												echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#modal-edit-layout\" data-id=\"$layout_id\" data-font=\"$font\" data-fontcolor=\"$font_color\" data-backgroundcolor=\"$background_color\" data-defaultbackground=\"$default_background\" data-logo=\"$logo\" data-backgroundlocation=\"$background_location\" data-logolocation=\"$logo_location\">Bewerken";
-											}
-											echo "</td>";
-											echo "<td>";
-											if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen opmaak", $_SESSION["user_id"])){
-												echo "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-layout\" data-id=\"$layout_id\">Verwijderen";
-											}
-											echo "</td>";
+										echo "<tr>";
+										echo "<td>$font</td>";
+										echo "<td>$font_color</td>";
+										echo "<td>$background_color</td>";
+										echo "<td><img src=\"$background_location\" class=\"img-thumbnail layout-img\"></td>";
+										echo "<td><img src=\"$logo_location\" class=\"img-thumbnail layout-img\"></td>";
+										echo "<td>";
+										if(CheckIfUserHasRight($_SESSION["admin"], "Bewerken opmaak", $_SESSION["user_id"])){
+											echo "<button type=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" data-target=\"#modal-edit-layout\" data-id=\"$layout_id\" data-font=\"$font\" data-fontcolor=\"$font_color\" data-backgroundcolor=\"$background_color\" data-defaultbackground=\"$default_background\" data-logo=\"$logo\" data-backgroundlocation=\"$background_location\" data-logolocation=\"$logo_location\">Bewerken";
 										}
-									?>
-								</tr>
+										echo "</td>";
+										echo "<td>";
+										if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen opmaak", $_SESSION["user_id"])){
+											echo "<button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-layout\" data-id=\"$layout_id\">Verwijderen";
+										}
+										echo "</td>";
+										echo "</tr>";
+									}
+								?>								
 							</tbody>
 						</table>
 					</div>

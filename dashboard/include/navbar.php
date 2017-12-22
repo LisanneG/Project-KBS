@@ -13,6 +13,7 @@
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/location/location_main.php">Locaties</a>			        				        	
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/Thema/index.php">Thema's</a>
+			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/theme/index.php">Thema's</a>
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/layout/index.php">Opmaak</a>
 
 			    	</div>
@@ -26,7 +27,7 @@
 				    	</div>
 					</li>
 				<?php } ?>		      
-		      	<form class="form-inline" id="search-section" method="POST" action="search.php">
+		      	<form class="form-inline" id="search-section" method="POST" action="/KBS/Project-KBS/dashboard/search.php">
 				    <div class="input-group">
 				    	<button class="input-group-addon" id="basic-addon1"><i class="fa fa-search" aria-hidden="true"></i></button>
 				    	<input type="text" class="form-control" name="search-words" placeholder="Search" aria-label="Search" aria-describedby="basic-addon1">				    	

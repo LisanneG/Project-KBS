@@ -7,7 +7,7 @@ if (isset($_POST["method"])){
 }
 
 //If all the required variables are given
-if ($method == "edit") {
+if ($method === "edit") {
 	
 	print_r($_FILES["file"]);
 	//include '../upload.php';
@@ -25,7 +25,7 @@ if ($method == "edit") {
 	} else {
 		$priority = 0;
 	}
-	$description = htmlentities($_POST["news-description"], ENT_QUOTES); 
+	$description = htmlspecialchars($_POST["news-description"], ENT_QUOTES); 
 	$locations = $_POST["locations"];
 	
 	if (isset($fileId)){
@@ -33,8 +33,8 @@ if ($method == "edit") {
 	} else {
 		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
 	}
+	return;
 } elseif(isset($_GET["newsarticle_id"]) && $method == "remove") { //If only a newsarticle_id is given we'll remove it
-
 	$newsarticle_id = $_GET["newsarticle_id"];
 
 	echo RemoveNews($newsarticle_id); //Calling a function to remove it, which gives back a message if it's successful or not
