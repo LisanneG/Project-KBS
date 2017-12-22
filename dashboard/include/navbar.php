@@ -11,8 +11,7 @@
 			        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Beheer</a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/news_main.php">Nieuwsbericht</a>
-			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/location/location_main.php">Locaties</a>			        				        	
-			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/Thema/index.php">Thema's</a>
+			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/location/location_main.php">Locaties</a>
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/theme/index.php">Thema's</a>
 			        	<a class="dropdown-item" href="/KBS/Project-KBS/dashboard/layout/index.php">Opmaak</a>
 
