@@ -9,28 +9,36 @@ function updateClock(){
 
 
 $(document).ready(function(){
-    //Getting the location name
-    
+   
     if($("video").length == true){
     var videoLoaded = false;
     }
 
-    while(videoLoaded == false){
+    var videoLoad = setInterval(function(videoLoaded){
         var video = $("#messagediv").find("video").get(0);
         if (video.readyState > 0) {
           videoLoaded = true;
-        }
-    }
-    
-    
+          startPage(videoLoad);
+        };
+    });
+
+});
+
+
+
+
+function startPage(videoLoad){
+    //Getting the location name
+    clearInterval(videoLoad);
     location_name = $("#location_name").html();
 	LoadWeather(location_name);
     setInterval('updateClock()', 1000);
     MessageScroll();
     Checkpriority();
     setInterval('console.log($(document).scrollTop())', 2000);
+}
 
-});
+
 
 function Checkpriority(){
     if($(".priority-message")[0]){
