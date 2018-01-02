@@ -10,16 +10,22 @@ function updateClock(){
 
 $(document).ready(function(){
    
-    if($("video").length == true){
+    if($("video")[0]){
     var videoLoaded = false;
     }
 
     var videoLoad = setInterval(function(videoLoaded){
+        
+        if(videoLoaded === undefined){
+            startPage(videoLoad);
+            return;
+        }
         var video = $("#messagediv").find("video").get(0);
         if (video.readyState > 0) {
           videoLoaded = true;
           startPage(videoLoad);
-        };
+        }
+
     });
 
 });
@@ -83,7 +89,7 @@ function MessageScroll(){
     }    
 
     if(!($(".alert.alert-info")[0])){
-        //setTimeout('location.reload(true)' ,(timer1));
+        setTimeout('location.reload(true)' ,(timer1));
     }
 }
 
@@ -105,9 +111,12 @@ function ListScroll(i, length){
             video.muted = true;
             var vidlength = (video.duration) * 1000 + 5000;
             console.log(vidlength);
-
+            if($(list).index() == 0){
+            $("html, body").animate({ scrollTop: ($(list).offset().top - navbar)},2000, function(){video.play();}).delay(vidlength);       
+            }
+            else{
             $("html, body").animate({ scrollTop: ($(list).offset().top - navbar + 320)},2000, function(){video.play();}).delay(vidlength);       
-            
+            }
             return vidlength + 2000;
         }
         else if($(listitem).is("[id$='-message']")){
@@ -143,7 +152,12 @@ function ListScroll(i, length){
             var vidlength = (video.duration) * 1000 + 5000;
             console.log(vidlength);
 
-            $("html, body").animate({ scrollTop: ($(list).offset().top - navbar)},2000, function(){video.play();}).delay(vidlength);       
+            if($(list).index() == 0){
+                $("html, body").animate({ scrollTop: ($(list).offset().top - navbar)},2000, function(){video.play();}).delay(vidlength);       
+            }
+            else{
+                $("html, body").animate({ scrollTop: ($(list).offset().top - navbar + 320)},2000, function(){video.play();}).delay(vidlength);       
+            }   
             console.log($(video).offset().top);
             
             return vidlength + 2000;
