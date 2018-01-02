@@ -95,7 +95,7 @@ function ListScroll(i, length){
     //20.83 character per second
     //txtlength / 20.83 + 2 * 1000 = seconds of display
 
-    var navbar = $("#top-bar").height() + 48 + 200;
+    var navbar = $("#top-bar").height() + 48;
 
     var listitem = $("li.media.mb-5.mt-5.border.border-dark").eq(i);
         if($(listitem).is("[id$='-messagevideowithnosound']")){
@@ -106,7 +106,7 @@ function ListScroll(i, length){
             var vidlength = (video.duration) * 1000 + 5000;
             console.log(vidlength);
 
-            $("html, body").animate({ scrollTop: ($(list).offset().top - navbar - 200)},2000, function(){video.play();}).delay(vidlength);       
+            $("html, body").animate({ scrollTop: ($(list).offset().top - navbar + 320)},2000, function(){video.play();}).delay(vidlength);       
             
             return vidlength + 2000;
         }
