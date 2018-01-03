@@ -133,9 +133,15 @@ include 'upload.php';
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="control-label col-2 col-form-label" for="news-file">Bestand(en):</label>
+							<label class="control-label col-2 col-form-label" for="news-file">Bestand:</label>
 							<div class="col-10">
 								<input class="btn btn-default" id="news-file" type="file" name="file">
+							</div>
+						</div>
+						<div class="oldimg row">
+							<label class="control-label col-2 col-form-label" for="news-file-old">Huidige bestand:</label>
+							<div class="col-10">
+								<img id="news-file-old" src="" alt="Het huidige bestand">
 							</div>
 						</div>
 						<div class="form-group row">
@@ -166,9 +172,6 @@ include 'upload.php';
 							</div>
 						</div>
 						</form>
-					</div>
-					<div class="oldimg col-3">
-						<img id="news-file-old" src="" alt="Het huidige bestand">
 					</div>
 				</div>
 	      		<div class="modal-footer">

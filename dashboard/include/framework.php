@@ -381,30 +381,47 @@ function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $disp
 	$stringBuilder .= "category_id=? ";
 	$stringBuilder .= "WHERE news_article_id=? ";
 	*/
-	$stringBuilder = "UPDATE news_article ";
-	$stringBuilder .= "SET title='$news_title', ";
-	$stringBuilder .= "description='$description', ";
-	$stringBuilder .= "priority=$priority, ";
-	$stringBuilder .= "file_id=$fileId, "; 									//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from='$displayFrom', ";
-	$stringBuilder .= "display_till='$displayTill', ";
-	$stringBuilder .= "category_id=$categoryId ";
-	$stringBuilder .= "WHERE news_article_id=$newsarticle_id";
-
-	print($stringBuilder);
+	include '../../database.php';
+	if ($fileId != NULL) {	
+		$stringBuilder = "UPDATE news_article ";
+		$stringBuilder .= "SET title='$news_title', ";
+		$stringBuilder .= "description='$description', ";
+		$stringBuilder .= "priority=$priority, ";
+		$stringBuilder .= "file_id=$fileId, "; 									//verander dit as soon as fileId shit works
+		$stringBuilder .= "display_from='$displayFrom', ";
+		$stringBuilder .= "display_till='$displayTill', ";
+		$stringBuilder .= "category_id=$categoryId ";
+		$stringBuilder .= "WHERE news_article_id=$newsarticle_id";
+	} else {
+		$stringBuilder = "UPDATE news_article ";
+		$stringBuilder .= "SET title='$news_title', ";
+		$stringBuilder .= "description='$description', ";
+		$stringBuilder .= "priority=$priority, ";
+		$stringBuilder .= "display_from='$displayFrom', ";
+		$stringBuilder .= "display_till='$displayTill', ";
+		$stringBuilder .= "category_id=$categoryId ";
+		$stringBuilder .= "WHERE news_article_id=$newsarticle_id";
+	}
 	
 	//preparing the query
-	$query = GetDatabaseConnection()->prepare($stringBuilder);
+	$query = $conn->prepare($stringBuilder);
 	//$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
 	$query->execute();
-	$lastInsertId = GetDatabaseConnection()->lastInsertId();
+	$lastInsertId = $conn->lastInsertId();
 
 	print_r($lastInsertId);
 
 	$locationsArr = explode(",", $locations);
 	print_r($locationsArr);
 	
-
+	/*
+	$stmt = $conn->prepare("DELETE FROM news_article_has_location WHERE news_article_id=$newsarticle_id");
+	$stmt->execute();
+	
+	foreach ($locationsArr as $v) {
+		$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) VALUES (?,?)");
+		$stmt->execute(array($lastInsertedNewsId, $v));
+	}*/
 	/*if($query->execute()){
 		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
 	} else {
@@ -744,7 +761,7 @@ function fileRemove($fileId){
 	$filelocation = $stmt->fetch(PDO::FETCH_ASSOC);
 	$filelocation = $_SERVER["DOCUMENT_ROOT"] . $filelocation;
 
-	unlink($filesystem);
+	unlink($filelocation);
 
 	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=?");
 	$stmt->execute(array($fileId));

@@ -52,7 +52,11 @@ $(document).ready(function() {
 		
 		var modal = $(this)
 		modal.find("#news-title").val(title);
-		modal.find(".oldimg img").prop('src', fileLocation);
+		modal.find(".oldimg img")
+			.prop('src', fileLocation)
+			.css('margin-bottom', '15px')
+			.css('max-height', '300px')
+			.css('max-width', '600px');
 		modal.find("#news-category").each( function (){
 			if ($(this).prop('value') == category) {
 				$(this).prop('checked', true);
@@ -78,11 +82,10 @@ $(document).ready(function() {
 		modal.find("#newsarticle-id").val(id);
 	});
 
+	//reset all checkboxes on hiding modal
 	$("#editNews").on("hidden.bs.modal", function (event) {
 		var modal = $(this)
-		//modal.find("#news-location").each( function (){
-		//	$(this).prop('checked', false);
-		//});
+		$("#news-file").val('');
 		$button = modal.find('button');
 		$button.each( function(){
 			$button
@@ -106,22 +109,6 @@ $(document).ready(function() {
 		modal.find("#news-title").text(title);
 		modal.find("#news-id").val(id);
 	});
-	
-	//When the button is clicked to check a location
-	/*
-	$(document).on("click",".locations",function(e){
-		
-		var $widget = $(this),
-            $checkbox = $widget.find('input:checkbox');
-			
-		if ($(checkbox).is('[checked]')) {
-			// attribute exists
-			$(checkbox).removeAttr('checked');
-		} else {
-			// attribute does not exist
-			$(checkbox).attr('checked', "checked");
-		}
-	});*/
 
 	//When the button is clicked to edit a newsarticle
 	$("#save-news-edit").click(function(){
@@ -164,26 +151,6 @@ $(document).ready(function() {
 
 		//if (window.console) console.log(formData.values()); 
 		$('#editNews').modal('hide'); //Closing the modal
-		/*
-		var formdata = new FormData();
-		formdata.append("file",news_file);
-		
-		$.ajax({
-			type: "POST",
-			url: "../dashboard/get/news_article.php",
-			data: formdata,
-			processData: false, 
-			contentType: false,
-		});
-		
-		*/
-		
-		//var news_locations = $("#editNews #news-locations").val();
-
-		//$.get("../dashboard/get/news_article.php?method=edit&newsarticle_id="+news_id+"&title="+news_title+"&description="+news_description+"&priority="+news_priority+
-		//"&display_from="+news_display_from+"&display_till="+news_display_till+"&category="+news_category+"&file="+news_file, function(data) {
-		//	$("#message").html(data); //Putting the message inside a div tag
-		//});
 	});
 
 	//When the button is clicked to delete a newsarticle
