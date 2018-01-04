@@ -9,7 +9,7 @@ include '../include/header.php';
         <meta charset="UTF-8">
         <title>Thema's</title>
         <?php include '../include/css.php'; ?>
-        <link rel="stylesheet" type="text/css" href="../../dashboard/Thema/hulp.css">
+        <link rel="stylesheet" type="text/css" href="../../css/themep.css">
     </head>
 
     <body>
@@ -44,7 +44,7 @@ include '../include/header.php';
             crossorigin="anonymous"></script>
         <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../../js/script.js"></script>
-        <script type="text/javascript" src="hulp.js"></script>
+        <script type="text/javascript" src="../../themep.js"></script>
         <!-- Alles wat hierboven staat is ok. Nu de rest programmeren. -->
         <section id="dashboard-content" class="container-fluid">
 
@@ -153,7 +153,7 @@ include '../include/header.php';
 
                         </div>
                         <div class="modal-footer">
-                            <form action="/KBS/Project-KBS/dashboard/theme/hulp.php" method="POST" id="form-add" enctype="multipart/form-data">
+                            <form action="/KBS/Project-KBS/dashboard/get/actionTheme.php" method="POST" id="form-add" enctype="multipart/form-data">
                                 <button class="btn btn-primary" method="post" type="submit">Opslaan</button>
                                 <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
@@ -191,7 +191,7 @@ include '../include/header.php';
 
                         </div>
                         <div class="modal-footer">
-                            <form action="/KBS/Project-KBS/dashboard/theme/hulp.php" method="POST" id="form-edit" enctype="multipart/form-data">
+                            <form action="/KBS/Project-KBS/dashboard/get/actionTheme.php" method="POST" id="form-edit" enctype="multipart/form-data">
                                 <button class="btn btn-primary" type="submit">Opslaan</button>
                                 <button type="button" class="btn btn-secondary cancelbtn0" data-dismiss="modal">Annuleren</button>
                             </form>
@@ -218,7 +218,7 @@ include '../include/header.php';
                             <h8 id="selected-items-del" class="pt-5"></h8>
                         </div>
                         <div class="modal-footer">
-                            <form method="POST" action="/KBS/Project-KBS/dashboard/theme/hulp.php">
+                            <form method="POST" action="/KBS/Project-KBS/dashboard/get/actionTheme.php">
                                 <input type="hidden" id="theme-id" name="theme_id" value="">
                                 <input type="hidden" name="delete" id="bool-remove" value="1">
                                 <button type="submit" class="btn btn-primary" id="deletebutton">Ja</button>
