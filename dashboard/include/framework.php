@@ -417,6 +417,7 @@ function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $disp
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
 	
+	include '../../database.php';
 	//removing the associated file from server and database
 	$stmt = $conn->prepare("SELECT file_id FROM news_article WHERE news_article_id=$newsarticle_id");
 	$stmt->execute();

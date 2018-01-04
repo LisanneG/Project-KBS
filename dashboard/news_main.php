@@ -15,13 +15,6 @@ include 'upload.php';
 	<?php include 'include/navbar.php'; 
 	include 'news/news_send.php';?>
 	
-	<?php if (isset($_FILES["medium"]["name"])){
-		print_r( $_FILES["medium"]);
-	}
-		
-	
-	?>
-	
 	<!-- Navigational tabs -->
 	<section id="dashboard-content" class="container-fluid">
 		<h1>Nieuwsberichten</h1>

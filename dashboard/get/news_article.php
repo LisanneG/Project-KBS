@@ -7,7 +7,7 @@ if (isset($_POST["method"])){
 } elseif (isset($_GET["method"])){
 	$method = $_GET["method"];
 }
-print($method . "uw0tm8");
+
 //If all the required variables are given
 if ($method === "edit") {
 	
@@ -35,7 +35,7 @@ if ($method === "edit") {
 		include '../upload.php';
 		$fileId = $lastInsertedFileId[0];
 	}
-	//fix the stuff for files as soon as that works!
+	
 	$newsarticle_id = $_POST["newsarticle_id"];
 	$news_title = htmlspecialchars($_POST["news-title"], ENT_QUOTES);
 	$categoryId = $_POST["news-category"];
