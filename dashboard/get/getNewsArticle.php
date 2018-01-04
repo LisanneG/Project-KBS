@@ -103,23 +103,24 @@ if (isset($_GET["location_id"])) {
 			$location .= "," . $row["location_id"];
 		}
 	}
-	echo "data-location=\"$location\"";
-
-	echo ">".substr($title, 0, 60)."...</button></td>";
-	echo "	<td>".substr($description, 0, 200)."...</td>";
-
-
-	if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
-		echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+	if(!$hasAtLeastOneArticle){
+		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen nieuwsartikelen om weer te geven</div>";
 	} else {
-		echo "	<td></td>";
+		echo "data-location=\"$location\"";
+
+		echo ">".substr($title, 0, 60)."...</button></td>";
+		echo "	<td>".substr($description, 0, 200)."...</td>";
+		
+		if(CheckIfUserHasRight($_SESSION["admin"], "Verwijderen nieuwsbericht", $_SESSION["user_id"])){
+			echo "	<td><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove-news\" data-id=\"$news_article_id\" data-title=\"$title\">Verwijderen</td>";
+		} else {
+			echo "	<td></td>";
+		}
 	}
 
 	echo "</tr>";
 
-	if(!$hasAtLeastOneArticle){
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er zijn geen nieuwsartikelen om weer te geven</div>";
-	}
+	
 } else {
 	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is geen locatie meegenomen</div>";
 }

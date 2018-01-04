@@ -4,7 +4,10 @@ include '../include/framework.php';
 $method = "";
 if (isset($_POST["method"])){
 	$method = $_POST["method"];
+} elseif (isset($_GET["method"])){
+	$method = $_GET["method"];
 }
+print($method . "uw0tm8");
 //If all the required variables are given
 if ($method === "edit") {
 	
@@ -30,12 +33,12 @@ if ($method === "edit") {
 		$stmt->execute();
 		
 		include '../upload.php';
+		$fileId = $lastInsertedFileId[0];
 	}
 	//fix the stuff for files as soon as that works!
 	$newsarticle_id = $_POST["newsarticle_id"];
 	$news_title = htmlspecialchars($_POST["news-title"], ENT_QUOTES);
 	$categoryId = $_POST["news-category"];
-	$fileId = $lastInsertedFileId[0];
 	$displayFrom = $_POST["news-date-from"];
 	$displayTill = $_POST["news-date-till"];
 	if (isset($_POST["news-priority"])) {
@@ -52,12 +55,12 @@ if ($method === "edit") {
 		echo EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations); //Calling a function to edit it, which gives back a message if it's successful or not
 	}
 	return;
-} elseif(isset($_GET["newsarticle_id"]) && $method == "remove") { //If only a newsarticle_id is given we'll remove it
+} elseif(isset($_GET["newsarticle_id"]) && $method === "remove") { //If only a newsarticle_id is given we'll remove it
 	$newsarticle_id = $_GET["newsarticle_id"];
 
 	echo RemoveNews($newsarticle_id); //Calling a function to remove it, which gives back a message if it's successful or not
 } else {
-	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+	echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan b4 framework</div>";
 }
 $_FILES["file"]["name"] = "";
 ?>

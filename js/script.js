@@ -127,7 +127,6 @@ $(document).ready(function() {
 				locations = locations+","+$(this).prop('value');
 			}
 		});
-		if (window.console) console.log(news_file); 
 		var file = document.getElementById('news-file').files[0];
 		
 		var formElement = document.querySelector("#form-edit-modal");
@@ -140,13 +139,12 @@ $(document).ready(function() {
 		formData.append("newsarticle_id",news_id);
 		request.send(formData);
 		
-		
+		/*
 		if (window.console) console.log(request.response); 
 		for (var pair of formData.entries())
 		{
 			if (window.console) console.log(pair[0]+ ', '+ pair[1]); 
-		}
-		console.log(formData.get('file'));
+		}*/
 		LoadNewsArticles(); //Loading the newsarticles again			
 
 		//if (window.console) console.log(formData.values()); 

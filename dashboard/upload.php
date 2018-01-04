@@ -112,7 +112,6 @@ if (isset($_POST["submit"]) && isset($_FILES["medium"]["name"])) {
 				$lastInsertedFileId[0] = $conn->lastInsertId();
 				print($server_url. "  " .$type."     ".$lastInsertedFileId[0]."     ");
 			}
-			//$lastInsertedFileId[0] = GetDatabaseConnection()->lastInsertId();
 		}
 	}
 }

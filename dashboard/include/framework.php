@@ -369,25 +369,14 @@ function SaveUserRights($user_id, $rights){
 
 //Function for inserting an edited newsarticle
 function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $displayTill, $priority, $description, $locations, $fileId = NULL){
-	//Making the update query											//add fileId as soon as fileuploading works
-	/*
-	$stringBuilder = "UPDATE news_article ";
-	$stringBuilder .= "SET title=?, ";
-	$stringBuilder .= "description=?, ";
-	$stringBuilder .= "priority=?, ";
-	$stringBuilder .= "file_id=?, "; 									//verander dit as soon as fileId shit works
-	$stringBuilder .= "display_from=?, ";
-	$stringBuilder .= "display_till=?, ";
-	$stringBuilder .= "category_id=? ";
-	$stringBuilder .= "WHERE news_article_id=? ";
-	*/
+	
 	include '../../database.php';
 	if ($fileId != NULL) {	
 		$stringBuilder = "UPDATE news_article ";
 		$stringBuilder .= "SET title='$news_title', ";
 		$stringBuilder .= "description='$description', ";
 		$stringBuilder .= "priority=$priority, ";
-		$stringBuilder .= "file_id=$fileId, "; 									//verander dit as soon as fileId shit works
+		$stringBuilder .= "file_id=$fileId, "; 									
 		$stringBuilder .= "display_from='$displayFrom', ";
 		$stringBuilder .= "display_till='$displayTill', ";
 		$stringBuilder .= "category_id=$categoryId ";
@@ -405,32 +394,47 @@ function EditNews($newsarticle_id, $news_title, $categoryId, $displayFrom, $disp
 	
 	//preparing the query
 	$query = $conn->prepare($stringBuilder);
-	//$query->execute(array($news_title, $description, $priority, $fileId, $displayFrom, $displayTill, $categoryId, $newsarticle_id));
 	$query->execute();
 	$lastInsertId = $conn->lastInsertId();
 
-	print_r($lastInsertId);
-
 	$locationsArr = explode(",", $locations);
-	print_r($locationsArr);
 	
-	/*
 	$stmt = $conn->prepare("DELETE FROM news_article_has_location WHERE news_article_id=$newsarticle_id");
 	$stmt->execute();
 	
 	foreach ($locationsArr as $v) {
-		$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) VALUES (?,?)");
-		$stmt->execute(array($lastInsertedNewsId, $v));
-	}*/
-	/*if($query->execute()){
-		echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
-	} else {
-		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
-	}*/
+		if ($v != ""){
+			$stmt = $conn->prepare("INSERT INTO news_article_has_location (news_article_id, location_id) VALUES (?,?)");
+			if($stmt->execute(array($newsarticle_id, $v))){
+				echo "<div class=\"alert alert-success alert-dismissible fade show\" role=\"alert\"><button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>Het nieuwsbericht is bijgewerkt</div>";
+			} else {
+				echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
+			}
+		}
+	}
 }
 
 //Function for deleting a selected newsarticle
 function RemoveNews($newsarticle_id){
+	
+	//removing the associated file from server and database
+	$stmt = $conn->prepare("SELECT file_id FROM news_article WHERE news_article_id=$newsarticle_id");
+	$stmt->execute();
+	$result = $stmt->fetch();
+	$fileIdOld = $result["file_id"];
+		
+	$stmt = $conn->prepare("SELECT * FROM file WHERE file_id=$fileIdOld");
+	$stmt->execute();
+	$result = $stmt->fetch();
+	$filelocation = $result["location"];
+		
+	$filelocation = $_SERVER["DOCUMENT_ROOT"] . $filelocation;
+
+	unlink($filelocation);
+
+	$stmt = $conn->prepare("DELETE FROM file WHERE file_id=$fileIdOld");
+	$stmt->execute();
+	
 	//Making the delete query
 	$stringBuilder = "DELETE FROM `news_article` WHERE news_article_id=? ";
 	//preparing the query
@@ -441,6 +445,7 @@ function RemoveNews($newsarticle_id){
 		echo "<div class=\"alert alert-danger\" role=\"alert\">Er is iets fout gegaan</div>";
 	}
 }
+
 function SaveRights($input_name, $input_description){
 	//Making the insert query
 	$stringBuilder = "INSERT INTO `right` (name, description) VALUES (?,?) ";
